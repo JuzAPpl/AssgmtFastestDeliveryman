@@ -29,6 +29,7 @@ public class FastestDeliveryMan {
             affiliate = new Affiliate(ownerName, restaurantName, address);
             //continue here
             //save in to .dat file
+            //
         }
         else{
             System.out.println("Please do not leave blank");
