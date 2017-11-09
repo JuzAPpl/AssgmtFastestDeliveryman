@@ -5,6 +5,8 @@
  */
 package fastestdeliveryman;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Leo
@@ -13,17 +15,15 @@ public class Affiliate {
     private String onwerName;
     private String address;
     private String restaurantName;
-    
-    public Affiliate(){
-        this.onwerName="";
-        this.address="";
-        this.restaurantName="";
-    }
-    
-    public Affiliate(String ownerName, String restaurantName, String address){
+    private String contactNo;
+    private Menu menu;
+           
+    public Affiliate(String ownerName, String restaurantName, String address, String contactNo){
         this.onwerName = ownerName;
         this.restaurantName = restaurantName;
         this.address = address;
+        this.contactNo = contactNo;
+        this.menu = new Menu();
     }
     
     public String getOwnerName(){
@@ -50,11 +50,55 @@ public class Affiliate {
         this.restaurantName=restaurantName;
     }
     
+    public String getContactNo(){
+        return contactNo;
+    }
+    
+    public void setContactNo(String contactNo){
+        this.contactNo=contactNo;
+    }
+    
+    public Menu getMenu(){
+        //thiss method will return an object Menu
+        return menu;
+    }
+    
+    public void setMenu(){
+        int choice;
+        Scanner reader = new Scanner(System.in);
+        
+        //display options to affiliate and ask user to select an option
+        System.out.println("Please select an option: ");
+        System.out.println("1. Add food to menu");
+        System.out.println("2. Remove food to menu");
+        System.out.println("3. Set status of food");
+        System.out.println("9. Exit");
+        System.out.println("===========================");
+        System.out.print("Your choice: ");
+        choice = reader.nextInt();
+        
+        switch(choice){
+            case 1:
+                menu.addFood();
+                break;
+            case 2:
+                menu.removeFood();
+                break;
+            case 3:
+                //invoke setFood() method here
+                break;
+            case 9:
+            default:
+                //go back
+        }
+    }
+    
     @Override
     public String toString(){
         return "Onwer Name: " + onwerName +
                 "\nRestaurant Name: " + restaurantName +
-                "\nAddress: " + address;
+                "\nAddress: " + address + 
+                "\nContact Number: " + contactNo;
     }
     
 }
