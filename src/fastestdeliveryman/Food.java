@@ -55,6 +55,7 @@ public class Food {
         return String.format("%.1f", preparationTime);
     }
     
+    @Override
     public String toString(){
         return String.format("%-5d %30s %-7.2f %-17s\n", ID, name, price, (getPreparationTimeMinutes()+" minutes"));
     }

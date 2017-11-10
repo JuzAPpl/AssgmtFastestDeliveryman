@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author Leo
  */
-public class Affiliate {
+public class Affiliate implements AffiliateInterface{
     private String onwerName;
     private String address;
     private String restaurantName;
@@ -58,11 +58,13 @@ public class Affiliate {
         this.contactNo=contactNo;
     }
     
+    @Override
     public Menu getMenu(){
-        //thiss method will return an object Menu
+        //this method will return an object Menu
         return menu;
     }
     
+    @Override
     public void setMenu(){
         int choice;
         Scanner reader = new Scanner(System.in);
