@@ -43,7 +43,7 @@ public class SceduledOrder extends Order {
     public static void addSceduledOrder() {
         //TODO: add
         //After User choosed the food in the addOrder in the Order class
-        
+
         String day;
         Scanner scanner = new Scanner(System.in);
 
@@ -57,32 +57,37 @@ public class SceduledOrder extends Order {
         System.out.println("0. Exit");
         System.out.println("Please select the day(s) you want to make order: ");
         day = scanner.nextLine();
-        String[] a = day.split(" ");
-        int[] days;
-        days = new int[a.length];
-        for (int i = 0; i < a.length; i++) {
-            int b = Integer.parseInt(a[i]);
-            if (b != 0) {
-                days[i] = b;
-            }
-            else{
-                System.out.println("exit");
-                //Do exit back to the menu
+
+        int a = 0;
+        for (int j = 0; j < day.length(); j++) {
+            char q = day.charAt(j);
+            if (Character.isDigit(q)) {
+                a++;
             }
         }
-        if(!day.equals("")){
+        int[] days;
+        days = new int[a];
+        int c = 0;
+        for (int k = 0; k < day.length(); k++) {
+            char w = day.charAt(k);
+            if (Character.isDigit(w)) {
+                days[c] = w;
+                c++;
+            }
+        }
+
+        if (!day.equals("")) {
             //TODO: get the day(s) that user want to order
             setDeliveryDay(days);
         }
         int week;
         System.out.println("You want make order for how many week(s): ");
-        week= scanner.nextInt();
-        
-        if(week>0){
+        week = scanner.nextInt();
+
+        if (week > 0) {
             //TODO: get how many week the user want to order
             setWeeks(week);
-        }
-        else{
+        } else {
             System.out.println("Invalid input");
         }
 
