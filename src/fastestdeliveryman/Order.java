@@ -34,6 +34,10 @@ public class Order {
         this.affiliateID = affiliateID;
         this.orderedFood = orderedFood;
     }
+    
+    public static Order addOrder(){
+    return new Order();
+    }
 
     public void setLocation(String location) {
         this.location = location;
