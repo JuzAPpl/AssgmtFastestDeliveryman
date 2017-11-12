@@ -7,27 +7,30 @@ package fastestdeliveryman;
 
 /**
  *
- * @author ASUS
+ * @author Gan Zhen Jie
  */
 public class Food {
+    
+    public static final int FOOD_UNAVAILABLE = 0;
+    public static final int FOOD_AVAILABLE = 1;
+    public static final int FOOD_PROMOTION = 2;
     
     private int ID;
     private String name;
     private double price;
     private double preparationTime;
+    private int status; //0: unavailable, 1: available, 2: promotion
     
     public Food(){
-        this.ID=-1;
-        this.name="";
-        this.price=-1.0;
-        this.preparationTime=-1.0;
+        this(-1, "", -1.0, -1.0, 0);
     }
     
-    public void Food(int ID, String name, double price, double preparationTime){
+    public Food(int ID, String name, double price, double preparationTime, int status){
         this.ID=ID;
         this.name=name;
         this.price=price;
         this.preparationTime=preparationTime;
+        this.status=status;
     }
     
     //setters and getters
@@ -55,8 +58,31 @@ public class Food {
         return String.format("%.1f", preparationTime);
     }
     
+    public void setStatus(int status){
+        this.status=status;
+    }
+    
+    public String getStatus(){
+        String status;
+        switch(this.status){
+            case FOOD_UNAVAILABLE:
+                status = "Unavailable";
+                break;
+            case FOOD_AVAILABLE:
+                status="Available";
+                break;
+            case FOOD_PROMOTION:
+                status="Promotion";
+                break;
+            default:
+                status = "";
+                break;
+        }
+        return status;
+    }
+    
     @Override
     public String toString(){
-        return String.format("%-5d %30s %-7.2f %-17s\n", ID, name, price, (getPreparationTimeMinutes()+" minutes"));
+        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTimeMinutes()+" minutes"), getStatus());
     }
 }

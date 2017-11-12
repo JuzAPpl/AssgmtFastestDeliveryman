@@ -24,6 +24,14 @@ public class Affiliate implements AffiliateInterface{
         this.address = address;
         this.contactNo = contactNo;
         this.menu = new Menu();
+    }       
+    
+    public Affiliate(String ownerName, String restaurantName, String address, String contactNo, Menu menu){
+        this.onwerName = ownerName;
+        this.restaurantName = restaurantName;
+        this.address = address;
+        this.contactNo = contactNo;
+        this.menu = menu;
     }
     
     public String getOwnerName(){

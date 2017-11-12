@@ -14,24 +14,27 @@ import java.util.Scanner;
 public class Menu implements MenuInterface{
     
     private Food[] menu ;
+    private int length;
     
     public Menu(){
     
     }
     
     public Menu(Food[] menu){
+        this.menu=menu;
         
     }
     
     @Override
     public void showMenu(){
-        System.out.printf("%-5s %30s %-9s %17s\n", "ID", "Food name", "Price(RM)", "Preparation time");
-        for (Food menu1 : menu) {
-            menu1.toString();
+        System.out.printf("%-5s %-50s\t%-9s\t%-20s\t%-20s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
+        for (Food food : menu) {
+            System.out.println(food.toString());
             //TODO: display food status == promotion
             //              food status == available
             //Do not display unvailable food
         }
+        
     }
     
     public void initializeMenu(){
@@ -75,5 +78,13 @@ public class Menu implements MenuInterface{
         //TODO: allow affiliate to change food status to available, unvailable or promotion
         
         return true;
+    }
+    
+    public void sortByID(){
+        //TODO: sort food list by ascending order  of "ID" field
+    }
+    
+    public void sortByName(){
+        //TODO: sort food list by ascending order of "name" field
     }
 }
