@@ -9,14 +9,14 @@ import java.util.*;
  */
 public class FastestDeliveryMan {
     
-    private static Affiliate affiliate;
+    private static AffiliateInterface affiliate;
     
     public static void registerAffiliate(){
         //this method is for restaurant onwer to register as an affiliate
         
         Scanner reader = new Scanner(System.in);
         
-        String ownerName, restaurantName, address;
+        String ownerName, restaurantName, address, contactNo;
         
         System.out.println("Enter owner name: ");
         ownerName = reader.nextLine();
@@ -24,9 +24,11 @@ public class FastestDeliveryMan {
         restaurantName = reader.nextLine();
         System.out.println("Enter address of restaurant: ");
         address = reader.nextLine();
+        System.out.println("Enter contact number: ");
+        contactNo = reader.nextLine();
         
         if(!ownerName.equals("") && !restaurantName.equals("") && !address.equals("")){
-            affiliate = new Affiliate(ownerName, restaurantName, address);
+            affiliate = new Affiliate(ownerName, restaurantName, address, contactNo);
             //continue here
             //save in to .dat file
         }

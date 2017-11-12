@@ -7,10 +7,11 @@ package fastestdeliveryman;
 
 /**
  *
-<<<<<<< HEAD
- * @author S3113
+ * @author Leo
  */
-public interface Management {
-    public void addStaff();
-    public void terminateStaff(); 
+public interface MenuInterface {
+    public void addFood();
+    public void removeFood();
+    public void showMenu();
+    public boolean setFoodStatus();
 }
