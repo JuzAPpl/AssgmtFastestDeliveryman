@@ -11,15 +11,17 @@ package fastestdeliveryman;
  * @author S3113
  */
 public class Employee {
-    private String employeeName;
-    private String employeeID;
-    private double salary;
-    private String contactNo;
+    protected String employeeName;
+    protected String employeeID;
+    protected String employeePassword;
+    protected double salary;
+    protected String contactNo;
     
     
-   public Employee(String employeeName, String employeeID, double salary, String contactNo){
+   public Employee(String employeeName, String employeeID,String employeePassword, double salary, String contactNo){
        this.employeeName=employeeName;
        this.employeeID=employeeID;
+       this.employeePassword=employeePassword;
        this.salary=salary;
        this.contactNo=contactNo;
    }
@@ -35,6 +37,12 @@ public class Employee {
    }
    public void setEmployeeID(String employeeID){
        this.employeeID=employeeID;
+   }
+    public String getEmployeePassword(){
+       return employeePassword;    
+   }
+   public void setEmployeePassword(String employeePassword){
+       this.employeePassword=employeePassword;
    }
     public double getSalary(){
        return salary;
@@ -52,6 +60,7 @@ public class Employee {
    public String toString(){
         return "Employee Name: " + employeeName +
                 "\nEmployee ID : " + employeeID +
+                "\nEmployee Password : "+ employeePassword+
                 "\nSalary: " + String.format("%.2f",salary) +
                 "\nContact No : " + contactNo;
     }
