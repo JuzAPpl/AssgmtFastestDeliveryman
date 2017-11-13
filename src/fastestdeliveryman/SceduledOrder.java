@@ -5,8 +5,16 @@
  */
 package fastestdeliveryman;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,10 +25,10 @@ public class SceduledOrder extends Order {
     private int[] deliveryDay;
     private int weeks;
 
-    public SceduledOrder(){
-        
+    public SceduledOrder() {
+
     }
-    
+
     public SceduledOrder(String orderNum, Date orderDay, Food[] orderedFood, String location, String affiliateID, int[] deliveryDay, int weeks) {
         super.Order(orderNum, orderDay, orderedFood, location, affiliateID);
         this.deliveryDay = deliveryDay;
@@ -48,8 +56,8 @@ public class SceduledOrder extends Order {
         //TODO: add
         //After User choosed the food in the addOrder in the Order class
 
-        Order order=Order.addOrder();
-        
+        Order order = Order.addOrder();
+
         String day;
         Scanner scanner = new Scanner(System.in);
 
@@ -111,6 +119,39 @@ public class SceduledOrder extends Order {
 
     public void checkSceduledOrder() {
         //TODO: check
+    }
+
+    public void addSOToBinaryFile() {
+        addSceduledOrder();
+        SceduledOrder SOobject = new SceduledOrder();
+        try {
+            FileOutputStream outFile = new FileOutputStream("SceduledOrder.dat");
+            ObjectOutputStream objOutput = new ObjectOutputStream(outFile);
+            objOutput.writeObject(SOobject);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void readSOInBinaryFile() {
+        FileInputStream inFile;
+        try {
+            inFile = new FileInputStream("SceduledOrder.dat");
+            ObjectInputStream objInput = new ObjectInputStream(inFile);
+            Object obj = objInput.readObject();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("File is no exist");
+        }
+
     }
 
 }
