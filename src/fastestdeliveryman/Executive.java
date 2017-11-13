@@ -11,23 +11,22 @@ import java.util.Scanner;
  *
  * @author S3113
  */
-public class Executive extends Employee implements Management{
-    
-    
-    public Executive(String employeeName, String employeeID, double salary, String contactNo) {
-        super(employeeName, employeeID, salary, contactNo);
+public class Executive extends Employee {
+
+    public Executive(String employeeName, String employeeID,String employeePassword, double salary, String contactNo){
+        super.(employeeName, employeeID, employeePassword, salary, contactNo);
+        
     }
-    
-    public void addStaff(){
+
+    public void addStaff() {
         //TODO:Add new staff.
         System.out.println("Please select an option to add(-1 to exit):");
         System.out.println("1. DeliveryMan");
         Scanner scanner = new Scanner(System.in);
-        
-        
+
     }
-    
-    public void terminateStaff(){
+
+    public void terminateStaff() {
         //TODO:Remove terminated staff
     }
 }
