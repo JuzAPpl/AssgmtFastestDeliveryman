@@ -7,9 +7,10 @@ package fastestdeliveryman;
 
 /**
  *
- * @author Leo
+<<<<<<< HEAD
+ * @author S3113
  */
 public interface Management {
     public void addStaff();
-    public void terminateStaff();
+    public void terminateStaff(); 
 }
