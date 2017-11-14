@@ -5,13 +5,14 @@
  */
 package fastestdeliveryman;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author User
  */
-public class Order {
+public class Order implements Serializable{
 
     private String orderNum;
     private String affiliateID;
@@ -20,14 +21,14 @@ public class Order {
     private Date orderDay;
     private String location;
 
-    public void Order() {
+    public Order() {
         newNum = 0;
         this.orderNum = "S00" + newNum;
         newNum++;
         this.affiliateID = "";
     }
 
-    public void Order(String orderNum, Date orderDay, Food[] orderedFood, String location, String affiliateID) {
+    public Order(String orderNum, Date orderDay, Food[] orderedFood, String location, String affiliateID) {
         this.orderNum = "S00" + newNum;
         this.orderDay = orderDay;
         this.location = location;
@@ -36,6 +37,7 @@ public class Order {
     }
     
     public static Order addOrder(){
+        System.out.println("AddOrder Method is in process");
     return new Order();
     }
 
@@ -78,4 +80,5 @@ public class Order {
     public Food[] getOrderedFood() {
         return orderedFood;
     }
+    
 }

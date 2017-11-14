@@ -30,7 +30,7 @@ public class SceduledOrder extends Order {
     }
 
     public SceduledOrder(String orderNum, Date orderDay, Food[] orderedFood, String location, String affiliateID, int[] deliveryDay, int weeks) {
-        super.Order(orderNum, orderDay, orderedFood, location, affiliateID);
+        super(orderNum, orderDay, orderedFood, location, affiliateID);
         this.deliveryDay = deliveryDay;
         this.weeks = weeks;
 
@@ -121,9 +121,18 @@ public class SceduledOrder extends Order {
         //TODO: check
     }
 
-    public void addSOToBinaryFile() {
-        addSceduledOrder();
-        SceduledOrder SOobject = new SceduledOrder();
+    public String toString(){
+         return "Order No: " + getOrderNum() +
+                "\nOrder Day : " + getOrderDay() +
+                "\nOrdered Food : "+ getOrderedFood()+
+                "\nLocation: " + getLocation()+
+                "\nAffiliate ID : " + getAffiliateID()+
+                 "\nDelivery Day: "+ deliveryDay+
+                 "\nWeek: "+weeks;
+  
+    }
+    public static void addSOToBinaryFile() {
+        SceduledOrder SOobject = SceduledOrder.addSceduledOrder();
         try {
             FileOutputStream outFile = new FileOutputStream("SceduledOrder.dat");
             ObjectOutputStream objOutput = new ObjectOutputStream(outFile);
@@ -136,12 +145,14 @@ public class SceduledOrder extends Order {
 
     }
 
-    public void readSOInBinaryFile() {
+    public static void readSOInBinaryFile() {
         FileInputStream inFile;
         try {
             inFile = new FileInputStream("SceduledOrder.dat");
             ObjectInputStream objInput = new ObjectInputStream(inFile);
             Object obj = objInput.readObject();
+            
+            System.out.println("dfd");
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);

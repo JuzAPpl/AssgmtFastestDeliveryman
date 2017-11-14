@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Executive extends Employee {
 
     public Executive(String employeeName, String employeeID,String employeePassword, double salary, String contactNo){
-        super.(employeeName, employeeID, employeePassword, salary, contactNo);
+        super(employeeName, employeeID, employeePassword, salary, contactNo);
         
     }
 
