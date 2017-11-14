@@ -30,7 +30,7 @@ public class SceduledOrder extends Order {
     }
 
     public SceduledOrder(String orderNum, Date orderDay, Food[] orderedFood, String location, String affiliateID, int[] deliveryDay, int weeks) {
-        super(orderNum, orderDay, orderedFood, location, affiliateID);
+        super.Order(orderNum, orderDay, orderedFood, location, affiliateID);
         this.deliveryDay = deliveryDay;
         this.weeks = weeks;
 
@@ -99,8 +99,9 @@ public class SceduledOrder extends Order {
 
             if (week > 0) {
                 //TODO: Create new object for the sceduled order
-
-                return new SceduledOrder(order.getOrderNum(), order.getOrderDay(), order.getOrderedFood(), order.getLocation(), order.getAffiliateID(), days, week);
+                SceduledOrder newSchOrder = new SceduledOrder(order.getOrderNum(), order.getOrderDay(), order.getOrderedFood(), order.getLocation(), order.getAffiliateID(), days, week);
+                System.out.println(newSchOrder);
+                return newSchOrder;
             } else {
                 System.out.println("Invalid input");
             }
@@ -120,18 +121,49 @@ public class SceduledOrder extends Order {
     public void checkSceduledOrder() {
         //TODO: check
     }
+    public String getDeliveryDays(){
+        String arr="";
+        for(int i=0; i<deliveryDay.length;i++){
+            switch(deliveryDay[i]){
+                case 1:
+                    arr+="Monday, ";
+                    break;
+                case 2:
+                    arr+="Tuesday, ";
+                    break;
+                case 3:
+                    arr+="Wednesday, ";
+                    break;
+                case 4:
+                    arr+="Thursday, ";
+                    break;
+                case 5:
+                    arr+="Friday, ";
+                    break;
+                case 6:
+                    arr+="Saturday, ";
+                    break;
+                case 7:
+                    arr+="Sunday, ";
+                    break;
+                default:
+                    
+            }
+        }
+        return arr;
+    } 
 
     public String toString(){
-         return "Order No: " + getOrderNum() +
-                "\nOrder Day : " + getOrderDay() +
-                "\nOrdered Food : "+ getOrderedFood()+
-                "\nLocation: " + getLocation()+
-                "\nAffiliate ID : " + getAffiliateID()+
-                 "\nDelivery Day: "+ deliveryDay+
-                 "\nWeek: "+weeks;
-  
+        return "Onwer Name: " + getOrderNum() +
+                "\nRestaurant Name: " + getOrderDay() +
+                "\nAddress: " + getOrderedFood() + 
+                "\nContact Number: " + getLocation()+
+                "\nAffiliateID: "+getAffiliateID()+
+                "\nDelivery Day: "+getDeliveryDays()+
+                "\nWeek: "+ weeks;
     }
     public static void addSOToBinaryFile() {
+        addSceduledOrder();
         SceduledOrder SOobject = SceduledOrder.addSceduledOrder();
         try {
             FileOutputStream outFile = new FileOutputStream("SceduledOrder.dat");
@@ -151,8 +183,6 @@ public class SceduledOrder extends Order {
             inFile = new FileInputStream("SceduledOrder.dat");
             ObjectInputStream objInput = new ObjectInputStream(inFile);
             Object obj = objInput.readObject();
-            
-            System.out.println("dfd");
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);

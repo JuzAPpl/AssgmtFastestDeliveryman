@@ -9,7 +9,7 @@ package fastestdeliveryman;
  *
  * @author ASUS
  */
-public class testing {
+public class TestAddScheduledOrder {
 
     /**
      * @param args the command line arguments
@@ -17,7 +17,7 @@ public class testing {
     public static void main(String[] args) {
         // TODO code application logic here
 //        SceduledOrder.addSOToBinaryFile();
-SceduledOrder.readSOInBinaryFile();
+SceduledOrder.addSceduledOrder();
     }
     
 }
