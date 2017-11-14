@@ -5,13 +5,14 @@
  */
 package fastestdeliveryman;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author User
  */
-public class Order {
+public class Order implements Serializable{
 
     private String orderNum;
     private String affiliateID;

@@ -17,6 +17,13 @@ public class Employee {
     protected double salary;
     protected String contactNo;
     
+       public Employee(){
+       this.employeeName="Louis";
+       this.employeeID="emp1234";
+       this.employeePassword="emp4321";
+       this.salary=5000;
+       this.contactNo="012-34567";
+   }
     
    public Employee(String employeeName, String employeeID,String employeePassword, double salary, String contactNo){
        this.employeeName=employeeName;
@@ -64,4 +71,6 @@ public class Employee {
                 "\nSalary: " + String.format("%.2f",salary) +
                 "\nContact No : " + contactNo;
     }
+   
+
 }

@@ -99,8 +99,9 @@ public class SceduledOrder extends Order {
 
             if (week > 0) {
                 //TODO: Create new object for the sceduled order
-
-                return new SceduledOrder(order.getOrderNum(), order.getOrderDay(), order.getOrderedFood(), order.getLocation(), order.getAffiliateID(), days, week);
+                SceduledOrder newSchOrder = new SceduledOrder(order.getOrderNum(), order.getOrderDay(), order.getOrderedFood(), order.getLocation(), order.getAffiliateID(), days, week);
+                System.out.println(newSchOrder);
+                return newSchOrder;
             } else {
                 System.out.println("Invalid input");
             }
@@ -120,10 +121,50 @@ public class SceduledOrder extends Order {
     public void checkSceduledOrder() {
         //TODO: check
     }
+    public String getDeliveryDays(){
+        String arr="";
+        for(int i=0; i<deliveryDay.length;i++){
+            switch(deliveryDay[i]){
+                case 1:
+                    arr+="Monday, ";
+                    break;
+                case 2:
+                    arr+="Tuesday, ";
+                    break;
+                case 3:
+                    arr+="Wednesday, ";
+                    break;
+                case 4:
+                    arr+="Thursday, ";
+                    break;
+                case 5:
+                    arr+="Friday, ";
+                    break;
+                case 6:
+                    arr+="Saturday, ";
+                    break;
+                case 7:
+                    arr+="Sunday, ";
+                    break;
+                default:
+                    
+            }
+        }
+        return arr;
+    } 
 
-    public void addSOToBinaryFile() {
+    public String toString(){
+        return "Onwer Name: " + getOrderNum() +
+                "\nRestaurant Name: " + getOrderDay() +
+                "\nAddress: " + getOrderedFood() + 
+                "\nContact Number: " + getLocation()+
+                "\nAffiliateID: "+getAffiliateID()+
+                "\nDelivery Day: "+getDeliveryDays()+
+                "\nWeek: "+ weeks;
+    }
+    public static void addSOToBinaryFile() {
         addSceduledOrder();
-        SceduledOrder SOobject = new SceduledOrder();
+        SceduledOrder SOobject = SceduledOrder.addSceduledOrder();
         try {
             FileOutputStream outFile = new FileOutputStream("SceduledOrder.dat");
             ObjectOutputStream objOutput = new ObjectOutputStream(outFile);
@@ -136,7 +177,7 @@ public class SceduledOrder extends Order {
 
     }
 
-    public void readSOInBinaryFile() {
+    public static void readSOInBinaryFile() {
         FileInputStream inFile;
         try {
             inFile = new FileInputStream("SceduledOrder.dat");
