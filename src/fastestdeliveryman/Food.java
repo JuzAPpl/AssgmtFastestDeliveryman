@@ -15,19 +15,22 @@ public class Food {
     private String name;
     private double price;
     private double preparationTime;
+    private String status;
     
     public Food(){
         this.ID=-1;
         this.name="";
         this.price=-1.0;
         this.preparationTime=-1.0;
+        this.status ="";
     }
     
-    public void Food(int ID, String name, double price, double preparationTime){
+    public void Food(int ID, String name, double price, double preparationTime, String status){
         this.ID=ID;
         this.name=name;
         this.price=price;
         this.preparationTime=preparationTime;
+        this.status = status;
     }
     
     //setters and getters
@@ -53,6 +56,14 @@ public class Food {
     
     public String getPreparationTimeMinutes(){
         return String.format("%.1f", preparationTime);
+    }
+    
+    public String getStatus(){
+        return status;
+    }
+    
+    public void setStatus(String status){
+        this.status = status;
     }
     
     @Override
