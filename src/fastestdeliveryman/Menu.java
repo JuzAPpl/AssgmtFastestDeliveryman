@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Gan Zhen Jie
+ * @author Gan Zhen Jie, Lim Fang Chun
  */
 public class Menu implements MenuInterface{
     
@@ -50,15 +50,16 @@ public class Menu implements MenuInterface{
         System.out.println("Enter food name: ");
         foodName = reader.nextLine();
         System.out.println("Enter price for this food: ");
-        price = reader.nextDouble();
+        price = Double.parseDouble(reader.nextLine());
         System.out.println("Enter preparation time for this food: ");
-        preparationTime = reader.nextDouble();
+        preparationTime = Double.parseDouble(reader.nextLine());
         
         //check if affiliate enter any empty data
         //if there is any empty data, then prompt error message
         //else proceed to creating new food object
-        if(!foodName.equals("") && price != 0 && preparationTime != 0){
+        if(!foodName.equals("") && price > 0 && preparationTime > 0){
             //TODO: invoke addFood() method and create new food object and add to menu food array
+            
         }
         else{
             System.out.println("Please do not leave any blank space.");
@@ -74,6 +75,18 @@ public class Menu implements MenuInterface{
     public boolean setFoodStatus(){
         //TODO: allow affiliate to change food status to available, unvailable or promotion
         
+        
+        
         return true;
     }
+    
+    //@Override
+    //public String toString(){
+    //    String msg ="";
+    //    for(Food f : menu){
+    //        msg += f.toString();
+    //        msg += "\n";
+    //    }
+    //    return msg;
+    //}
 }
