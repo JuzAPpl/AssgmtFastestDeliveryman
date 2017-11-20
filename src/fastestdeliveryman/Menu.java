@@ -13,18 +13,24 @@ import java.util.Scanner;
  */
 public class Menu implements MenuInterface{
     
-    private Food[] menu ;
+    private Food[] menu = new Food[100];
+    private int countFood = 0;
     
     public Menu(){
     
     }
     
     public Menu(Food[] menu){
-        
+        //System.arraycopy(this.menu, 0, menu, 0, menu.length);
     }
     
     @Override
     public void showMenu(){
+        //this method will display only status == promotion OR food status == available
+        //status == unavailable will not be displayed
+        //status == promotion will be displayed first
+        //followed by status == available
+        
         System.out.printf("%-5s %30s %-9s %17s\n", "ID", "Food name", "Price(RM)", "Preparation time");
         for (Food menu1 : menu) {
             menu1.toString();
@@ -59,7 +65,8 @@ public class Menu implements MenuInterface{
         //else proceed to creating new food object
         if(!foodName.equals("") && price > 0 && preparationTime > 0){
             //TODO: invoke addFood() method and create new food object and add to menu food array
-            
+            menu[countFood] = new Food(countFood + 1, foodName, price, preparationTime, "Available");
+            ++countFood;
         }
         else{
             System.out.println("Please do not leave any blank space.");
@@ -80,13 +87,13 @@ public class Menu implements MenuInterface{
         return true;
     }
     
-    //@Override
-    //public String toString(){
-    //    String msg ="";
-    //    for(Food f : menu){
-    //        msg += f.toString();
-    //        msg += "\n";
-    //    }
-    //    return msg;
-    //}
+    @Override
+    public String toString(){
+        //this toString() method will display all food in menu regardless of status
+        String msg ="";
+        for(Food f : menu){
+            msg += f.toString();
+        }
+        return msg;
+    }
 }
