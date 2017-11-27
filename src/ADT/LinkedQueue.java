@@ -67,6 +67,6 @@ public class LinkedQueue<T> implements QueueInterface {
     public void clear() {
         firstNode = null;
         lastNode = null;
-    }
+    }//
 
 }

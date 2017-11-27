@@ -125,6 +125,7 @@ public class Affiliate implements AffiliateInterface {
 
     @Override
     public void setMenu() {
+        Scanner reader = new Scanner(System.in);
         boolean validChoice = true;
         int choice;
 
@@ -144,10 +145,18 @@ public class Affiliate implements AffiliateInterface {
                     menu.showMenu();
                     break;
                 case -1:
-                default:
                     validChoice = false;
+                    break;
+                default:
+                    
                 //go back
             }
+            
+            System.out.println("====================================================");
+            System.out.println("Do you want to continue modifying your menu? (Y/N): ");
+            char cont = reader.next().charAt(0);
+            cont = Character.toUpperCase(cont);
+            validChoice = cont == 'N';
         } while (!validChoice);
     }
 
@@ -157,10 +166,8 @@ public class Affiliate implements AffiliateInterface {
     }
 
     public static Affiliate login(AffiliateInterface[] affiliate) {
-        Boolean validLogin = false;
         Scanner reader = new Scanner(System.in);
-
-        do {
+        
             System.out.println("Enter ID: ");
             int ID = Integer.parseInt(reader.nextLine());
             System.out.println("Enter password: ");
@@ -168,14 +175,12 @@ public class Affiliate implements AffiliateInterface {
 
             for (int i = 0; i < nextID - 1; ++i) {
                 if (affiliate[i].getID() == ID && affiliate[i].getPassword().equals(password)) {
-                    validLogin = true;
                     System.out.println("Welcome, " + affiliate[i].getOwnerName());
                     System.out.println("============================");
                     return (Affiliate) affiliate[i];
                 }
             }
-            return null;
-        } while (!validLogin);
+            return null; 
     }
 
     public static Affiliate registerAffiliate() {
@@ -204,7 +209,6 @@ public class Affiliate implements AffiliateInterface {
                 System.out.println("===============================");
                 System.out.println("Registration successfull! Please login with the following ID");
                 System.out.println("Your ID: " + newAffiliate.ID);
-                System.out.println("===============================");
                 validRegistration = true;
                 return newAffiliate;
                 //continue here
