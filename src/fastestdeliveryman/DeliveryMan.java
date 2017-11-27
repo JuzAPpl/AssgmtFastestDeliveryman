@@ -5,7 +5,6 @@
  */
 package fastestdeliveryman;
 
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -23,10 +21,11 @@ import java.util.Scanner;
  */
 public class DeliveryMan extends Employee {
 
-    static DeliveryMan deliverman;
-    Calendar cal = Calendar.getInstance();
-    String getTime;
-    String ClockInTime;
+    private static DeliveryMan deliverman;
+    private Calendar cal;
+    private String getTime;
+    private String ClockInTime = new String("");
+    private String ClockOutTime = new String("");
 
     public DeliveryMan(String employeeName, String employeeID, String employeePassword, double salary, String contactNo) {
         super(employeeName, employeeID, employeePassword, salary, contactNo);
@@ -37,7 +36,8 @@ public class DeliveryMan extends Employee {
     }
 
     public void getTimeNow() {
-        String pattern = "yyyy/MM//dd_____hh:mm:ss";
+        cal=Calendar.getInstance();
+        String pattern = "yyyy/MM//dd__hh:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         getTime = sdf.format(cal.getTime());
 
@@ -80,17 +80,43 @@ public class DeliveryMan extends Employee {
 
     public void clockIn() {
         getTimeNow();
-        ClockInTime = getTime;
+        ClockInTime = new String(getTime);   
+        System.out.println("Your work start at" + ClockInTime);
+    }
+
+    public boolean checkClockIn() {
+        getTimeNow();
+        if (!ClockInTime.isEmpty()) {
+            System.out.println("You have already clock in.");
+            System.out.println("Please Select another Option.");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    public boolean checkClockOut() {
+        getTimeNow();
+        if (ClockInTime.isEmpty()) {
+            System.out.println("You have already clock out.");
+            System.out.println("Please Select another Option.");
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void clockOut() {
         try {
             getTimeNow();
-            clockIn();
+            ClockOutTime = new String(getTime);
             File ClockInFile = new File("StatusRecord.txt");
-
-            FileWriter fw = new FileWriter(ClockInFile);
-            fw.write(employeeID + " " + employeeName + " " + ClockInTime + " " + getTime);
+            FileWriter fw = new FileWriter(ClockInFile, true);
+            fw.write(employeeID + " , " + employeeName + " , " + ClockInTime + " , " + ClockOutTime);
+            fw.write("\r\n");
             fw.close();
 
         } catch (IOException iox) {
@@ -125,18 +151,32 @@ public class DeliveryMan extends Employee {
             System.out.println("What Do You Want???");
             System.out.println("1. Clock In");
             System.out.println("2. Clock Out");
-            System.out.println("3. Logout!!!");
-            System.out.print("Enter he Number you want to Do: ");
+            System.out.println("0. Logout");
+            System.out.print("Enter the Number you want to Do: ");
             selection = reader.nextInt();
 
             if (selection == 1) {
-                clockIn();
-                System.out.println("You have success to clockIn");
+                if (checkClockIn()) {
+                    clockIn();
+                    System.out.println("You have success to clockIn");
+                    System.out.println("===========================");
+                }
             } else if (selection == 2) {
-                clockOut();
-                System.out.println("You have success to clockOut");
+                if (checkClockOut()) {
+                    clockOut();
+                    System.out.println("You have success to clockOut");
+                    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                    ClockInTime = "";
+
+                }
+            }else if(selection == 0){
+                
             }
-        } while (selection != 3);
+            else{
+                System.out.println("Please Type Properly. Try Again");
+                 System.out.println("===========================");
+            }
+        } while (selection != 0);
     }
 
     public void loginDelivery() {
