@@ -104,29 +104,56 @@ public class Executive extends Employee {
     }
 
     
-    public void editStaff()
+    public void editStaff(Employee[] deliveryman)
     {
         
         Scanner scanner = new Scanner(System.in);
-        System.out.print("");
-        System.out.println("Please select an option to edit: ");
-        System.out.println("1. Contact Number");
-        System.out.println("2. Address");
-        System.out.println("-1. Exit");
-        int userSelection = scanner.nextInt();
-        
-        switch(userSelection)
+        DeliveryMan targerDeliveryman = new DeliveryMan();
+        boolean targetFound = false;
+        for(Employee x: deliveryman)
         {
-            case 1: editContactNo(deliveryman);
-                break;
-            case 2:editAddress(deliveryman);
-                break;
-            default:
-                break;
+            if(x instanceof DeliveryMan)
+            System.out.println(x);
         }
+        System.out.print("Please key in deliveryman's employee id to continue: ");
+        String empID = scanner.nextLine();
+        for(Employee x: deliveryman)
+        {
+            if(x.getEmployeeID().equals(empID));
+            {
+                if(x instanceof DeliveryMan)
+                {
+                    targerDeliveryman = (DeliveryMan) x;
+                    targetFound = true;
+                }
+                
+            }
+        }
+        if(targetFound){
+            System.out.println("Please select an option to edit: ");
+            System.out.println("1. Contact Number");
+            System.out.println("2. Address");
+            System.out.println("-1. Exit");
+            int userSelection = scanner.nextInt();
+
+            switch(userSelection)
+            {
+                case 1: editContactNo(targerDeliveryman);
+                    break;
+                case 2:editAddress(targerDeliveryman);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            System.out.println("Do you want to continue?");
+        }
+        
     }
     
-    public void displayMenu(Employee[] deliveryMan)
+    public void displayMenu(Employee[] deliveryman)
     {
         int userSelection=0;
         do{
@@ -141,7 +168,7 @@ public class Executive extends Employee {
             {
                 case 1: addStaff();
                 break;
-                case 2: editStaff();
+                case 2: editStaff(deliveryman);
                 break;
                 case -1: break;
                 default: System.out.println("Sorry, invalid selection."); 
