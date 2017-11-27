@@ -10,6 +10,7 @@ package fastestdeliveryman;
  *
  * @author S3113
  */
+
 public class Employee {
     protected String employeeName;
     protected String employeeID;
@@ -18,21 +19,21 @@ public class Employee {
     protected String contactNo;
     
        public Employee(){
-       this.employeeName="Louis";
-       this.employeeID="emp1234";
-       this.employeePassword="emp4321";
-       this.salary=5000;
-       this.contactNo="012-34567";
+       this.employeeName = "Louis";
+       this.employeeID = "1234";
+       this.employeePassword = "1234321";
+       this.salary = 1000;
+       this.contactNo = "01111111";
    }
-    
-   public Employee(String employeeName, String employeeID,String employeePassword, double salary, String contactNo){
+       
+  public Employee(String employeeName, String employeeID,String employeePassword, double salary, String contactNo){
        this.employeeName=employeeName;
        this.employeeID=employeeID;
        this.employeePassword=employeePassword;
        this.salary=salary;
        this.contactNo=contactNo;
    }
-   
+  
    public String getEmployeeName(){
        return employeeName;    
    }
