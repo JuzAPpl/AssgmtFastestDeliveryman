@@ -36,7 +36,8 @@ public class TestDisplayMenu {
 //        
 //        Affiliate[] affiliates ={affiliate0, affiliate1}; 
 //            affiliate0.getMenu().showMenu();
-
+        Customer cust = new Customer();
+        cust.login();
     }
     
 }

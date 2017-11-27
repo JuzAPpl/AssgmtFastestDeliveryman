@@ -70,7 +70,47 @@ public class Customer {
     }
 
     private void browseRestaurants() {
-        System.out.println("---Module under construction---");
+        //Dummy data: to be replaced after implementation of reading objects from binary files
+        Food food1 = new Food(1, "Delicious Kuey Teow", 4.99, 5, Food.FOOD_UNAVAILABLE);
+        Food food2 = new Food(2, "East DonDong Fried Chicken", 9.99, 7.6, Food.FOOD_AVAILABLE);
+        Food food3 = new Food(3, "Super Mega Jumbo Burger", 8.79, 10, Food.FOOD_PROMOTION);
+
+        Food[] foodArr0 = {food1, food2, food3};
+        Menu menu0 = new Menu(foodArr0);
+
+        Affiliate affiliate0 = new Affiliate("East DonDong", "Mac DonDong's", "PV13", "011-2334567", menu0);
+
+        Food food4 = new Food(1, "Very Delicious Kuey Teow", 4.99, 5, Food.FOOD_UNAVAILABLE);
+        Food food5 = new Food(2, "West DonDong Fried Chicken", 9.99, 7.6, Food.FOOD_AVAILABLE);
+        Food food6 = new Food(3, "Super Mega Giga Jumbo Burger", 8.79, 10, Food.FOOD_PROMOTION);
+
+        Food[] foodArr1 = {food4, food5, food6};
+        Menu menu1 = new Menu(foodArr1);
+
+        Affiliate affiliate1 = new Affiliate("West DonDong", "Mac DinDing's", "PV13", "011-2334567", menu1);
+
+        Affiliate[] affiliates = {affiliate0, affiliate1};
+        //End of dummy data
+        
+        Scanner in=new Scanner(System.in);
+        
+        for(int i=0;i<affiliates.length;i++){
+            System.out.println((i+1) + ": " + affiliates[i].getRestaurantName());
+        }
+        System.out.println("0: Cancel");
+        System.out.println("Please enter your selection");
+        int menuSel = in.nextInt()-1;
+        if(menuSel==-1){
+            //return to previous menu
+        }else if(menuSel>=affiliates.length || menuSel<-1){
+            //error message of invalid input
+            System.out.println("Invalid input!");
+        }else{
+            affiliates[menuSel].getMenu().showMenu();
+            System.out.println("---Food ordering service under construction---");
+        }
+        
+        
     }
 
     public void searchFood() {
@@ -127,14 +167,17 @@ public class Customer {
             for (int i = 0; i < matchCount; i++) {
                     System.out.println((i + 1) + ": " + (results[i]));
             }
-            System.out.print("Please enter the number of the food to order(0 to cancel): ");
+            //System.out.print("Please enter the number of the food to order(0 to cancel): ");
+            System.out.println("---Food ordering service under construction---");
             int a = in.nextInt();
             if (a == 0) {
                 //return to previous menu
             }else if(a>0 && a<=matchCount){
                 //TODO: add selected food into cart
+                
             }else{
-                System.out.println("Invalid input!");
+                //error message for invalid input
+                //System.out.println("Invalid input!");
             }
         } else {
             System.out.println("No matching results.");
