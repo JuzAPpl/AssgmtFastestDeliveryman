@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class Menu implements MenuInterface{
     
-    private Food[] menu ;
+    private Food[] menu = new Food[100];
     private int length;
     
     public Menu(){
@@ -21,14 +21,17 @@ public class Menu implements MenuInterface{
     }
     
     public Menu(Food[] menu){
-        this.menu=menu;
+        for(int i=0;i<menu.length;i++){
+            addFood(menu[i]);
+        }
         
     }
     
     @Override
     public void showMenu(){
         System.out.printf("%-5s %-50s\t%-9s\t%-20s\t%-20s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
-        for (Food food : menu) {
+        for (int i=0;i<length;i++) {
+            Food food=menu[i];
             System.out.println(food.toString());
             //TODO: display food status == promotion
             //              food status == available
@@ -68,9 +71,21 @@ public class Menu implements MenuInterface{
         }
     }
     
+    public void addFood(Food food){
+        menu[length++] = food;
+    }
+    
+    public Food[] getMenu(){
+        return menu;
+    }
+    
     @Override
     public void removeFood(){
         //TODO
+    }
+    
+    public int getLength(){
+        return length;
     }
     
     @Override
