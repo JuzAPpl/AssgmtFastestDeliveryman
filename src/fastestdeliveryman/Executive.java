@@ -12,6 +12,8 @@ import java.util.Scanner;
  * @author S3113
  */
 public class Executive extends Employee {
+    
+    
 
     public Executive(){
         super();
@@ -49,7 +51,7 @@ public class Executive extends Employee {
             {
                 DeliveryMan deliveryMan = new DeliveryMan(name, "1001", "123abc", 2000, phoneNo);
                 System.out.println("New deliveryman "+ name + "is successfully added!");
-                System.out.println("==Information of new deliveryman=="+deliveryMan);
+                System.out.println("==Information of new deliveryman==\n" + deliveryMan);
                 
             }
             else
@@ -61,6 +63,33 @@ public class Executive extends Employee {
 
     public void terminateStaff() {
         //TODO:Remove termnated staff
+    }
+    
+    public void editStaff()
+    {
+        System.out.println("This module is under construction. Sorry for inconvenience caused!");
+    }
+    
+    public void displayMenu()
+    {
+        System.out.println("Please select an action to perform:");
+        System.out.println("1. Add new delivery man");
+        System.out.println("2. Update delivery man's information");
+        System.out.println("-1. Exit");
+        
+        java.util.Scanner scanner = new Scanner(System.in);
+        int userSelection = scanner.nextInt();
+        
+        switch(userSelection)
+        {
+            case 1: addStaff();
+            break;
+            case 2: editStaff();
+            break;
+            default: System.out.println("Sorry, invalid selection."); displayMenu();
+            break;
+            case -1: break;
+        }
     }
     
     private boolean validateName(String name){
@@ -88,9 +117,10 @@ public class Executive extends Employee {
         }
          return true;
     }
+    
     public static void main(String[] Args){
         Executive exec = new Executive();
-        exec.addStaff();
+        exec.displayMenu();
     }
 
 }
