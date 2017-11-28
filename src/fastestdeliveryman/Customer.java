@@ -169,16 +169,17 @@ public class Customer {
             }
             //System.out.print("Please enter the number of the food to order(0 to cancel): ");
             System.out.println("---Food ordering service under construction---");
-            int a = in.nextInt();
-            if (a == 0) {
-                //return to previous menu
-            }else if(a>0 && a<=matchCount){
-                //TODO: add selected food into cart
-                
-            }else{
-                //error message for invalid input
-                //System.out.println("Invalid input!");
-            }
+            //uncomment after implementation of food ordering service
+//            int a = in.nextInt();
+//            if (a == 0) {
+//                //return to previous menu
+//            }else if(a>0 && a<=matchCount){
+//                //TODO: add selected food into cart
+//                
+//            }else{
+//                //error message for invalid input
+//                //System.out.println("Invalid input!");
+//            }
         } else {
             System.out.println("No matching results.");
         }

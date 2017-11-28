@@ -43,6 +43,15 @@ public class Affiliate implements AffiliateInterface {
         this.menu = new Menu();
         ++nextID;
     }
+    
+    public Affiliate(String ownerName, String restaurantName, String address, String contactNo, Menu menu){
+        this.ID = nextID++;
+        this.ownerName = ownerName;
+        this.restaurantName = restaurantName;
+        this.address = address;
+        this.contactNo = contactNo;
+        this.menu = menu;
+    }
 
     @Override
     public int getID() {

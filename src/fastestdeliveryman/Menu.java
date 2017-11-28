@@ -17,6 +17,7 @@ public class Menu implements MenuInterface {
     private Food[] food = new Food[100];
     //change back to 0 later
     private int countFood = 2;
+    private int length = 0;
 
     public Menu() {
         //delete this later
@@ -43,12 +44,12 @@ public class Menu implements MenuInterface {
         //followed by status == available
 
         System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
-        for (int i = 0 ; i < countFood;++i) {
+        for (int i = 0 ; i < length;++i) {
             if(food[i].getStatus().equals("Promotion"))
                 System.out.println(food[i]);
         }
   
-        for (int i = 0 ; i < countFood;++i){
+        for (int i = 0 ; i < length;++i){
             if(food[i].getStatus().equals("Available"))
                 System.out.println(food[i]);
         }
@@ -103,11 +104,11 @@ public class Menu implements MenuInterface {
 
     
     public void addFood(Food food){
-        menu[length++] = food;
+        this.food[length++] = food;
     }
     
     public Food[] getMenu(){
-        return menu;
+        return food;
     }
     
     @Override
@@ -126,7 +127,7 @@ public class Menu implements MenuInterface {
         Scanner reader = new Scanner(System.in);
         Boolean validInput;
         int foodID;
-        String newFoodStatus;
+        int newFoodStatus;
 
         System.out.println("==================================");
         System.out.println(String.format("%-5s %20s %-7.2s %-10s", "ID", "Food Name", "Price", "Status"));
@@ -142,7 +143,7 @@ public class Menu implements MenuInterface {
             if (foodID <= countFood + 1 && foodID >= 1) {
                 newFoodStatus = Food.getNewFoodStatus();
 
-                if (!newFoodStatus.equals("")) {
+                if (newFoodStatus != -1) {
                     food[foodID - 1].setStatus(newFoodStatus);
 
                     System.out.println("==========================================");

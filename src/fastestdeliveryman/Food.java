@@ -109,8 +109,14 @@ public class Food implements FoodInterface {
     }
 
     @Override
-    public String toString() {
-        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
+//    public String toString() {
+//        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
+//    }
+    
+    public String toString(){
+        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatus());
+    }
+    
     
     public void setStatus(int status){
         this.status=status;
