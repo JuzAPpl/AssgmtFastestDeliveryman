@@ -14,12 +14,12 @@ import java.util.Date;
  */
 public class Order implements Serializable{
 
-    private String orderNum;
-    private String affiliateID;
-    private Food[] orderedFood;
+    String orderNum;
+    String affiliateID;
+    Food[] orderedFood;
     private static int newNum;
-    private Date orderDay;
-    private String location;
+    Date orderDay;
+    String location;
 
     public void Order() {
         newNum = 0;
