@@ -14,6 +14,9 @@ public class TestExecutive {
     /**
      * @param args the command line arguments
      */
+    public TestExecutive(){
+    
+    }
     private static Employee[] initializeTestDeliveryman(){
    //employeeName, identityCard, gender, age, contactNo, Address, employeeID, employeePassword, salary
         Employee[] deliveryman = 
