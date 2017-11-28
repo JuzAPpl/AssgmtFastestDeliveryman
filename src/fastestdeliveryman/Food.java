@@ -9,30 +9,33 @@ import java.util.Scanner;
 
 /**
  *
- * @author ASUS
+ * @author Gan Zhen Jie
  */
+
 public class Food implements FoodInterface {
+    
+    public static final int FOOD_UNAVAILABLE = 0;
+    public static final int FOOD_AVAILABLE = 1;
+    public static final int FOOD_PROMOTION = 2;
+    
 
     private int ID;
     private String name;
     private double price;
     private double preparationTime;
-    private String status;
 
-    public Food() {
-        this.ID = -1;
-        this.name = "";
-        this.price = -1.0;
-        this.preparationTime = -1.0;
-        this.status = "";
+    private int status; //0: unavailable, 1: available, 2: promotion
+    
+    public Food(){
+        this(-1, "", -1.0, -1.0, 0);
     }
-
-    public Food(int ID, String name, double price, double preparationTime, String status) {
-        this.ID = ID;
-        this.name = name;
-        this.price = price;
-        this.preparationTime = preparationTime;
-        this.status = status;
+    
+    public Food(int ID, String name, double price, double preparationTime, int status){
+        this.ID=ID;
+        this.name=name;
+        this.price=price;
+        this.preparationTime=preparationTime;
+        this.status=status;
     }
 
     //setters and getters
@@ -70,19 +73,9 @@ public class Food implements FoodInterface {
         return String.format("%.1f", preparationTime);
     }
 
-    @Override
-    public String getStatus() {
-        return status;
-    }
-
-    @Override
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public static String getNewFoodStatus() {
+    public static int getNewFoodStatus() {
         Scanner reader = new Scanner(System.in);
-        String newStatus = "";
+        int newStatus ;
         int choiceOfStatus;
         Boolean validInput;
 
@@ -101,22 +94,44 @@ public class Food implements FoodInterface {
 
         switch (choiceOfStatus) {
             case 1:
-                newStatus = "Available";
+                newStatus = FOOD_AVAILABLE;
                 break;
             case 2:
-                newStatus = "Promotion";
+                newStatus = FOOD_PROMOTION;
                 break;
             case 3:
-                newStatus = "Unvailable";
+                newStatus = FOOD_UNAVAILABLE;
                 break;
             default:
-                newStatus = "";
+                newStatus = -1;
         }
         return newStatus;
     }
 
     @Override
     public String toString() {
-        return String.format("%-5d %20s %9.2f %17s %10s\n", ID, name, price, (getPreparationTime() + " min"), status);
+        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
+    
+    public void setStatus(int status){
+        this.status=status;
+    }
+    
+    public String getStatus(){
+        String status;
+        switch(this.status){
+            case FOOD_UNAVAILABLE:
+                status = "Unavailable";
+                break;
+            case FOOD_AVAILABLE:
+                status="Available";
+                break;
+            case FOOD_PROMOTION:
+                status="Promotion";
+                break;
+            default:
+                status = "";
+                break;
+        }
+        return status;
     }
 }

@@ -5,8 +5,16 @@
  */
 package fastestdeliveryman;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,35 +22,41 @@ import java.util.Scanner;
  */
 public class SceduledOrder extends Order {
 
-    private static int[] deliveryDay;
-    private static int weeks;
+    private int[] deliveryDay;
+    private int weeks;
 
-    public void SceduledOrder(String orderNum, Date orderDay, Food[] orderedFood, String location, String affiliateID, int[] deliveryDay, int weeks) {
+    public SceduledOrder() {
+
+    }
+
+    public SceduledOrder(String orderNum, Date orderDay, Food[] orderedFood, String location, String affiliateID, int[] deliveryDay, int weeks) {
         super.Order(orderNum, orderDay, orderedFood, location, affiliateID);
-        SceduledOrder.deliveryDay = deliveryDay;
-        SceduledOrder.weeks = weeks;
+        this.deliveryDay = deliveryDay;
+        this.weeks = weeks;
 
     }
 
-    public static void setWeeks(int weeks) {
-        SceduledOrder.weeks = weeks;
+    public void setWeeks(int weeks) {
+        this.weeks = weeks;
     }
 
-    public static int getWeeks() {
+    public int getWeeks() {
         return weeks;
     }
 
-    public static void setDeliveryDay(int[] deliveryDay) {
-        SceduledOrder.deliveryDay = deliveryDay;
+    public void setDeliveryDay(int[] deliveryDay) {
+        this.deliveryDay = deliveryDay;
     }
 
-    public static int[] getDeliveryDay() {
+    public int[] getDeliveryDay() {
         return deliveryDay;
     }
 
-    public static void addSceduledOrder() {
+    public static SceduledOrder addSceduledOrder() {
         //TODO: add
         //After User choosed the food in the addOrder in the Order class
+
+        Order order = Order.addOrder();
 
         String day;
         Scanner scanner = new Scanner(System.in);
@@ -58,39 +72,42 @@ public class SceduledOrder extends Order {
         System.out.println("Please select the day(s) you want to make order: ");
         day = scanner.nextLine();
 
-        int a = 0;
-        for (int j = 0; j < day.length(); j++) {
-            char q = day.charAt(j);
-            if (Character.isDigit(q)) {
-                a++;
-            }
-        }
-        int[] days;
-        days = new int[a];
-        int c = 0;
-        for (int k = 0; k < day.length(); k++) {
-            char w = day.charAt(k);
-            if (Character.isDigit(w)) {
-                days[c] = w;
-                c++;
-            }
-        }
-
-        if (!day.equals("")) {
-            //TODO: get the day(s) that user want to order
-            setDeliveryDay(days);
-        }
         int week;
         System.out.println("You want make order for how many week(s): ");
         week = scanner.nextInt();
 
-        if (week > 0) {
-            //TODO: get how many week the user want to order
-            setWeeks(week);
+        if (day.isEmpty()) {
+            System.out.println("Invalid input! Please enter 0-7!");
         } else {
-            System.out.println("Invalid input");
-        }
+            int a = 0;
+            for (int j = 0; j < day.length(); j++) {
+                char q = day.charAt(j);
+                if (Character.isDigit(q)) {
+                    a++;
+                }
+            }
+            int[] days;
+            days = new int[a];
+            int c = 0;
+            for (int k = 0; k < day.length(); k++) {
+                char w = day.charAt(k);
+                if (Character.isDigit(w)) {
+                    days[c] = w;
+                    c++;
+                }
+            }
 
+            if (week > 0) {
+                //TODO: Create new object for the sceduled order
+                SceduledOrder newSchOrder = new SceduledOrder(order.getOrderNum(), order.getOrderDay(), order.getOrderedFood(), order.getLocation(), order.getAffiliateID(), days, week);
+                System.out.println(newSchOrder);
+                return newSchOrder;
+            } else {
+                System.out.println("Invalid input");
+            }
+
+        }
+        return null;
     }
 
     public void cancelSceduledOrder() {
@@ -103,6 +120,79 @@ public class SceduledOrder extends Order {
 
     public void checkSceduledOrder() {
         //TODO: check
+    }
+    public String getDeliveryDays(){
+        String arr="";
+        for(int i=0; i<deliveryDay.length;i++){
+            switch(deliveryDay[i]){
+                case 1:
+                    arr+="Monday, ";
+                    break;
+                case 2:
+                    arr+="Tuesday, ";
+                    break;
+                case 3:
+                    arr+="Wednesday, ";
+                    break;
+                case 4:
+                    arr+="Thursday, ";
+                    break;
+                case 5:
+                    arr+="Friday, ";
+                    break;
+                case 6:
+                    arr+="Saturday, ";
+                    break;
+                case 7:
+                    arr+="Sunday, ";
+                    break;
+                default:
+                    
+            }
+        }
+        return arr;
+    } 
+
+    public String toString(){
+        return "Onwer Name: " + getOrderNum() +
+                "\nRestaurant Name: " + getOrderDay() +
+                "\nAddress: " + getOrderedFood() + 
+                "\nContact Number: " + getLocation()+
+                "\nAffiliateID: "+getAffiliateID()+
+                "\nDelivery Day: "+getDeliveryDays()+
+                "\nWeek: "+ weeks;
+    }
+    public static void addSOToBinaryFile() {
+        addSceduledOrder();
+        SceduledOrder SOobject = SceduledOrder.addSceduledOrder();
+        try {
+            FileOutputStream outFile = new FileOutputStream("SceduledOrder.dat");
+            ObjectOutputStream objOutput = new ObjectOutputStream(outFile);
+            objOutput.writeObject(SOobject);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static void readSOInBinaryFile() {
+        FileInputStream inFile;
+        try {
+            inFile = new FileInputStream("SceduledOrder.dat");
+            ObjectInputStream objInput = new ObjectInputStream(inFile);
+            Object obj = objInput.readObject();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SceduledOrder.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("File is no exist");
+        }
+
     }
 
 }

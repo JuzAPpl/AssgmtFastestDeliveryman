@@ -5,13 +5,14 @@
  */
 package fastestdeliveryman;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author User
  */
-public class Order {
+public class Order implements Serializable{
 
     private String orderNum;
     private String affiliateID;
@@ -33,6 +34,10 @@ public class Order {
         this.location = location;
         this.affiliateID = affiliateID;
         this.orderedFood = orderedFood;
+    }
+    
+    public static Order addOrder(){
+    return new Order();
     }
 
     public void setLocation(String location) {

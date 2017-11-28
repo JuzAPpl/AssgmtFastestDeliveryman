@@ -11,6 +11,7 @@ import java.util.Scanner;
  *
  * @author Gan Zhen Jie, Lim Fang Chun
  */
+
 public class Menu implements MenuInterface {
 
     private Food[] food = new Food[100];
@@ -19,12 +20,19 @@ public class Menu implements MenuInterface {
 
     public Menu() {
         //delete this later
-        food[0] = new Food(1, "cake", 10, 1, "Available");
-        food[1] = new Food(2, "kake", 12, 1, "Promotion");
+        food[0] = new Food(1, "cake", 10, 1, Food.FOOD_AVAILABLE);
+        food[1] = new Food(2, "kake", 12, 1, Food.FOOD_PROMOTION);
     }
 
-    public Menu(Food[] menu) {
-        //System.arraycopy(this.menu, 0, menu, 0, menu.length);
+    
+    
+    
+    public Menu(Food[] menu){
+        for(int i=0;i<menu.length;i++){
+            addFood(menu[i]);
+        }
+        
+
     }
 
     @Override
@@ -38,11 +46,8 @@ public class Menu implements MenuInterface {
         for (int i = 0 ; i < countFood;++i) {
             if(food[i].getStatus().equals("Promotion"))
                 System.out.println(food[i]);
-            //TODO: display food status == promotion
-            //              food status == available
-            //Do not display unvailable food
         }
-        
+  
         for (int i = 0 ; i < countFood;++i){
             if(food[i].getStatus().equals("Available"))
                 System.out.println(food[i]);
@@ -76,7 +81,7 @@ public class Menu implements MenuInterface {
             //if there is any empty data, then prompt error message
             //else proceed to creating new food object
             if (!foodName.equals("") && price > 0 && preparationTime > 0) {
-                food[countFood] = new Food(countFood + 1, foodName, price, preparationTime, "Available");
+                food[countFood] = new Food(countFood + 1, foodName, price, preparationTime, Food.FOOD_AVAILABLE);
                 ++countFood;
                 validInput = true;
                 System.out.println("====================================");
@@ -96,9 +101,23 @@ public class Menu implements MenuInterface {
         } while (!validInput);
     }
 
+    
+    public void addFood(Food food){
+        menu[length++] = food;
+    }
+    
+    public Food[] getMenu(){
+        return menu;
+    }
+    
     @Override
     public void removeFood() {
         //TODO
+    }
+
+    
+    public int getLength(){
+        return length;
     }
 
     @Override
@@ -152,5 +171,13 @@ public class Menu implements MenuInterface {
             msg += f.toString();
         }
         return msg;
+    }
+    
+    public void sortByID(){
+        //TODO: sort food list by ascending order  of "ID" field
+    }
+    
+    public void sortByName(){
+        //TODO: sort food list by ascending order of "name" field
     }
 }
