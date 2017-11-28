@@ -5,20 +5,25 @@
  */
 package fastestdeliveryman;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Gan Zhen Jie
  */
-public class Food {
+
+public class Food implements FoodInterface {
     
     public static final int FOOD_UNAVAILABLE = 0;
     public static final int FOOD_AVAILABLE = 1;
     public static final int FOOD_PROMOTION = 2;
     
+
     private int ID;
     private String name;
     private double price;
     private double preparationTime;
+
     private int status; //0: unavailable, 1: available, 2: promotion
     
     public Food(){
@@ -32,31 +37,80 @@ public class Food {
         this.preparationTime=preparationTime;
         this.status=status;
     }
-    
+
     //setters and getters
-    public void setName(String name){
-        this.name=name;
+    public int getID(){
+        return ID;
     }
     
-    public String getName(){
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
         return name;
     }
-    
-    public void setPrice(double price){
-        this.price=price;
+
+    @Override
+    public void setPrice(double price) {
+        this.price = price;
     }
-    
-    public double getPrice(){
+
+    @Override
+    public double getPrice() {
         return price;
     }
-    
-    public void setPreparationTime(double preparationTime){
-        this.preparationTime=preparationTime;
+
+    @Override
+    public void setPreparationTime(double preparationTime) {
+        this.preparationTime = preparationTime;
     }
-    
-    public String getPreparationTimeMinutes(){
+
+    @Override
+    public String getPreparationTime() {
         return String.format("%.1f", preparationTime);
     }
+
+    public static int getNewFoodStatus() {
+        Scanner reader = new Scanner(System.in);
+        int newStatus ;
+        int choiceOfStatus;
+        Boolean validInput;
+
+        do {
+            System.out.println("========================================");
+            System.out.println("Please select new status for this food: ");
+            System.out.println("1. Available");
+            System.out.println("2. Promotion");
+            System.out.println("3. Unavailable");
+            System.out.println("-1. Cancel");
+            System.out.println("========================================");
+            System.out.print("Your choice: ");
+            choiceOfStatus = Integer.parseInt(reader.nextLine());
+            validInput = choiceOfStatus == -1 || (choiceOfStatus >= 1 && choiceOfStatus <= 3);
+        } while (!validInput);
+
+        switch (choiceOfStatus) {
+            case 1:
+                newStatus = FOOD_AVAILABLE;
+                break;
+            case 2:
+                newStatus = FOOD_PROMOTION;
+                break;
+            case 3:
+                newStatus = FOOD_UNAVAILABLE;
+                break;
+            default:
+                newStatus = -1;
+        }
+        return newStatus;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
     
     public void setStatus(int status){
         this.status=status;
@@ -79,10 +133,5 @@ public class Food {
                 break;
         }
         return status;
-    }
-    
-    @Override
-    public String toString(){
-        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTimeMinutes()+" minutes"), getStatus());
     }
 }
