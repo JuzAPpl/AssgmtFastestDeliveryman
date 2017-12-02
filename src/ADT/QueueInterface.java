@@ -8,6 +8,7 @@ package ADT;
 /**
  *
  * @author Leo
+ * @param <T>
  */
 public interface QueueInterface<T> {
     public void enqueue(T newEntry);
