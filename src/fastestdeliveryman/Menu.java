@@ -6,33 +6,27 @@
 package fastestdeliveryman;
 
 import java.util.Scanner;
+import ADT.*;
 
 /**
  *
  * @author Gan Zhen Jie, Lim Fang Chun
  */
-
 public class Menu implements MenuInterface {
 
+    private LinkedList<Food> linkedFood = new LinkedList<>();
     private Food[] food = new Food[100];
-    //change back to 0 later
-    private int countFood = 2;
+    private int countFood = 0;
+    private int length;
 
     public Menu() {
-        //delete this later
-        food[0] = new Food(1, "cake", 10, 1, Food.FOOD_AVAILABLE);
-        food[1] = new Food(2, "kake", 12, 1, Food.FOOD_PROMOTION);
+
     }
 
-    
-    
-    
-    public Menu(Food[] menu){
-        for(int i=0;i<menu.length;i++){
+    public Menu(Food[] menu) {
+        for (int i = 0; i < menu.length; i++) {
             addFood(menu[i]);
         }
-        
-
     }
 
     @Override
@@ -43,14 +37,16 @@ public class Menu implements MenuInterface {
         //followed by status == available
 
         System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
-        for (int i = 0 ; i < countFood;++i) {
-            if(food[i].getStatus().equals("Promotion"))
+        for (int i = 0; i < countFood; ++i) {
+            if (food[i].getStatus().equals("Promotion")) {
                 System.out.println(food[i]);
+            }
         }
-  
-        for (int i = 0 ; i < countFood;++i){
-            if(food[i].getStatus().equals("Available"))
+
+        for (int i = 0; i < countFood; ++i) {
+            if (food[i].getStatus().equals("Available")) {
                 System.out.println(food[i]);
+            }
         }
     }
 
@@ -65,6 +61,7 @@ public class Menu implements MenuInterface {
         Scanner reader = new Scanner(System.in);
         String foodName;
         double price, preparationTime;
+        int foodStatus;
         Boolean validInput;
 
         do {
@@ -76,23 +73,42 @@ public class Menu implements MenuInterface {
             price = Double.parseDouble(reader.nextLine());
             System.out.println("Enter preparation time for this food(in minute): ");
             preparationTime = Double.parseDouble(reader.nextLine());
+            System.out.println("Select a status for this food: ");
+            System.out.println("1. Available");
+            System.out.println("2. Promotion");
+            System.out.println("3. Not available");
+            System.out.println("Your choice: ");
+            foodStatus = Integer.parseInt(reader.nextLine());
 
+            switch (foodStatus) {
+                case 1:
+                    foodStatus = Food.FOOD_AVAILABLE;
+                    break;
+                case 2:
+                    foodStatus = Food.FOOD_PROMOTION;
+                    break;
+                case 3:
+                    foodStatus = Food.FOOD_UNAVAILABLE;
+                    break;
+            }
             //check if affiliate enter any empty data
             //if there is any empty data, then prompt error message
             //else proceed to creating new food object
-            if (!foodName.equals("") && price > 0 && preparationTime > 0) {
-                food[countFood] = new Food(countFood + 1, foodName, price, preparationTime, Food.FOOD_AVAILABLE);
-                ++countFood;
+            if (!foodName.equals("") && price > 0 && preparationTime > 0 && foodStatus >= 0 && foodStatus <= 2) {
+                //food[countFood] = new Food(countFood + 1, foodName, price, preparationTime, foodStatus);
+                Food newFood = new Food(linkedFood.getNumberOfEntries() + 1, foodName, price, preparationTime, foodStatus);
+                linkedFood.add(newFood);
+                //++countFood;
                 validInput = true;
                 System.out.println("====================================");
                 System.out.println("The food has been added to your menu");
                 System.out.println("Food Details: ");
                 System.out.println("======================");
-                System.out.println("Food ID          : " + food[countFood-1].getID());
-                System.out.println("Food Name        : " + food[countFood-1].getName());
-                System.out.println("Price            : RM" + food[countFood-1].getPrice());
-                System.out.println("Preparation Time : " + food[countFood-1].getPreparationTime() + " min");
-                System.out.println("Status           : " + food[countFood-1].getStatus());
+                System.out.println("Food ID          : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getID());
+                System.out.println("Food Name        : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getName());
+                System.out.println("Price            : RM" + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getPrice());
+                System.out.println("Preparation Time : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getPreparationTime());
+                System.out.println("Status           : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getStatus());
                 System.out.println("======================");
             } else {
                 System.out.println("Please do not leave any blank space.");
@@ -101,22 +117,20 @@ public class Menu implements MenuInterface {
         } while (!validInput);
     }
 
-    
-    public void addFood(Food food){
-        menu[length++] = food;
+    public void addFood(Food food) {
+        this.food[length++] = food;
     }
-    
-    public Food[] getMenu(){
-        return menu;
+
+    public Food[] getMenu() {
+        return food;
     }
-    
+
     @Override
     public void removeFood() {
         //TODO
     }
 
-    
-    public int getLength(){
+    public int getLength() {
         return length;
     }
 
@@ -126,7 +140,7 @@ public class Menu implements MenuInterface {
         Scanner reader = new Scanner(System.in);
         Boolean validInput;
         int foodID;
-        String newFoodStatus;
+        int newFoodStatus;
 
         System.out.println("==================================");
         System.out.println(String.format("%-5s %20s %-7.2s %-10s", "ID", "Food Name", "Price", "Status"));
@@ -142,18 +156,18 @@ public class Menu implements MenuInterface {
             if (foodID <= countFood + 1 && foodID >= 1) {
                 newFoodStatus = Food.getNewFoodStatus();
 
-                if (!newFoodStatus.equals("")) {
-                    food[foodID - 1].setStatus(newFoodStatus);
+                //food[foodID - 1].setStatus(newFoodStatus);
+                linkedFood.getEntry(foodID).setStatus(newFoodStatus);
+                
+                System.out.println("==========================================");
+                System.out.println("Update successfull!");
+                System.out.println("The following food status has been updated");
+                System.out.println("Food Name:        " + linkedFood.getEntry(foodID).getName());
+                System.out.println("Price:            " + linkedFood.getEntry(foodID).getPrice());
+                System.out.println("Preparation Time: " + linkedFood.getEntry(foodID).getPreparationTime());
+                System.out.println("Status:           " + linkedFood.getEntry(foodID).getStatus());
+                System.out.println("==========================================");
 
-                    System.out.println("==========================================");
-                    System.out.println("Update successfull!");
-                    System.out.println("The following food status has been updated");
-                    System.out.println("Food Name:        " + food[foodID - 1].getName());
-                    System.out.println("Price:            " + food[foodID - 1].getPrice());
-                    System.out.println("Preparation Time: " + food[foodID - 1].getPreparationTime());
-                    System.out.println("Status:           " + food[foodID - 1].getStatus());
-                    System.out.println("==========================================");
-                }
                 validInput = true;
             } else {
                 System.out.println("Invalid food ID. Please try again");
@@ -170,14 +184,15 @@ public class Menu implements MenuInterface {
         for (Food f : food) {
             msg += f.toString();
         }
+
         return msg;
     }
-    
-    public void sortByID(){
+
+    public void sortByID() {
         //TODO: sort food list by ascending order  of "ID" field
     }
-    
-    public void sortByName(){
+
+    public void sortByName() {
         //TODO: sort food list by ascending order of "name" field
     }
 }
