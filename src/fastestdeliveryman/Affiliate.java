@@ -5,6 +5,7 @@
  */
 package fastestdeliveryman;
 
+import ADT.*;
 import java.util.Scanner;
 
 /**
@@ -41,6 +42,17 @@ public class Affiliate implements AffiliateInterface {
         this.address = address;
         this.contactNo = contactNo;
         this.menu = new Menu();
+        ++nextID;
+    }
+
+    public Affiliate(String ownerName, String restaurantName, String address, String contactNo, Menu menu) {
+        this.ID = nextID;
+        this.ownerName = ownerName;
+        //this.password = password;
+        this.restaurantName = restaurantName;
+        this.address = address;
+        this.contactNo = contactNo;
+        this.menu = menu;
         ++nextID;
     }
 
@@ -142,16 +154,14 @@ public class Affiliate implements AffiliateInterface {
                     menu.setFoodStatus();
                     break;
                 case 4:
-                    menu.showMenu();
+                    System.out.println(menu.toString());
                     break;
                 case -1:
-                    validChoice = false;
-                    break;
                 default:
-                    
+
                 //go back
             }
-            
+
             System.out.println("====================================================");
             System.out.println("Do you want to continue modifying your menu? (Y/N): ");
             char cont = reader.next().charAt(0);
@@ -165,32 +175,39 @@ public class Affiliate implements AffiliateInterface {
         return String.format("%5d %10s %15s %20s %10s", ID, ownerName, restaurantName, address, contactNo);
     }
 
-    public static Affiliate login(AffiliateInterface[] affiliate) {
+    public static Affiliate login(LinkedList<AffiliateInterface> affiliate) {
         Scanner reader = new Scanner(System.in);
-        
+        boolean validLogin = true;
+
+        do {
             System.out.println("Enter ID: ");
             int ID = Integer.parseInt(reader.nextLine());
             System.out.println("Enter password: ");
             String password = reader.nextLine();
 
-            for (int i = 0; i < nextID - 1; ++i) {
-                if (affiliate[i].getID() == ID && affiliate[i].getPassword().equals(password)) {
-                    System.out.println("Welcome, " + affiliate[i].getOwnerName());
-                    System.out.println("============================");
-                    return (Affiliate) affiliate[i];
-                }
+            if (affiliate.getEntry(ID).getID() == ID && affiliate.getEntry(ID).getPassword().equals(password)) {
+                System.out.println("Welcome, " + affiliate.getEntry(ID).getOwnerName());
+                System.out.println("============================");
+                return (Affiliate) affiliate.getEntry(ID);
             }
-            return null; 
+
+            System.out.println("======================");
+            System.out.println("Invalid ID or password");
+            System.out.println("Please try again");
+            System.out.println("======================");
+            validLogin = false;
+        } while (!validLogin);
+        return null;
     }
 
     public static Affiliate registerAffiliate() {
         //this method is for restaurant onwer to register as an affiliate
         //if the restaurant onwer registered succesfull
         //he/she will required to login with new given ID
-        
+
         Scanner reader = new Scanner(System.in);
         String ownerName, restaurantName, address, contactNo, password;
-        Boolean validRegistration;
+        Boolean validRegistration = true;
 
         do {
             System.out.println("Enter owner name: ");
@@ -206,10 +223,11 @@ public class Affiliate implements AffiliateInterface {
 
             if (!ownerName.equals("") && !restaurantName.equals("") && !address.equals("")) {
                 Affiliate newAffiliate = new Affiliate(ownerName, password, restaurantName, address, contactNo);
-                System.out.println("===============================");
+                System.out.println("============================================================");
                 System.out.println("Registration successfull! Please login with the following ID");
                 System.out.println("Your ID: " + newAffiliate.ID);
-                validRegistration = true;
+                System.out.println("============================================================");
+
                 return newAffiliate;
                 //continue here
                 //save in to .dat file
@@ -218,8 +236,8 @@ public class Affiliate implements AffiliateInterface {
                 System.out.println("Please do not leave blank space");
                 System.out.println("===============================");
                 validRegistration = false;
-                return null;
             }
         } while (!validRegistration);
+        return null;
     }
 }
