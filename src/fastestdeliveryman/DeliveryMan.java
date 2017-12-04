@@ -21,11 +21,15 @@ import java.util.Scanner;
  */
 public class DeliveryMan extends Employee {
 
-    private static DeliveryMan deliverman;
+    
     private Calendar cal;
     private String getTime;
     private String ClockInTime = new String("");
     private String ClockOutTime = new String("");
+
+    public DeliveryMan(String employeeName, String identityCard, char gender, int age, String contactNo, String Address, String employeeID, String employeePassword, double salary) {
+        super(employeeName, identityCard, gender, age, contactNo, Address, employeeID, employeePassword, salary);
+    }
 
     public DeliveryMan(String employeeName, String employeeID, String employeePassword, double salary, String contactNo) {
         super(employeeName, employeeID, employeePassword, salary, contactNo);
@@ -190,9 +194,5 @@ public class DeliveryMan extends Employee {
 
     }
 
-    public static void main(String[] args) {
-        deliverman = new DeliveryMan();
-        deliverman.loginDelivery();
-
-    }
+   
 }
