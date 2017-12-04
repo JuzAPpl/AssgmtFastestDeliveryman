@@ -172,7 +172,7 @@ public class Affiliate implements AffiliateInterface {
 
     @Override
     public String toString() {
-        return String.format("%5d %10s %15s %20s %10s", ID, ownerName, restaurantName, address, contactNo);
+        return String.format("%5d %10s %15s %20s %10s\n", ID, ownerName, restaurantName, address, contactNo);
     }
 
     public static Affiliate login(LinkedList<AffiliateInterface> affiliate) {
