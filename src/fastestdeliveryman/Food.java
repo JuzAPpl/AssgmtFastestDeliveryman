@@ -104,6 +104,10 @@ public class Food implements FoodInterface {
         return status;
     }
     
+    public int getStatus(boolean inInteger){
+        return status;
+    }
+    
     public static int getNewFoodStatus() {
         Scanner reader = new Scanner(System.in);
         int newStatus;
