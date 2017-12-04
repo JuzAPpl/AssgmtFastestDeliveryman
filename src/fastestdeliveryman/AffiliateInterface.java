@@ -10,6 +10,17 @@ package fastestdeliveryman;
  * @author Leo
  */
 public interface AffiliateInterface {
+    public int getID();
+    public String getOwnerName();
+    public void setOwnerName(String ownerName);
+    public String getPassword();
+    public void setPassword(String password);
+    public String getAddress();
+    public void setAddress(String address);
+    public String getRestaurantName();
+    public void setRestaurantName(String restaurantName);
+    public String getContactNo();
+    public void setContactNo(String contactNo);
     public void setMenu();
     public Menu getMenu();
 }

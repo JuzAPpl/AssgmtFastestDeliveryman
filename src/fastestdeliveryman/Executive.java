@@ -179,6 +179,33 @@ public class Executive extends Employee {
         
     }
     
+    public void editStaff()
+    {
+        System.out.println("This module is under construction. Sorry for inconvenience caused!");
+    }
+    
+    public void displayMenu()
+    {
+        System.out.println("Please select an action to perform:");
+        System.out.println("1. Add new delivery man");
+        System.out.println("2. Update delivery man's information");
+        System.out.println("-1. Exit");
+        
+        java.util.Scanner scanner = new Scanner(System.in);
+        int userSelection = scanner.nextInt();
+        
+        switch(userSelection)
+        {
+            case 1: addStaff();
+            break;
+            case 2: editStaff();
+            break;
+            default: System.out.println("Sorry, invalid selection."); displayMenu();
+            break;
+            case -1: break;
+        }
+    }
+    
     private boolean validateName(String name){
         
         
@@ -211,6 +238,11 @@ public class Executive extends Employee {
     
     private boolean validateGender(char gender) {
         return (gender =='M'||gender =='F');
+    }
+    
+    public static void main(String[] Args){
+        Executive exec = new Executive();
+        exec.displayMenu();
     }
 
     private boolean validateIC(String identityCard) {
