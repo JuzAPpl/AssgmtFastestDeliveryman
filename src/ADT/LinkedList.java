@@ -1,5 +1,7 @@
 package ADT;
 
+import fastestdeliveryman.Food;
+
 /**
  *
  * @author Lim Fang Chun
@@ -23,7 +25,7 @@ public class LinkedList<T> implements ListInterface<T> {
 
         if (isEmpty()) {
             firstNode = newNode;
-            
+
             lastNode = newNode;
         } else {
             newNode.setPrevious(lastNode);
@@ -38,11 +40,10 @@ public class LinkedList<T> implements ListInterface<T> {
         if (newPosition >= 1 && newPosition <= countEntry + 1) {
             Node newNode = new Node(newEntry);
 
-            if(newPosition == 1){
+            if (newPosition == 1) {
                 newNode.setNext(firstNode);
                 firstNode = newNode;
-            }
-            else if (newPosition == countEntry + 1) {
+            } else if (newPosition == countEntry + 1) {
                 newNode.setPrevious(lastNode);
                 lastNode.setNext(newNode);
                 lastNode = newNode;
@@ -50,12 +51,12 @@ public class LinkedList<T> implements ListInterface<T> {
                 Node nodeBefore;
                 if (newPosition <= countEntry / 2) {
                     nodeBefore = firstNode;
-                    for (int i = 1; i <= newPosition-1; ++i) {
+                    for (int i = 1; i <= newPosition - 1; ++i) {
                         nodeBefore = nodeBefore.getNext();
                     }
                 } else {
                     nodeBefore = lastNode;
-                    for (int i = countEntry; i >= countEntry - newPosition+1; --i) {
+                    for (int i = countEntry; i >= countEntry - newPosition + 1; --i) {
                         nodeBefore = nodeBefore.getPrevious();
                     }
                 }
@@ -100,7 +101,7 @@ public class LinkedList<T> implements ListInterface<T> {
                 nodeAfter.setPrevious(nodeBefore);
                 nodeBefore.setNext(nodeAfter);
             }
-            
+
             --countEntry;
         }
         return result;
@@ -175,7 +176,7 @@ public class LinkedList<T> implements ListInterface<T> {
                         currentNode = currentNode.getPrevious();
                     }
                 }
-                
+
                 return (T) currentNode.getData();
             }
         } else {
@@ -206,16 +207,40 @@ public class LinkedList<T> implements ListInterface<T> {
     public boolean isEmpty() {
         return countEntry == 0;
     }
-    
-//    @Override
-//    public String toString(){
-//        String msg ="";
-//        Node currentNode = firstNode;
-//        while(currentNode != null){
-//            msg += (T)(currentNode.getData()).toString();
-//            //msg += "\n";
-//            currentNode = currentNode.getNext();
-//        }
-//        return msg;
-//    }
+
+    @Override
+    public String toString() {
+        String msg = "";
+        Node currentNode = firstNode;
+        while (currentNode != null) {
+            msg += (T) (currentNode.getData()).toString();
+            //msg += "\n";
+            currentNode = currentNode.getNext();
+        }
+        return msg;
+    }
+
+    public void displayMenuItemWithStatusOrder() {
+        //this method is only Menu class only
+        //this method will display food status that is on promotion on top
+        // follow by available and not on promotion food
+        //unavailable food will not be displayed
+        String promotion = "";
+        String available = "";
+
+        Node currentNode = firstNode;
+        while (currentNode != null) {
+            Food f = (Food) currentNode.getData();
+
+            if (f.getStatus(true) == Food.FOOD_PROMOTION) {
+                promotion += f;
+            }else if(f.getStatus(true) == Food.FOOD_AVAILABLE){
+                available += f;
+            }
+            
+            currentNode = currentNode.getNext();
+        }
+        
+        System.out.println(promotion + available);
+    }
 }
