@@ -5,20 +5,14 @@
  */
 package ADT;
 
+import fastestdeliveryman.Food;
+
 /**
  *
  * @author Leo
  * @param <T>
  */
-public interface LinkedFoodListInterface<T> {
-    public void add(T newEntry);
-    public boolean add(T newEntry, int newPosition);
-    public T remove(int givenPosition);
-    public void clear();
-    public boolean replace(int givenPosition, T newEntry);
-    public T getEntry(int givenPosition);
-    public boolean contains(T entry);
-    public int getNumberOfEntries();
-    public boolean isEmpty();
+public interface LinkedFoodListInterface<T> extends ListInterface<T> {
     public void displayMenuItemWithStatusOrder();
+    public Food getFoodByID(int ID);
 }
