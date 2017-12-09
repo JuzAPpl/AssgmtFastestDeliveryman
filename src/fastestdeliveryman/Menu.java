@@ -20,8 +20,7 @@ public class Menu implements MenuInterface {
     private int length;
 
     public Menu() {
-        linkedFood.add(new Food(1, "Cake", 2, 3, 0));
-        linkedFood.add(new Food(2, "Coke", 3, 1, 1));
+        
     }
 
     public Menu(Food[] menu) {
