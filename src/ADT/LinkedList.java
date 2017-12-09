@@ -7,16 +7,15 @@ import fastestdeliveryman.Food;
  * @author Lim Fang Chun
  * @param <T>
  */
-public class LinkedList<T> implements ListInterface<T> {
+public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
     private static int countEntry = 0;
 
     public LinkedList() {
-        firstNode = new Node();
-        firstNode.setNext(lastNode);
-        lastNode = new Node();
+        firstNode = null;
+        lastNode = null;
     }
 
     @Override
@@ -28,9 +27,9 @@ public class LinkedList<T> implements ListInterface<T> {
 
             lastNode = newNode;
         } else {
-            newNode.setPrevious(lastNode);
-            lastNode.setNext(newNode);
-            lastNode = lastNode.getNext();
+            newNode.previous = lastNode;
+            lastNode.next = newNode;
+            lastNode = lastNode.next;
         }
         ++countEntry;
     }
@@ -41,32 +40,39 @@ public class LinkedList<T> implements ListInterface<T> {
             Node newNode = new Node(newEntry);
 
             if (newPosition == 1) {
-                newNode.setNext(firstNode);
-                firstNode = newNode;
+                //add new entry to first place
+                add(newEntry);
             } else if (newPosition == countEntry + 1) {
-                newNode.setPrevious(lastNode);
-                lastNode.setNext(newNode);
+                //add new entry to last place
+                //total entry + 1 = last entry
+                newNode.previous = lastNode;
+                lastNode.next = newNode;
                 lastNode = newNode;
             } else {
                 Node nodeBefore;
+                //if newPosition > total entry / 2
+                //start the traverse from beginning
+                //otherwise traverse from behind of list
+                
                 if (newPosition <= countEntry / 2) {
                     nodeBefore = firstNode;
                     for (int i = 1; i <= newPosition - 1; ++i) {
-                        nodeBefore = nodeBefore.getNext();
+                        nodeBefore = nodeBefore.next;
                     }
                 } else {
                     nodeBefore = lastNode;
                     for (int i = countEntry; i >= countEntry - newPosition + 1; --i) {
-                        nodeBefore = nodeBefore.getPrevious();
+                        nodeBefore = nodeBefore.previous;
                     }
                 }
 
-                Node nodeAfter = nodeBefore.getNext();
+                //update link
+                Node nodeAfter = nodeBefore.next;
 
-                newNode.setPrevious(nodeBefore);
-                newNode.setNext(nodeAfter);
-                nodeBefore.setNext(newNode);
-                nodeAfter.setPrevious(newNode);
+                newNode.previous = nodeBefore;
+                newNode.next = nodeAfter;
+                nodeBefore.next = newNode;
+                nodeAfter.previous = newNode;
             }
             ++countEntry;
             return true;
@@ -81,25 +87,30 @@ public class LinkedList<T> implements ListInterface<T> {
 
         if (givenPosition >= 1 && givenPosition <= countEntry) {
             if (givenPosition == 1) {
-                result = (T) firstNode.getData();
-                firstNode = firstNode.getNext();
-                firstNode.setPrevious(null);
+                result =  firstNode.data;
+                firstNode = firstNode.next;
+                firstNode.previous = null;
             } else if (givenPosition == countEntry) {
-                result = (T) lastNode.getData();
-                lastNode = lastNode.getPrevious();
-                lastNode.setNext(null);
+                result = lastNode.data;
+                lastNode = lastNode.previous;
+                lastNode.next = null;
             } else {
                 Node nodeBefore = firstNode;
                 for (int i = 1; i < givenPosition - 1; ++i) {
-                    nodeBefore = nodeBefore.getNext();
+                    nodeBefore = nodeBefore.next;
                 }
 
-                Node nodeAfter = nodeBefore.getNext();
+                Node nodeAfter = nodeBefore.next;
 
-                result = (T) nodeAfter.getData();
-                nodeAfter = nodeAfter.getNext();
-                nodeAfter.setPrevious(nodeBefore);
-                nodeBefore.setNext(nodeAfter);
+                //get data into result
+                result = nodeAfter.data;
+                
+                //update nodeAfter, traverse one more time;
+                nodeAfter = nodeAfter.next;
+                
+                //update linking of nodes
+                nodeAfter.previous = nodeBefore;
+                nodeBefore.next = nodeAfter;
             }
 
             --countEntry;
@@ -118,9 +129,9 @@ public class LinkedList<T> implements ListInterface<T> {
     public boolean replace(int givenPosition, T newEntry) {
         if (givenPosition >= 1 && givenPosition <= countEntry) {
             if (givenPosition == 1) {
-                firstNode.setData(newEntry);
+                firstNode.data = newEntry;
             } else if (givenPosition == countEntry) {
-                lastNode.setData(newEntry);
+                lastNode.data = newEntry;
             } else {
                 Node currentNode;
                 //if given position is less than half of total entries
@@ -133,15 +144,15 @@ public class LinkedList<T> implements ListInterface<T> {
                 if (givenPosition <= countEntry / 2) {
                     currentNode = firstNode;
                     for (int i = 1; i <= givenPosition; ++i) {
-                        currentNode = currentNode.getNext();
+                        currentNode = currentNode.next;
                     }
                 } else {
                     currentNode = lastNode;
                     for (int i = countEntry; i >= countEntry - givenPosition; --i) {
-                        currentNode = currentNode.getPrevious();
+                        currentNode = currentNode.previous;
                     }
                 }
-                currentNode.setData(newEntry);
+                currentNode.data = newEntry;
             }
             return true;
         } else {
@@ -153,9 +164,9 @@ public class LinkedList<T> implements ListInterface<T> {
     public T getEntry(int givenPosition) {
         if (givenPosition >= 1 && givenPosition <= countEntry) {
             if (givenPosition == 1) {
-                return (T) firstNode.getData();
+                return firstNode.data;
             } else if (givenPosition == countEntry) {
-                return (T) lastNode.getData();
+                return lastNode.data;
             } else {
                 Node currentNode;
                 //if given position is less than half of total entries
@@ -168,16 +179,16 @@ public class LinkedList<T> implements ListInterface<T> {
                 if (givenPosition <= countEntry / 2) {
                     currentNode = firstNode;
                     for (int i = 1; i < givenPosition; ++i) {
-                        currentNode = currentNode.getNext();
+                        currentNode = currentNode.next;
                     }
                 } else {
                     currentNode = lastNode;
                     for (int i = 1; i < countEntry - givenPosition + 1; ++i) {
-                        currentNode = currentNode.getPrevious();
+                        currentNode = currentNode.previous;
                     }
                 }
 
-                return (T) currentNode.getData();
+                return currentNode.data;
             }
         } else {
             return null;
@@ -189,10 +200,10 @@ public class LinkedList<T> implements ListInterface<T> {
         Node currentNode = firstNode;
 
         while (currentNode != null) {
-            if (currentNode.getData().equals(entry)) {
+            if (currentNode.next.equals(entry)) {
                 return true;
             }
-            currentNode = currentNode.getNext();
+            currentNode = currentNode.next;
         }
 
         return false;
@@ -213,13 +224,14 @@ public class LinkedList<T> implements ListInterface<T> {
         String msg = "";
         Node currentNode = firstNode;
         while (currentNode != null) {
-            msg += (T) (currentNode.getData()).toString();
+            msg += (currentNode.data).toString();
             //msg += "\n";
-            currentNode = currentNode.getNext();
+            currentNode = currentNode.next;
         }
         return msg;
     }
 
+    @Override
     public void displayMenuItemWithStatusOrder() {
         //this method is only Menu class only
         //this method will display food status that is on promotion on top
@@ -230,7 +242,7 @@ public class LinkedList<T> implements ListInterface<T> {
 
         Node currentNode = firstNode;
         while (currentNode != null) {
-            Food f = (Food) currentNode.getData();
+            Food f = (Food) currentNode.data;
 
             if (f.getStatus(true) == Food.FOOD_PROMOTION) {
                 promotion += f;
@@ -238,9 +250,34 @@ public class LinkedList<T> implements ListInterface<T> {
                 available += f;
             }
             
-            currentNode = currentNode.getNext();
+            currentNode = currentNode.next;
         }
         
         System.out.println(promotion + available);
+    }
+    
+    
+    private class Node{
+        T data;
+        Node next;
+        Node previous;
+
+        public Node(T data) {
+            this.data = data;
+            this.next = null;
+            this.previous = null;
+        }
+
+        public Node(T data, Node next) {
+            this.data = data;
+            this.next = next;
+            this.previous = null;
+        }
+
+        public Node(T data, Node next, Node previous) {
+            this.data = data;
+            this.next = next;
+            this.previous = previous;
+        }
     }
 }
