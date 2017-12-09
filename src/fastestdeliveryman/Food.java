@@ -110,7 +110,7 @@ public class Food implements FoodInterface {
     
     public static int getNewFoodStatus() {
         Scanner reader = new Scanner(System.in);
-        int newStatus;
+        int newStatus = Food.FOOD_AVAILABLE;
         int choiceOfStatus;
         Boolean validInput;
 
@@ -120,12 +120,11 @@ public class Food implements FoodInterface {
             System.out.println("1. Available");
             System.out.println("2. Promotion");
             System.out.println("3. Unavailable");
-            System.out.println("-1. Cancel");
             System.out.println("========================================");
             System.out.print("Your choice: ");
             choiceOfStatus = Integer.parseInt(reader.nextLine());
 
-            validInput = choiceOfStatus == -1 || (choiceOfStatus >= 1 && choiceOfStatus <= 3);
+            validInput = (choiceOfStatus >= 1 && choiceOfStatus <= 3);
 
             if (!validInput) {
                 System.out.println("===================");
@@ -145,8 +144,6 @@ public class Food implements FoodInterface {
             case 3:
                 newStatus = FOOD_UNAVAILABLE;
                 break;
-            default:
-                newStatus = -1;
         }
         return newStatus;
     }
