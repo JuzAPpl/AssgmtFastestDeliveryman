@@ -256,6 +256,45 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         System.out.println(promotion + available);
     }
     
+    @Override
+    public Food getFoodByID(int ID){
+        //instantly return first node's data if ID is 1
+        if(ID == 1){
+            Food f = (Food)firstNode.data;
+            return f;
+        }
+        
+        //instantly return last node's data if ID is equals to total entries
+        if(ID == countEntry){
+            Food f = (Food)lastNode.data;
+            return f;
+        }
+        
+        //start the traverse from beginning of list if ID is less than half of
+        //total entries
+        if(ID <= countEntry/2){
+            Node currentNode = firstNode;
+            while (currentNode != null) {
+                Food f = (Food) currentNode.data;
+                if (f.getID() == ID) {
+                    return f;
+                }
+                currentNode = currentNode.next;
+            }
+        }
+        
+        //otherwise start traverse from end of list
+        Node currentNode = lastNode;
+        while(lastNode != null){
+            Food f = (Food) currentNode.data;
+                if (f.getID() == ID) {
+                    return f;
+                }
+                currentNode = currentNode.previous;
+        }
+        
+        return null;
+    }
     
     private class Node{
         T data;
