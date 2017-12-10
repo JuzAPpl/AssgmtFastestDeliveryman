@@ -6,6 +6,7 @@
 package fastestdeliveryman;
 
 import java.util.Scanner;
+import ADT.*;
 
 /**
  *
@@ -13,11 +14,10 @@ import java.util.Scanner;
  */
 
 public class Food implements FoodInterface {
-    
+
     public static final int FOOD_UNAVAILABLE = 0;
     public static final int FOOD_AVAILABLE = 1;
     public static final int FOOD_PROMOTION = 2;
-    
 
     private int ID;
     private String name;
@@ -25,24 +25,25 @@ public class Food implements FoodInterface {
     private double preparationTime;
 
     private int status; //0: unavailable, 1: available, 2: promotion
-    
-    public Food(){
+
+    public Food() {
         this(-1, "", -1.0, -1.0, 0);
     }
-    
-    public Food(int ID, String name, double price, double preparationTime, int status){
-        this.ID=ID;
-        this.name=name;
-        this.price=price;
-        this.preparationTime=preparationTime;
-        this.status=status;
+
+    public Food(int ID, String name, double price, double preparationTime, int status) {
+        this.ID = ID;
+        this.name = name;
+        this.price = price;
+        this.preparationTime = preparationTime;
+        this.status = status;
     }
 
     //setters and getters
-    public int getID(){
+    @Override
+    public int getID() {
         return ID;
     }
-    
+
     @Override
     public void setName(String name) {
         this.name = name;
@@ -73,9 +74,38 @@ public class Food implements FoodInterface {
         return String.format("%.1f", preparationTime);
     }
 
+    @Override
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public String getStatusString() {
+        String status;
+        switch (this.status) {
+            case FOOD_UNAVAILABLE:
+                status = "Unavailable";
+                break;
+            case FOOD_AVAILABLE:
+                status = "Available";
+                break;
+            case FOOD_PROMOTION:
+                status = "Promotion";
+                break;
+            default:
+                status = "";
+                break;
+        }
+        return status;
+    }
+    
+    public int getStatus(){
+        return status;
+    }
+    
     public static int getNewFoodStatus() {
         Scanner reader = new Scanner(System.in);
-        int newStatus ;
+        int newStatus = Food.FOOD_AVAILABLE;
         int choiceOfStatus;
         Boolean validInput;
 
@@ -85,11 +115,18 @@ public class Food implements FoodInterface {
             System.out.println("1. Available");
             System.out.println("2. Promotion");
             System.out.println("3. Unavailable");
-            System.out.println("-1. Cancel");
             System.out.println("========================================");
             System.out.print("Your choice: ");
             choiceOfStatus = Integer.parseInt(reader.nextLine());
-            validInput = choiceOfStatus == -1 || (choiceOfStatus >= 1 && choiceOfStatus <= 3);
+
+            validInput = (choiceOfStatus >= 1 && choiceOfStatus <= 3);
+
+            if (!validInput) {
+                System.out.println("===================");
+                System.out.println("Invalid choice");
+                System.out.println("Please try again");
+                System.out.println("===================");
+            }
         } while (!validInput);
 
         switch (choiceOfStatus) {
@@ -102,8 +139,6 @@ public class Food implements FoodInterface {
             case 3:
                 newStatus = FOOD_UNAVAILABLE;
                 break;
-            default:
-                newStatus = -1;
         }
         return newStatus;
     }
@@ -114,30 +149,6 @@ public class Food implements FoodInterface {
 //    }
     
     public String toString(){
-        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatus());
-    }
-    
-    
-    public void setStatus(int status){
-        this.status=status;
-    }
-    
-    public String getStatus(){
-        String status;
-        switch(this.status){
-            case FOOD_UNAVAILABLE:
-                status = "Unavailable";
-                break;
-            case FOOD_AVAILABLE:
-                status="Available";
-                break;
-            case FOOD_PROMOTION:
-                status="Promotion";
-                break;
-            default:
-                status = "";
-                break;
-        }
-        return status;
+        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
     }
 }
