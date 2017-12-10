@@ -53,7 +53,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
                 //if newPosition > total entry / 2
                 //start the traverse from beginning
                 //otherwise traverse from behind of list
-                
+
                 if (newPosition <= countEntry / 2) {
                     nodeBefore = firstNode;
                     for (int i = 1; i <= newPosition - 1; ++i) {
@@ -87,7 +87,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
         if (givenPosition >= 1 && givenPosition <= countEntry) {
             if (givenPosition == 1) {
-                result =  firstNode.data;
+                result = firstNode.data;
                 firstNode = firstNode.next;
                 firstNode.previous = null;
             } else if (givenPosition == countEntry) {
@@ -104,10 +104,10 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
                 //get data into result
                 result = nodeAfter.data;
-                
+
                 //update nodeAfter, traverse one more time;
                 nodeAfter = nodeAfter.next;
-                
+
                 //update linking of nodes
                 nodeAfter.previous = nodeBefore;
                 nodeBefore.next = nodeAfter;
@@ -224,7 +224,9 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         String msg = "";
         Node currentNode = firstNode;
         while (currentNode != null) {
-            msg += (currentNode.data).toString();
+            if (currentNode.data != null) {
+                msg += (currentNode.data).toString();
+            }
             //msg += "\n";
             currentNode = currentNode.next;
         }
@@ -246,33 +248,33 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
             if (f.getStatus(true) == Food.FOOD_PROMOTION) {
                 promotion += f;
-            }else if(f.getStatus(true) == Food.FOOD_AVAILABLE){
+            } else if (f.getStatus(true) == Food.FOOD_AVAILABLE) {
                 available += f;
             }
-            
+
             currentNode = currentNode.next;
         }
-        
+
         System.out.println(promotion + available);
     }
-    
+
     @Override
-    public Food getFoodByID(int ID){
+    public Food getFoodByID(int ID) {
         //instantly return first node's data if ID is 1
-        if(ID == 1){
-            Food f = (Food)firstNode.data;
+        if (ID == 1) {
+            Food f = (Food) firstNode.data;
             return f;
         }
-        
+
         //instantly return last node's data if ID is equals to total entries
-        if(ID == countEntry){
-            Food f = (Food)lastNode.data;
+        if (ID == countEntry) {
+            Food f = (Food) lastNode.data;
             return f;
         }
-        
+
         //start the traverse from beginning of list if ID is less than half of
         //total entries
-        if(ID <= countEntry/2){
+        if (ID <= countEntry / 2) {
             Node currentNode = firstNode;
             while (currentNode != null) {
                 Food f = (Food) currentNode.data;
@@ -282,21 +284,22 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
                 currentNode = currentNode.next;
             }
         }
-        
+
         //otherwise start traverse from end of list
         Node currentNode = lastNode;
-        while(lastNode != null){
+        while (lastNode != null) {
             Food f = (Food) currentNode.data;
-                if (f.getID() == ID) {
-                    return f;
-                }
-                currentNode = currentNode.previous;
+            if (f.getID() == ID) {
+                return f;
+            }
+            currentNode = currentNode.previous;
         }
-        
+
         return null;
     }
-    
-    private class Node{
+
+    private class Node {
+
         T data;
         Node next;
         Node previous;
