@@ -23,6 +23,7 @@ public class Food implements FoodInterface {
     private String name;
     private double price;
     private double preparationTime;
+    private Affiliate foodOwner;
 
     private int status; //0: unavailable, 1: available, 2: promotion
 

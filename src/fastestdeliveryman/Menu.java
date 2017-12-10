@@ -18,7 +18,7 @@ public class Menu implements MenuInterface {
     private Food[] food = new Food[100];
     private int countFood = 0;
     private int length;
-    private LinkedQueue<Integer> emptyFoodID = new LinkedQueue();
+    private LinkedQueue<Integer> emptyFoodID = new LinkedQueue<>();
 
     public Menu() {
 
@@ -119,11 +119,11 @@ public class Menu implements MenuInterface {
     }
 
     public void addFood(Food food) {
-        this.food[length++] = food;
+        linkedFood.add(food);
     }
 
-    public Food[] getMenu() {
-        return food;
+    public LinkedList<Food> getMenu() {
+        return linkedFood;
     }
 
     @Override
@@ -173,7 +173,7 @@ public class Menu implements MenuInterface {
     }
 
     public int getLength() {
-        return length;
+        return linkedFood.getNumberOfEntries();
     }
 
     @Override

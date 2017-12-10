@@ -11,7 +11,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
     private Node firstNode;
     private Node lastNode;
-    private static int countEntry = 0;
+    private int countEntry = 0;
 
     public LinkedList() {
         firstNode = null;
@@ -27,13 +27,9 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
             lastNode = newNode;
         } else {
-//            newNode.previous = lastNode;
-//            lastNode.next = newNode;
-//            lastNode = lastNode.next;
-            
+            newNode.previous = lastNode;
             lastNode.next = newNode;
             lastNode = lastNode.next;
-            newNode.previous = lastNode;
         }
         ++countEntry;
     }
