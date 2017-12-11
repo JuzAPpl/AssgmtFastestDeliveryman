@@ -34,6 +34,20 @@ public class TestDisplayMenu {
 //        a.add(new Food(1, "Cake", 2, 3, 0));
 //        a.add(new Food(2, "Coke", 3, 1, 1));
 //        System.out.println(a);
+
+//            LinkedFoodListInterface<Food> a = new LinkedList<>();
+//            a.add(new Food(1, "Cake", 2, 3, 1));
+//            System.out.println(a.getFoodByID(1));
+
+//        MenuInterface a = new Menu();
+//        a.addFood();
+//        a.addFood();
+//        a.addFood();
+//        a.removeFood();
+//        System.out.println(a);
+//        a.addFood();
+//        System.out.println(a);
+        
     }
     
 }
