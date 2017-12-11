@@ -12,7 +12,7 @@ import ADT.*;
  *
  * @author Gan Zhen Jie, Lim Fang Chun
  */
-public class Menu implements MenuInterface {
+public class Menu implements MenuInterface{
 
     private LinkedList<Food> linkedFood = new LinkedList<>();
     private Food[] food = new Food[100];
@@ -237,6 +237,10 @@ public class Menu implements MenuInterface {
         return msg;
     }
 
+    public void setRestaurant(Affiliate aff){
+        //set the affiliate of food under this menu to the affiliate provided in paramenter
+        
+    }
     public void sortByID() {
         //TODO: sort food list by ascending order  of "ID" field
     }

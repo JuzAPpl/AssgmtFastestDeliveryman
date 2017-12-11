@@ -23,7 +23,7 @@ public class Food implements FoodInterface {
     private String name;
     private double price;
     private double preparationTime;
-    private Affiliate foodOwner;
+    private Affiliate restaurant;
 
     private int status; //0: unavailable, 1: available, 2: promotion
 
@@ -37,6 +37,14 @@ public class Food implements FoodInterface {
         this.price = price;
         this.preparationTime = preparationTime;
         this.status = status;
+    }
+    public Food(int ID, String name, double price, double preparationTime, int status, Affiliate restaurant) {
+        this.ID = ID;
+        this.name = name;
+        this.price = price;
+        this.preparationTime = preparationTime;
+        this.status = status;
+        this.restaurant=restaurant;
     }
 
     //setters and getters
@@ -144,6 +152,15 @@ public class Food implements FoodInterface {
         return newStatus;
     }
 
+    public Affiliate getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Affiliate restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    
     @Override
 //    public String toString() {
 //        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
