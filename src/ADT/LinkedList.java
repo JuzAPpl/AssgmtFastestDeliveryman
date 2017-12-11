@@ -7,7 +7,7 @@ import fastestdeliveryman.Food;
  * @author Lim Fang Chun
  * @param <T>
  */
-public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T>, IDInterface<T> {
+public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
@@ -296,23 +296,6 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         }
 
         return null;
-    }
-
-    @Override
-    public int getNextID() {
-        Node currentNode = firstNode;
-        int ID = countEntry;
-        while (currentNode != null) {
-            int temp = (Integer) currentNode.data;
-//            if(temp == 1)
-//                return temp;
-
-            if (temp < ID) {
-                ID = temp;
-            }
-            currentNode = currentNode.next;
-        }
-        return ID;
     }
 
     private class Node {
