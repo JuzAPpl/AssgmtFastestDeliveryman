@@ -13,11 +13,11 @@ public class LinkedList<T> implements ListInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
-    private static int countEntry = 0;
+    private int countEntry = 0;
 
     public LinkedList() {
         clear();
-        ++countEntry;
+      
     }
 
     @Override
@@ -28,7 +28,7 @@ public class LinkedList<T> implements ListInterface<T> {
             firstNode = newNode;
         } else {
             Node currentNode = firstNode;
-            while (firstNode.getNext() != null) {
+            while (currentNode.getNext() != null) {
                 currentNode = currentNode.getNext();
             }
             currentNode.setNext(newNode);
@@ -77,7 +77,27 @@ public class LinkedList<T> implements ListInterface<T> {
 
     @Override
     public T getEntry(int givenPosition) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        T targetEntry = null;
+        Node currentNode = firstNode;
+        if(givenPosition == 0)
+            targetEntry = (T) firstNode.getData();
+        else if(givenPosition == countEntry)
+        {
+            targetEntry = (T) lastNode.getData();
+        }
+        else
+        {
+            for(int i=0; i<countEntry ; i++)
+            {
+                if(i == givenPosition -1)
+                {
+                    targetEntry = (T) currentNode.getData();
+                }
+                currentNode = currentNode.getNext();
+            }
+        }
+        
+        return targetEntry;
     }
 
     @Override
