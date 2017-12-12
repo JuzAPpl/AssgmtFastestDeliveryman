@@ -89,9 +89,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
             if (givenPosition == 1) {
                 result = firstNode.data;
                 firstNode = firstNode.next;
-                if (firstNode != null) {
-                    firstNode.previous = null;
-                }
+                firstNode.previous = null;
             } else if (givenPosition == countEntry) {
                 result = lastNode.data;
                 lastNode = lastNode.previous;
@@ -234,14 +232,14 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         }
         return msg;
     }
-
-    public String toString2() {
+    
+        public String toString2() {
         String msg = "";
-        int count = 0;
+        int count=0;
         Node currentNode = firstNode;
         while (currentNode != null) {
             if (currentNode.data != null) {
-                msg += ++count + ". " + (currentNode.data).toString();
+                msg += ++count +". "+ (currentNode.data).toString();
             }
             //msg += "\n";
             currentNode = currentNode.next;

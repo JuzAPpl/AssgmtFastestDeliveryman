@@ -376,7 +376,7 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
             if (clear == 1) {
                 String YorN;
                 Scanner scanYorN = new Scanner(System.in);
-                System.out.println("\nAre you sure to cancle all?(y/n)");
+                System.out.println("\nAre you sure to cancel all?(y/n)");
                 YorN = scanYorN.nextLine();
                 if (YorN.equals("y") || YorN.equals("Y")) {
                     linkedScheduledOrder.clear();
@@ -457,7 +457,7 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
 
     }
 
-    @Override
+    
     public void adding(ScheduledOrderInterface S) {
         ScheduledOrder s = new ScheduledOrder();
         s = (ScheduledOrder) S;
