@@ -1,23 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ADT;
+
+import fastestdeliveryman.Food;
 
 /**
  *
- * @author Leo
+ * @author Lim Fang Chun
+ * @param <T>
  */
-public class LinkedList<T> implements ListInterface<T> {
+public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
     private int countEntry = 0;
 
     public LinkedList() {
-        clear();
-      
+        firstNode = null;
+        lastNode = null;
     }
 
     @Override
@@ -26,31 +24,55 @@ public class LinkedList<T> implements ListInterface<T> {
 
         if (isEmpty()) {
             firstNode = newNode;
+
+            lastNode = newNode;
         } else {
-            Node currentNode = firstNode;
-            while (currentNode.getNext() != null) {
-                currentNode = currentNode.getNext();
-            }
-            currentNode.setNext(newNode);
+            newNode.previous = lastNode;
+            lastNode.next = newNode;
+            lastNode = lastNode.next;
         }
         ++countEntry;
     }
 
     @Override
-    public boolean add(int newPosition, T newEntry) {
+    public boolean add(T newEntry, int newPosition) {
         if (newPosition >= 1 && newPosition <= countEntry + 1) {
             Node newNode = new Node(newEntry);
 
-            if (isEmpty() || newPosition == 1) {
-                newNode.setNext(firstNode);
-                firstNode = newNode;
+            if (newPosition == 1) {
+                //add new entry to first place
+                add(newEntry);
+            } else if (newPosition == countEntry + 1) {
+                //add new entry to last place
+                //total entry + 1 = last entry
+                newNode.previous = lastNode;
+                lastNode.next = newNode;
+                lastNode = newNode;
             } else {
-                Node nodeBefore = firstNode;
-                for (int i = 1; i < newPosition - 1; ++i) {
-                    nodeBefore = nodeBefore.getNext();
+                Node nodeBefore;
+                //if newPosition > total entry / 2
+                //start the traverse from beginning
+                //otherwise traverse from behind of list
+
+                if (newPosition <= countEntry / 2) {
+                    nodeBefore = firstNode;
+                    for (int i = 1; i < newPosition - 1; ++i) {
+                        nodeBefore = nodeBefore.next;
+                    }
+                } else {
+                    nodeBefore = lastNode;
+                    for (int i = 1; i <= countEntry - newPosition + 1; ++i) {
+                        nodeBefore = nodeBefore.previous;
+                    }
                 }
-                newNode.setNext(nodeBefore.getNext());
-                nodeBefore.setNext(newNode);
+
+                //update link
+                Node nodeAfter = nodeBefore.next;
+
+                newNode.previous = nodeBefore;
+                newNode.next = nodeAfter;
+                nodeBefore.next = newNode;
+                nodeAfter.previous = newNode;
             }
             ++countEntry;
             return true;
@@ -61,7 +83,40 @@ public class LinkedList<T> implements ListInterface<T> {
 
     @Override
     public T remove(int givenPosition) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        T result = null;
+
+        if (givenPosition >= 1 && givenPosition <= countEntry) {
+            if (givenPosition == 1) {
+                result = firstNode.data;
+                firstNode = firstNode.next;
+                firstNode.previous = null;
+            } else if (givenPosition == countEntry) {
+                result = lastNode.data;
+                lastNode = lastNode.previous;
+                lastNode.next = null;
+            } else {
+                Node nodeBefore = firstNode;
+                for (int i = 1; i < givenPosition - 1; ++i) {
+                    nodeBefore = nodeBefore.next;
+                }
+
+                Node nodeAfter = nodeBefore.next;
+
+                //get data into result
+                result = nodeAfter.data;
+
+                //update nodeAfter, traverse one more time;
+                nodeAfter = nodeAfter.next;
+
+                //update linking of nodes
+                nodeAfter.previous = nodeBefore;
+                nodeBefore.next = nodeAfter;
+            }
+
+            --countEntry;
+        }
+        return result;
+
     }
 
     @Override
@@ -71,38 +126,87 @@ public class LinkedList<T> implements ListInterface<T> {
     }
 
     @Override
-    public boolean replace(int givenPosition, Object newEntry) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean replace(int givenPosition, T newEntry) {
+        if (givenPosition >= 1 && givenPosition <= countEntry) {
+            if (givenPosition == 1) {
+                firstNode.data = newEntry;
+            } else if (givenPosition == countEntry) {
+                lastNode.data = newEntry;
+            } else {
+                Node currentNode;
+                //if given position is less than half of total entries
+                //start the loop from beginnning
+                //else start the loop from the end
+                //eg. total entries = 100
+                //    given position = 90
+                //if the loop starts from the end
+                //the loop will iterate for 10 times only
+                if (givenPosition <= countEntry / 2) {
+                    currentNode = firstNode;
+                    for (int i = 1; i < givenPosition; ++i) {
+                        currentNode = currentNode.next;
+                    }
+                } else {
+                    currentNode = lastNode;
+                    for (int i = 1; i <= countEntry - givenPosition; ++i) {
+                        currentNode = currentNode.previous;
+                    }
+                }
+                currentNode.data = newEntry;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public T getEntry(int givenPosition) {
-        T targetEntry = null;
-        Node currentNode = firstNode;
-        if(givenPosition == 0)
-            targetEntry = (T) firstNode.getData();
-        else if(givenPosition == countEntry)
-        {
-            targetEntry = (T) lastNode.getData();
-        }
-        else
-        {
-            for(int i=0; i<countEntry ; i++)
-            {
-                if(i == givenPosition -1)
-                {
-                    targetEntry = (T) currentNode.getData();
+        if (givenPosition >= 1 && givenPosition <= countEntry) {
+            if (givenPosition == 1) {
+                return firstNode.data;
+            } else if (givenPosition == countEntry) {
+                return lastNode.data;
+            } else {
+                Node currentNode;
+                //if given position is less than half of total entries
+                //start the loop from beginnning
+                //else start the loop from the end
+                //eg. total entries = 100
+                //    given position = 90
+                //if the loop starts from the end
+                //the loop will iterate for 10 times only
+                if (givenPosition <= countEntry / 2) {
+                    currentNode = firstNode;
+                    for (int i = 1; i < givenPosition; ++i) {
+                        currentNode = currentNode.next;
+                    }
+                } else {
+                    currentNode = lastNode;
+                    for (int i = 1; i < countEntry - givenPosition + 1; ++i) {
+                        currentNode = currentNode.previous;
+                    }
                 }
-                currentNode = currentNode.getNext();
+
+                return currentNode.data;
             }
+        } else {
+            return null;
         }
-        
-        return targetEntry;
     }
 
     @Override
-    public boolean contains(Object anEntry) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean contains(T entry) {
+        Node currentNode = firstNode;
+
+        while (currentNode != null) {
+            if (currentNode.next.equals(entry)) {
+                return true;
+            }
+            currentNode = currentNode.next;
+        }
+
+        return false;
     }
 
     @Override
@@ -113,5 +217,109 @@ public class LinkedList<T> implements ListInterface<T> {
     @Override
     public boolean isEmpty() {
         return countEntry == 0;
+    }
+
+    @Override
+    public String toString() {
+        String msg = "";
+        Node currentNode = firstNode;
+        while (currentNode != null) {
+            if (currentNode.data != null) {
+                msg += (currentNode.data).toString() + "\n";
+            }
+            //msg += "\n";
+            currentNode = currentNode.next;
+        }
+        return msg;
+    }
+
+    @Override
+    public void displayMenuItemWithStatusOrder() {
+        //this method is only Menu class only
+        //this method will display food status that is on promotion on top
+        // follow by available and not on promotion food
+        //unavailable food will not be displayed
+        String promotion = "";
+        String available = "";
+
+        Node currentNode = firstNode;
+        while (currentNode != null) {
+            Food f = (Food) currentNode.data;
+
+            if (f.getStatus() == Food.FOOD_PROMOTION) {
+                promotion += f + "\n";
+            } else if (f.getStatus() == Food.FOOD_AVAILABLE) {
+                available += f + "\n";
+            }
+
+            currentNode = currentNode.next;
+        }
+
+        System.out.println(promotion + available);
+    }
+
+    @Override
+    public Food getFoodByID(int ID) {
+        //instantly return first node's data if ID is 1
+        if (ID == 1) {
+            Food f = (Food) firstNode.data;
+            return f;
+        }
+
+        //instantly return last node's data if ID is equals to total entries
+        if (ID == countEntry) {
+            Food f = (Food) lastNode.data;
+            return f;
+        }
+
+        //start the traverse from beginning of list if ID is less than half of
+        //total entries
+        if (ID <= countEntry / 2) {
+            Node currentNode = firstNode;
+            while (currentNode != null) {
+                Food f = (Food) currentNode.data;
+                if (f.getID() == ID) {
+                    return f;
+                }
+                currentNode = currentNode.next;
+            }
+        }
+
+        //otherwise start traverse from end of list
+        Node currentNode = lastNode;
+        while (lastNode != null) {
+            Food f = (Food) currentNode.data;
+            if (f.getID() == ID) {
+                return f;
+            }
+            currentNode = currentNode.previous;
+        }
+
+        return null;
+    }
+   
+    private class Node {
+
+        T data;
+        Node next;
+        Node previous;
+
+        public Node(T data) {
+            this.data = data;
+            this.next = null;
+            this.previous = null;
+        }
+
+        public Node(T data, Node next) {
+            this.data = data;
+            this.next = next;
+            this.previous = null;
+        }
+
+        public Node(T data, Node next, Node previous) {
+            this.data = data;
+            this.next = next;
+            this.previous = previous;
+        }        
     }
 }

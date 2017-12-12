@@ -11,12 +11,12 @@ package ADT;
  */
 public interface ListInterface<T> {
     public void add(T newEntry);
-    public boolean add(int newPosition, T newEntry);
+    public boolean add(T newEntry, int newPosition);
     public T remove(int givenPosition);
     public void clear();
     public boolean replace(int givenPosition, T newEntry);
     public T getEntry(int givenPosition);
-    public boolean contains(T anEntry);
+    public boolean contains(T entry);
     public int getNumberOfEntries();
     public boolean isEmpty();
 }
