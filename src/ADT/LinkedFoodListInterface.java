@@ -5,16 +5,14 @@
  */
 package ADT;
 
+import fastestdeliveryman.Food;
+
 /**
  *
  * @author Leo
  * @param <T>
  */
-public interface QueueInterface<T> {
-    public void enqueue(T newEntry);
-    public T dequeue();
-    public T getFront();
-    public boolean isEmpty();
-    public void clear();
-    public int getNumberOfEntries();
+public interface LinkedFoodListInterface<T> extends ListInterface<T> {
+    public void displayMenuItemWithStatusOrder();
+    public Food getFoodByID(int ID);
 }
