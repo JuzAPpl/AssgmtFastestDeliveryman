@@ -15,6 +15,7 @@ import ADT.*;
 public class Menu implements MenuInterface{
 
     private LinkedList<Food> linkedFood = new LinkedList<>();
+    private LinkedFoodListInterface<Food> linkedFood = new LinkedList<>();
     private Food[] food = new Food[100];
     private int countFood = 0;
     private int length;
@@ -67,6 +68,7 @@ public class Menu implements MenuInterface{
 
         do {
             //ask affiliate to enter details for new food
+            //request affiliate to enter details for new food
             System.out.println("====================");
             System.out.println("Enter food name: ");
             foodName = reader.nextLine();
@@ -100,16 +102,29 @@ public class Menu implements MenuInterface{
                 Food newFood = new Food(linkedFood.getNumberOfEntries() + 1, foodName, price, preparationTime, foodStatus);
                 linkedFood.add(newFood);
                 //++countFood;
+                if (emptyFoodID.isEmpty()) {
+                    Food newFood = new Food(linkedFood.getNumberOfEntries()+ 1, foodName, price, preparationTime, foodStatus);
+                    linkedFood.add(newFood);
+                } else {
+                    int nextID = emptyFoodID.dequeue();
+                    Food newFood = new Food(nextID, foodName, price, preparationTime, foodStatus);
+                    linkedFood.replace(nextID, newFood);
+                }
+                //linkedFood.add(newFood);
                 validInput = true;
                 System.out.println("====================================");
                 System.out.println("The food has been added to your menu");
                 System.out.println("Food Details: ");
                 System.out.println("======================");
+<<<<<<< HEAD
                 System.out.println("Food ID          : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getID());
                 System.out.println("Food Name        : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getName());
                 System.out.println("Price            : RM" + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getPrice());
                 System.out.println("Preparation Time : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getPreparationTime());
                 System.out.println("Status           : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getStatusString());
+=======
+                displayFoodDetail(linkedFood.getNumberOfEntries());
+>>>>>>> Sprint3-ChiongYF
                 System.out.println("======================");
             } else {
                 System.out.println("Please do not leave any blank space.");
@@ -158,8 +173,11 @@ public class Menu implements MenuInterface{
                     displayFoodDetail(foodID);
                     System.out.println("=====================================");
                     linkedFood.replace(foodID, null);
+                    linkedFood.replace(foodID, null);//////error here
 
                     System.out.println("Your current menu items: ");
+                    System.out.println(String.format("%-5s %20s %9s %17s %10s\n", 
+                                    "ID", "Food Name", "Price", "Preparation time", "Status"));
                     System.out.println(linkedFood);
                     System.out.println("=====================================");
                 }
@@ -194,6 +212,7 @@ public class Menu implements MenuInterface{
             foodID = Integer.parseInt(reader.nextLine());
 
             if (foodID <= linkedFood.getNumberOfEntries() && foodID >= 1) {
+            if (foodID <= linkedFood.getNumberOfEntries()&& foodID >= 1) {
                 newFoodStatus = Food.getNewFoodStatus();
                 System.out.println("==========================================");
                 System.out.println("You have selected the following food: ");
@@ -218,11 +237,20 @@ public class Menu implements MenuInterface{
     }
 
     private void displayFoodDetail(int foodID) {
+<<<<<<< HEAD
         System.out.println("ID:               " + linkedFood.getFoodByID(foodID).getID());
         System.out.println("Food Name:        " + linkedFood.getFoodByID(foodID).getName());
         System.out.println("Price:            " + linkedFood.getFoodByID(foodID).getPrice());
         System.out.println("Preparation Time: " + linkedFood.getFoodByID(foodID).getPreparationTime());
         System.out.println("Status:           " + linkedFood.getFoodByID(foodID).getStatusString());
+=======
+        Food f = linkedFood.getFoodByID(foodID);
+        System.out.println("ID:               " + f.getID());
+        System.out.println("Food Name:        " + f.getName());
+        System.out.println("Price:            " + f.getPrice());
+        System.out.println("Preparation Time: " + f.getPreparationTime());
+        System.out.println("Status:           " + f.getStatus());
+>>>>>>> Sprint3-ChiongYF
     }
 
     @Override

@@ -56,12 +56,12 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
                 if (newPosition <= countEntry / 2) {
                     nodeBefore = firstNode;
-                    for (int i = 1; i <= newPosition - 1; ++i) {
+                    for (int i = 1; i < newPosition - 1; ++i) {
                         nodeBefore = nodeBefore.next;
                     }
                 } else {
                     nodeBefore = lastNode;
-                    for (int i = countEntry; i >= countEntry - newPosition + 1; --i) {
+                    for (int i = 1; i <= countEntry - newPosition + 1; ++i) {
                         nodeBefore = nodeBefore.previous;
                     }
                 }
@@ -143,12 +143,12 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
                 //the loop will iterate for 10 times only
                 if (givenPosition <= countEntry / 2) {
                     currentNode = firstNode;
-                    for (int i = 1; i <= givenPosition; ++i) {
+                    for (int i = 1; i < givenPosition; ++i) {
                         currentNode = currentNode.next;
                     }
                 } else {
                     currentNode = lastNode;
-                    for (int i = countEntry; i >= countEntry - givenPosition; --i) {
+                    for (int i = 1; i <= countEntry - givenPosition; ++i) {
                         currentNode = currentNode.previous;
                     }
                 }
