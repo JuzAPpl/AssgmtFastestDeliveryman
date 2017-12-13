@@ -11,14 +11,14 @@ import ADT.*;
  *
  * @author ASUS
  */
-public class TestDisplayMenu {
+public class TestCustomer {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Customer cust = new Customer();
-        //cust.login();
+        Customer cust = new Customer();
+        cust.login();
 //        LinkedList<AffiliateInterface> a = new LinkedList<>();
 //        a.add(new Affiliate("kappa", "123", "333", "222", "111"));
 //        a.add(new Affiliate("keepo", "123", "resName", "address", "contact"));

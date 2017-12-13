@@ -23,6 +23,7 @@ public class Food implements FoodInterface {
     private String name;
     private double price;
     private double preparationTime;
+    private Affiliate restaurant;
 
     private int status; //0: unavailable, 1: available, 2: promotion
 
@@ -36,6 +37,14 @@ public class Food implements FoodInterface {
         this.price = price;
         this.preparationTime = preparationTime;
         this.status = status;
+    }
+    public Food(int ID, String name, double price, double preparationTime, int status, Affiliate restaurant) {
+        this.ID = ID;
+        this.name = name;
+        this.price = price;
+        this.preparationTime = preparationTime;
+        this.status = status;
+        this.restaurant=restaurant;
     }
 
     //setters and getters
@@ -75,17 +84,12 @@ public class Food implements FoodInterface {
     }
 
     @Override
-    public String toString() {
-        return String.format("%-5d %20s %9.2f %17s %10s\n", ID, name, price, (getPreparationTime() + " min"), getStatus());
-    }
-
-    @Override
     public void setStatus(int status) {
         this.status = status;
     }
 
     @Override
-    public String getStatus() {
+    public String getStatusString() {
         String status;
         switch (this.status) {
             case FOOD_UNAVAILABLE:
@@ -104,7 +108,7 @@ public class Food implements FoodInterface {
         return status;
     }
     
-    public int getStatus(boolean inInteger){
+    public int getStatus(){
         return status;
     }
     
@@ -146,5 +150,23 @@ public class Food implements FoodInterface {
                 break;
         }
         return newStatus;
+    }
+
+    public Affiliate getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Affiliate restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    
+    @Override
+//    public String toString() {
+//        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
+//    }
+    
+    public String toString(){
+        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
     }
 }

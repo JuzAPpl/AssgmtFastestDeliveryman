@@ -225,7 +225,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         Node currentNode = firstNode;
         while (currentNode != null) {
             if (currentNode.data != null) {
-                msg += (currentNode.data).toString();
+                msg += (currentNode.data).toString() + "\n";
             }
             //msg += "\n";
             currentNode = currentNode.next;
@@ -260,10 +260,10 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         while (currentNode != null) {
             Food f = (Food) currentNode.data;
 
-            if (f.getStatus(true) == Food.FOOD_PROMOTION) {
-                promotion += f;
-            } else if (f.getStatus(true) == Food.FOOD_AVAILABLE) {
-                available += f;
+            if (f.getStatus() == Food.FOOD_PROMOTION) {
+                promotion += f + "\n";
+            } else if (f.getStatus() == Food.FOOD_AVAILABLE) {
+                available += f + "\n";
             }
 
             currentNode = currentNode.next;
@@ -311,7 +311,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
         return null;
     }
-
+   
     private class Node {
 
         T data;
@@ -334,6 +334,6 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
             this.data = data;
             this.next = next;
             this.previous = previous;
-        }
+        }        
     }
 }
