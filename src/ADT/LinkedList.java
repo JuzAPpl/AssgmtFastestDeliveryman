@@ -56,12 +56,12 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
                 if (newPosition <= countEntry / 2) {
                     nodeBefore = firstNode;
-                    for (int i = 1; i < newPosition - 1; ++i) {
+                    for (int i = 1; i <= newPosition - 1; ++i) {
                         nodeBefore = nodeBefore.next;
                     }
                 } else {
                     nodeBefore = lastNode;
-                    for (int i = 1; i <= countEntry - newPosition + 1; ++i) {
+                    for (int i = countEntry; i >= countEntry - newPosition + 1; --i) {
                         nodeBefore = nodeBefore.previous;
                     }
                 }
@@ -143,12 +143,12 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
                 //the loop will iterate for 10 times only
                 if (givenPosition <= countEntry / 2) {
                     currentNode = firstNode;
-                    for (int i = 1; i < givenPosition; ++i) {
+                    for (int i = 1; i <= givenPosition; ++i) {
                         currentNode = currentNode.next;
                     }
                 } else {
                     currentNode = lastNode;
-                    for (int i = 1; i <= countEntry - givenPosition; ++i) {
+                    for (int i = countEntry; i >= countEntry - givenPosition; --i) {
                         currentNode = currentNode.previous;
                     }
                 }
@@ -225,7 +225,23 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         Node currentNode = firstNode;
         while (currentNode != null) {
             if (currentNode.data != null) {
-                msg += (currentNode.data).toString() + "\n";
+                msg += (currentNode.data).toString();
+            }
+            //msg += "\n";
+            currentNode = currentNode.next;
+        }
+        return msg;
+    }
+    
+       
+    public String toString2() {
+        int count=1;
+        String msg = "";
+        Node currentNode = firstNode;
+        while (currentNode != null) {
+            if (currentNode.data != null) {
+                msg += count + ". " + (currentNode.data).toString();
+                ++count;
             }
             //msg += "\n";
             currentNode = currentNode.next;
@@ -247,9 +263,9 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
             Food f = (Food) currentNode.data;
 
             if (f.getStatus() == Food.FOOD_PROMOTION) {
-                promotion += f + "\n";
+                promotion += f;
             } else if (f.getStatus() == Food.FOOD_AVAILABLE) {
-                available += f + "\n";
+                available += f;
             }
 
             currentNode = currentNode.next;
@@ -297,7 +313,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
 
         return null;
     }
-   
+
     private class Node {
 
         T data;
@@ -320,6 +336,6 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
             this.data = data;
             this.next = next;
             this.previous = previous;
-        }        
+        }
     }
 }
