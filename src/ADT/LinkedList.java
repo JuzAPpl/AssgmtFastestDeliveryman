@@ -8,7 +8,7 @@ import java.util.Iterator;
  * @author Lim Fang Chun
  * @param <T>
  */
-public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T>, ListWithIteratorInterface<T> {
+public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
@@ -232,71 +232,6 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
             currentNode = currentNode.next;
         }
         return msg;
-    }
-
-    @Override
-    public void displayMenuItemWithStatusOrder() {
-        //this method is only Menu class only
-        //this method will display food status that is on promotion on top
-        // follow by available and not on promotion food
-        //unavailable food will not be displayed
-        String promotion = "";
-        String available = "";
-
-        Node currentNode = firstNode;
-        while (currentNode != null) {
-            Food f = (Food) currentNode.data;
-
-            if (f.getStatus(true) == Food.FOOD_PROMOTION) {
-                promotion += f;
-            } else if (f.getStatus(true) == Food.FOOD_AVAILABLE) {
-                available += f;
-            }
-
-            currentNode = currentNode.next;
-        }
-
-        System.out.println(promotion + available);
-    }
-
-    @Override
-    public Food getFoodByID(int ID) {
-        //instantly return first node's data if ID is 1
-        if (ID == 1) {
-            Food f = (Food) firstNode.data;
-            return f;
-        }
-
-        //instantly return last node's data if ID is equals to total entries
-        if (ID == countEntry) {
-            Food f = (Food) lastNode.data;
-            return f;
-        }
-
-        //start the traverse from beginning of list if ID is less than half of
-        //total entries
-        if (ID <= countEntry / 2) {
-            Node currentNode = firstNode;
-            while (currentNode != null) {
-                Food f = (Food) currentNode.data;
-                if (f.getID() == ID) {
-                    return f;
-                }
-                currentNode = currentNode.next;
-            }
-        }
-
-        //otherwise start traverse from end of list
-        Node currentNode = lastNode;
-        while (lastNode != null) {
-            Food f = (Food) currentNode.data;
-            if (f.getID() == ID) {
-                return f;
-            }
-            currentNode = currentNode.previous;
-        }
-
-        return null;
     }
 
     @Override
