@@ -248,6 +248,20 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         }
         return msg;
     }
+    
+        public String toString2() {
+        String msg = "";
+        int count=0;
+        Node currentNode = firstNode;
+        while (currentNode != null) {
+            if (currentNode.data != null) {
+                msg += ++count +". "+ (currentNode.data).toString();
+            }
+            //msg += "\n";
+            currentNode = currentNode.next;
+        }
+        return msg;
+    }
 
     @Override
     public void displayMenuItemWithStatusOrder() {

@@ -5,6 +5,9 @@
  */
 package fastestdeliveryman;
 
+import ADT.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -14,16 +17,22 @@ import java.util.Scanner;
  */
 public class ScheduledOrder extends Order implements ScheduledOrderInterface {
 
+    private LinkedList<ScheduledOrder> linkedScheduledOrder = new LinkedList<>();
     private String deliveryDate;
     private String deliveryTime;
     private int weeks;
+    private Node firstNode;
 
     public ScheduledOrder() {
 
     }
 
-    public ScheduledOrder(String orderNum, Date orderDay, Food[] orderedFood, String location, String affiliateID, String deliveryDate, String deliveryTime, int weeks) {
-        super.Order(orderNum, orderDay, orderedFood, location, affiliateID);
+    public boolean isEmpty() {
+        return (firstNode == null);
+    }
+
+    public ScheduledOrder(String orderNum, Date orderDay, Food orderedFood, String location, String affiliateID, String deliveryDate, String deliveryTime, int weeks) {
+        super.Order(orderNum, orderDay, null, location, affiliateID);
         this.deliveryDate = deliveryDate;
         this.deliveryTime = deliveryTime;
         this.weeks = weeks;
@@ -54,12 +63,13 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
         this.weeks = weeks;
     }
 
-    @Override
-    public String toString() {
+    private static final DateFormat dateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+    public String toString2() {
         return "\n============================"
                 + "\nScheduledOrder:"
                 + "\norderNum= " + orderNum
-                + "\norderDay= " + orderDay
+                + "\norderDay= " + dateF.format(orderDay)
                 + "\norderedFood= " + orderedFood
                 + "\nlocation= " + location
                 + "\naffiliateID= " + affiliateID
@@ -169,6 +179,7 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
             }
 
         }
+
         return s;
     }
 
@@ -189,7 +200,9 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
     }
 
     public void UpdateDate(ScheduledOrder s) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
+        System.out.println(dateFormat.format(date));
         s.setOrderDay(date);
     }
 
@@ -331,9 +344,95 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
         }
     }
 
+    public String toString() {
+        return "orderNum= " + orderNum
+                + ", orderDay= " + dateF.format(orderDay)
+                + ", orderedFood= " + orderedFood
+                + ", location= " + location
+                + ", affiliateID= " + affiliateID
+                + ", deliveryDate= " + deliveryDate
+                + ", deliveryTime= " + deliveryTime
+                + ", weeks= " + weeks + "\n";
+
+    }
+
     @Override
     public void cancelScheduledOrder() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("\nScheduled Order Cancelation:");
+        System.out.println("\n==============================");
+
+        if (!linkedScheduledOrder.isEmpty()) {
+            System.out.println(linkedScheduledOrder.toString2());
+            System.out.println("==============================");
+
+            int clear;
+            Scanner scanclear = new Scanner(System.in);
+            System.out.println("\n1. Cancle all.");
+            System.out.println("\n2. Cancel one by one.");
+            System.out.println("\n3. Exit");
+            System.out.println("\nWhat you want to do?");
+            clear = scanclear.nextInt();
+
+            if (clear == 1) {
+                String YorN;
+                Scanner scanYorN = new Scanner(System.in);
+                System.out.println("\nAre you sure to cancel all?(y/n)");
+                YorN = scanYorN.nextLine();
+                if (YorN.equals("y") || YorN.equals("Y")) {
+                    linkedScheduledOrder.clear();
+                    Continues();
+                } else if (YorN.equals("n") || YorN.equals("N")) {
+                    Continues();
+                } else {
+                    System.out.println("Invalid Input!");
+                    Continues();
+                }
+            } else if (clear == 2) {
+                int select;
+                Scanner scanselect = new Scanner(System.in);
+                System.out.println("\nWhich Scheduled Order want to cancel?(number of the row)");
+                select = scanselect.nextInt();
+
+                String YorN;
+                Scanner scanYorN = new Scanner(System.in);
+                System.out.println("\nAre you sure to cancel the Scheduled Order no." + select + " ?(y/n)");
+                YorN = scanYorN.nextLine();
+
+                if (YorN.equals("y") || YorN.equals("Y")) {
+                    linkedScheduledOrder.remove(select);
+                    System.out.println(linkedScheduledOrder.toString2());
+                    Continues();
+                } else if (YorN.equals("n") || YorN.equals("N")) {
+                    Continues();
+                } else {
+                    System.out.println("\nInvalid Input!");
+                    Continues();
+                }
+            }else if(clear==3){
+                System.out.println("Main Page");
+            }else {
+                System.out.println("Invalid Input!");
+                Continues();
+            }
+        } else {
+            System.out.println("No Scheduled Order!");
+        }
+    }
+
+    public void Continues() {
+        String continues;
+        Scanner scancontinues = new Scanner(System.in);
+        System.out.println("\nDo you want to continue?(y/n)");
+        continues = scancontinues.nextLine();
+
+        if (continues.equals("y") || continues.equals("Y")) {
+            cancelScheduledOrder();
+        } else if (continues.equals("n") || continues.equals("N")) {
+
+        } else {
+            System.out.println("\nInvalid Input!\n");
+            Continues();
+        }
     }
 
     @Override
@@ -342,8 +441,29 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
     }
 
     public static void main(String[] args) {
-        ScheduledOrderInterface s1 = new ScheduledOrder();
-        s1 = s1.addScheduledOrder();
-        s1.editScheduledOrder(s1);
+        Date date1 = new Date("2017/10/10 12:12:12");
+        Date date2 = new Date("2017/11/11 02:12:1");
+        Date date3 = new Date("2017/12/10 12:12:12");
+
+        ScheduledOrderInterface s1 = new ScheduledOrder("S001", date1, null, "Taman Bunga Raya", "A001", "Monday", "Breakfirst(9.00am)", 5);
+        ScheduledOrderInterface s2 = new ScheduledOrder("S002", date2, null, "Taman Melawati", "A002", "Friday", "Breakfirst(9.00am)", 7);
+        ScheduledOrderInterface s3 = new ScheduledOrder("S003", date3, null, "Taman Tarc", "A003", "Friday", "Lunch(12.00pm)", 3);
+
+        ScheduledOrder so = new ScheduledOrder();
+        so.adding(s1);
+        so.adding(s2);
+        so.adding(s3);
+        so.cancelScheduledOrder();
+
+    }
+
+    
+    public void adding(ScheduledOrderInterface S) {
+        ScheduledOrder s = new ScheduledOrder();
+        s = (ScheduledOrder) S;
+        linkedScheduledOrder.add(s);
     }
 }
+
+//yyyy/MM/dd HH:mm:ss
+//public void addtoNode(ScheduledOrderInterface S);
