@@ -6,6 +6,7 @@
 package fastestdeliveryman;
 
 import ADT.*;
+import java.util.Iterator;
 
 /**
  *
@@ -47,7 +48,16 @@ public class TestDisplayMenu {
 //        System.out.println(a);
 //        a.addFood();
 //        System.out.println(a);
+
+        ListWithIteratorInterface<Food> f = new LinkedList();
+        f.add(new Food(1, "Cake", 2, 3, 1));
+        f.add(new Food(2, "Coke", 3, 1, 1));
         
+        Iterator g = f.getIterator();
+        while(g.hasNext()){
+            Food aa = (Food) g.next();
+            System.out.println(aa.getID());
+        }
     }
     
 }
