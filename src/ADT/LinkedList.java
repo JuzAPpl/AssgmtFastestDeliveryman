@@ -1,13 +1,14 @@
 package ADT;
 
 import fastestdeliveryman.Food;
+import java.util.Iterator;
 
 /**
  *
  * @author Lim Fang Chun
  * @param <T>
  */
-public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T> {
+public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T>, ListWithIteratorInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
@@ -296,6 +297,37 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         }
 
         return null;
+    }
+
+    @Override
+    public Iterator<T> getIterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<T> {
+
+        private Node currentNode;
+
+        public LinkedListIterator() {
+            currentNode = firstNode;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentNode != null;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext()) {
+                T result = currentNode.data;
+                currentNode = currentNode.next;
+                return result;
+            } else {
+                return null;
+            }
+        }
+
     }
 
     private class Node {
