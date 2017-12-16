@@ -7,6 +7,7 @@ package fastestdeliveryman;
 
 import java.util.Scanner;
 import ADT.*;
+import java.util.Iterator;
 
 /**
  *
@@ -14,7 +15,7 @@ import ADT.*;
  */
 public class Menu implements MenuInterface {
 
-    private LinkedFoodListInterface<Food> linkedFood = new LinkedList<>();
+    private ListWithIteratorInterface<Food> linkedFood = new LinkedList<>();
     private Food[] food = new Food[100];
     private int countFood = 0;
     private int length;
@@ -37,18 +38,19 @@ public class Menu implements MenuInterface {
         //status == promotion will be displayed first
         //followed by status == available
         System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
-        linkedFood.displayMenuItemWithStatusOrder();
-//        for (int i = 0; i < countFood; ++i) {
-//            if (food[i].getStatus().equals("Promotion")) {
-//                System.out.println(food[i]);
-//            }
-//        }
-//
-//        for (int i = 0; i < countFood; ++i) {
-//            if (food[i].getStatus().equals("Available")) {
-//                System.out.println(food[i]);
-//            }
-//        }
+        Iterator temp = linkedFood.getIterator();
+        String promotion ="";
+        String available  = "";
+        while(temp.hasNext()){
+            Food currentFood = (Food) temp.next();
+            if(currentFood.getStatus(true) == Food.FOOD_PROMOTION){
+                promotion += currentFood;
+            }
+            if(currentFood.getStatus(true) == Food.FOOD_AVAILABLE){
+                available += currentFood;
+            }
+        }
+        System.out.println(promotion + available);
     }
 
     public void initializeMenu() {
@@ -92,25 +94,27 @@ public class Menu implements MenuInterface {
                     foodStatus = Food.FOOD_UNAVAILABLE;
                     break;
             }
+            
             //check if affiliate enter any empty data
             //if there is any empty data, then prompt error message
             //else proceed to creating new food object
+            Food newFood;
             if (!foodName.equals("") && price > 0 && preparationTime > 0 && foodStatus >= 0 && foodStatus <= 2) {
                 if (emptyFoodID.isEmpty()) {
-                    Food newFood = new Food(linkedFood.getNumberOfEntries()+ 1, foodName, price, preparationTime, foodStatus);
+                    newFood = new Food(linkedFood.getNumberOfEntries()+ 1, foodName, price, preparationTime, foodStatus);
                     linkedFood.add(newFood);
                 } else {
                     int nextID = emptyFoodID.dequeue();
-                    Food newFood = new Food(nextID, foodName, price, preparationTime, foodStatus);
+                    newFood = new Food(nextID, foodName, price, preparationTime, foodStatus);
                     linkedFood.replace(nextID, newFood);
                 }
-                //linkedFood.add(newFood);
+                
                 validInput = true;
                 System.out.println("====================================");
                 System.out.println("The food has been added to your menu");
                 System.out.println("Food Details: ");
                 System.out.println("======================");
-                displayFoodDetail(linkedFood.getNumberOfEntries());
+                displayFoodDetail(newFood.getID());
                 System.out.println("======================");
             } else {
                 System.out.println("Please do not leave any blank space.");
@@ -153,12 +157,12 @@ public class Menu implements MenuInterface {
                 confirm = reader.nextLine().charAt(0);
                 confirm = Character.toUpperCase(confirm);
                 if (confirm == 'Y') {
-                    emptyFoodID.enqueue(linkedFood.getFoodByID(foodID).getID());
+                    emptyFoodID.enqueue(getFoodByID(foodID).getID());
                     System.out.println("=====================================");
                     System.out.println("The following food has been deleted");
                     displayFoodDetail(foodID);
                     System.out.println("=====================================");
-                    linkedFood.replace(foodID, null);//////error here
+                    linkedFood.replace(foodID, null);
 
                     System.out.println("Your current menu items: ");
                     System.out.println(String.format("%-5s %20s %9s %17s %10s\n", 
@@ -173,6 +177,17 @@ public class Menu implements MenuInterface {
                 System.out.println("================");
             }
         } while (!validInput);
+    }
+    
+    private Food getFoodByID(int ID){
+        Iterator temp = linkedFood.getIterator();
+        Food result;
+        while(temp.hasNext()){
+            result = (Food) temp.next();
+            if(result.getID() == ID)
+                return result;
+        }
+        return null;
     }
 
     public int getLength() {
@@ -203,7 +218,7 @@ public class Menu implements MenuInterface {
                 displayFoodDetail(foodID);
                 System.out.println("==========================================");
 
-                linkedFood.getFoodByID(foodID).setStatus(newFoodStatus);
+                getFoodByID(foodID).setStatus(newFoodStatus);
 
                 System.out.println("==========================================");
                 System.out.println("Update successfull!");
@@ -221,7 +236,7 @@ public class Menu implements MenuInterface {
     }
 
     private void displayFoodDetail(int foodID) {
-        Food f = linkedFood.getFoodByID(foodID);
+        Food f = getFoodByID(foodID);
         System.out.println("ID:               " + f.getID());
         System.out.println("Food Name:        " + f.getName());
         System.out.println("Price:            " + f.getPrice());
@@ -233,9 +248,6 @@ public class Menu implements MenuInterface {
     public String toString() {
         //this toString() method will display all food in menu regardless of status
         String msg = "";
-//        for (Food f : food) {
-//            msg += f.toString();
-//        }
         msg += linkedFood;
 
         return msg;
