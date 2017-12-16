@@ -15,6 +15,14 @@ import java.util.Scanner;
 public class Customer {
     LinkedList<Food> cart = new LinkedList<>();
 
+    public LinkedList<Food> getCart() {
+        return cart;
+    }
+
+    public void setCart(LinkedList<Food> cart) {
+        this.cart = cart;
+    }
+
     public Customer() {
 
     }
@@ -108,8 +116,8 @@ public class Customer {
             //error message of invalid input
             System.out.println("Invalid input!");
         }else{
-            Menu menu = affiliates[menuSel].getMenu();
-            addFoodToCart(menu.getMenu());
+            affiliates[menuSel].getMenu().showMenu();
+            System.out.println("---Food ordering service under construction---");
         }
         
         
@@ -188,39 +196,27 @@ public class Customer {
     }
     
     private void addFoodToCart(LinkedList<Food> foodList){
-        char cont ='Y';
-        Scanner scanner = new Scanner(System.in);
+        //show list of food
+        System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
+        foodList.displayMenuItemWithStatusOrder();
         
-        do{
-            //show list of food
-            System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
-            foodList.displayMenuItemWithStatusOrder();
-            
-            int sel;
-            if(cont =='Y')
-            //prompt user to enter selection and add to cart
+        //prompt user to enter selection and add to cart
+        Scanner scanner = new Scanner(System.in);
+        int sel;
+        
+        do{        
+            System.out.println("Please enter your selection(0 to exit): ");
+            sel = Integer.parseInt(scanner.nextLine());
 
-            do{        
-                System.out.println("Please enter your selection(0 to exit): ");
-                sel = Integer.parseInt(scanner.nextLine());
-
-                if(sel<0 || sel > foodList.getNumberOfEntries()){
-                    System.out.println("Invalid Input!");
-                }
-                else if(sel>0){
-                    cart.add(foodList.getFoodByID(sel));
-                    System.out.println("Food successfully added!");
-                }
-            }while(sel!=0);
-            //return to browse the restaurant containing the food if user choose to
-
-            System.out.println("You have ordered: \n" + cart);
-            System.out.println("Do you want to order more?(Y/N)");
-            cont = scanner.nextLine().charAt(0);            
-            cont = Character.toUpperCase(cont);
-            if(cont!='N'){
-                System.out.println("Invalid input!");
+            if(sel<0 || sel > foodList.getNumberOfEntries()){
+                System.out.println("Invalid Input!");
             }
-        }while(cont!='N');
+            else if(sel>0){
+                cart.add(foodList.getEntry(sel));
+            }
+        }while(sel!=0);
+        //return to browse the restaurant containing the food if user choose to
+        
+        System.out.println("You have ordered: " + cart);
     }
 }
