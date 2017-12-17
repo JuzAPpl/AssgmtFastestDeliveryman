@@ -6,7 +6,6 @@
 package fastestdeliveryman;
 
 import java.util.Scanner;
-import ADT.*;
 
 /**
  *
