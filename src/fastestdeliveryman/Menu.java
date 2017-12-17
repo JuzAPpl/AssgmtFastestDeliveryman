@@ -17,8 +17,6 @@ public class Menu implements MenuInterface {
 
     private ListWithIteratorInterface<Food> linkedFood = new LinkedList<>();
     private Food[] food = new Food[100];
-    private int countFood = 0;
-    private int length;
     private LinkedQueue<Integer> emptyFoodID = new LinkedQueue();
 
     public Menu() {
@@ -39,14 +37,14 @@ public class Menu implements MenuInterface {
         //followed by status == available
         System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
         Iterator temp = linkedFood.getIterator();
-        String promotion ="";
-        String available  = "";
-        while(temp.hasNext()){
+        String promotion = "";
+        String available = "";
+        while (temp.hasNext()) {
             Food currentFood = (Food) temp.next();
-            if(currentFood.getStatus(true) == Food.FOOD_PROMOTION){
+            if (currentFood.getStatus(true) == Food.FOOD_PROMOTION) {
                 promotion += currentFood;
             }
-            if(currentFood.getStatus(true) == Food.FOOD_AVAILABLE){
+            if (currentFood.getStatus(true) == Food.FOOD_AVAILABLE) {
                 available += currentFood;
             }
         }
@@ -94,21 +92,21 @@ public class Menu implements MenuInterface {
                     foodStatus = Food.FOOD_UNAVAILABLE;
                     break;
             }
-            
+
             //check if affiliate enter any empty data
             //if there is any empty data, then prompt error message
             //else proceed to creating new food object
             Food newFood;
             if (!foodName.equals("") && price > 0 && preparationTime > 0 && foodStatus >= 0 && foodStatus <= 2) {
                 if (emptyFoodID.isEmpty()) {
-                    newFood = new Food(linkedFood.getNumberOfEntries()+ 1, foodName, price, preparationTime, foodStatus);
+                    newFood = new Food(linkedFood.getNumberOfEntries() + 1, foodName, price, preparationTime, foodStatus);
                     linkedFood.add(newFood);
                 } else {
                     int nextID = emptyFoodID.dequeue();
                     newFood = new Food(nextID, foodName, price, preparationTime, foodStatus);
                     linkedFood.replace(nextID, newFood);
                 }
-                
+
                 validInput = true;
                 System.out.println("====================================");
                 System.out.println("The food has been added to your menu");
@@ -124,7 +122,7 @@ public class Menu implements MenuInterface {
     }
 
     public void addFood(Food food) {
-        this.food[length++] = food;
+        //this.food[length++] = food;
     }
 
     public Food[] getMenu() {
@@ -165,8 +163,8 @@ public class Menu implements MenuInterface {
                     linkedFood.replace(foodID, null);
 
                     System.out.println("Your current menu items: ");
-                    System.out.println(String.format("%-5s %20s %9s %17s %10s\n", 
-                                    "ID", "Food Name", "Price", "Preparation time", "Status"));
+                    System.out.println(String.format("%-5s %20s %9s %17s %10s\n",
+                            "ID", "Food Name", "Price", "Preparation time", "Status"));
                     System.out.println(linkedFood);
                     System.out.println("=====================================");
                 }
@@ -178,65 +176,201 @@ public class Menu implements MenuInterface {
             }
         } while (!validInput);
     }
-    
-    private Food getFoodByID(int ID){
+
+    private Food getFoodByID(int ID) {
         Iterator temp = linkedFood.getIterator();
         Food result;
-        while(temp.hasNext()){
+        while (temp.hasNext()) {
             result = (Food) temp.next();
-            if(result.getID() == ID)
+            if (result.getID() == ID) {
                 return result;
+            }
         }
         return null;
     }
 
     public int getLength() {
-        return length;
+        return linkedFood.getNumberOfEntries();
     }
 
     @Override
-    public boolean setFoodStatus() {
-        //TODO: allow affiliate to change food status to available, unvailable or promotion
+    public void setFoodDetail() {
+        Scanner reader = new Scanner(System.in);
+        int choice;
+        Boolean validInput = false;
+
+        do {
+            System.out.println("==============================");
+            System.out.println("Please select an option: ");
+            System.out.println("==============================");
+            System.out.println("1. Change Food Name");
+            System.out.println("2. Change Food Price");
+            System.out.println("3. Change Food Preparation Time");
+            System.out.println("4. Change Food Status");
+
+            System.out.print("Your choice: ");
+            choice = Integer.parseInt(reader.nextLine());
+            validInput = choice >= 1 && choice <= 4;
+
+            if (!validInput) {
+                System.out.println("================");
+                System.out.println("Invalid option");
+                System.out.println("Please try again");
+                System.out.println("================");
+            } else {
+                System.out.println("=========================================");
+                System.out.println(String.format("%-5s %20s %-7.2s %-10s", "ID", "Food Name", "Price", "Status"));
+                System.out.println(linkedFood);
+                System.out.println("=========================================");
+                switch (choice) {
+                    case 1:// case 1: change food name
+                        setFoodName();
+                        break;
+                    case 2:// case 2: change food price
+                        setFoodPrice();
+                        break;
+                    case 3:// case 3: change food preparation time
+                        setFoodPreparationTime();
+                        break;
+                    case 4:// case 4: change food status
+                        setFoodStatus();
+                        break;
+                }
+            }
+        } while (!validInput);
+    }
+
+    private void setFoodStatus() {
         Scanner reader = new Scanner(System.in);
         Boolean validInput;
         int foodID;
         int newFoodStatus;
 
-        System.out.println("==================================");
-        System.out.println(String.format("%-5s %20s %-7.2s %-10s", "ID", "Food Name", "Price", "Status"));
-        System.out.println(linkedFood);
         do {
-            System.out.println("==================================");
-            System.out.println("Please enter the Food ID to change the status");
-            System.out.print("Food ID: ");
-            foodID = Integer.parseInt(reader.nextLine());
-
-            if (foodID <= linkedFood.getNumberOfEntries()&& foodID >= 1) {
+            foodID = getInputFoodID(reader);
+            Food foodToBeChanged = getFoodByID(foodID);
+            if (foodToBeChanged != null) {
                 newFoodStatus = Food.getNewFoodStatus();
                 System.out.println("==========================================");
                 System.out.println("You have selected the following food: ");
                 displayFoodDetail(foodID);
                 System.out.println("==========================================");
 
-                getFoodByID(foodID).setStatus(newFoodStatus);
+                foodToBeChanged.setStatus(newFoodStatus);
 
-                System.out.println("==========================================");
-                System.out.println("Update successfull!");
-                System.out.println("The following food status has been updated");
-                displayFoodDetail(foodID);
-                System.out.println("==========================================");
+                updateFoodSuccessMessage(foodToBeChanged.getID());
 
                 validInput = true;
             } else {
-                System.out.println("Invalid food ID. Please try again");
+                System.out.println("================");
+                System.out.println("Invalid food ID");
+                System.out.println("Please try again");
+                System.out.println("================");
                 validInput = false;
             }
         } while (!validInput);
-        return validInput;
     }
 
+    private void setFoodName() {
+        Scanner reader = new Scanner(System.in);
+        Boolean validInput = false;
+        int foodID;
+        String newFoodName;
+
+        do {
+            foodID = getInputFoodID(reader);
+            Food foodToBeChanged = getFoodByID(foodID);
+            if(foodToBeChanged != null){
+                System.out.println("New Food Name: ");
+                newFoodName = reader.nextLine();
+                
+                foodToBeChanged.setName(newFoodName);
+                
+                updateFoodSuccessMessage(foodToBeChanged.getID());
+                
+                validInput = true;
+            }else{
+                System.out.println("================");
+                System.out.println("Invalid food ID");
+                System.out.println("Please try again");
+                System.out.println("================");
+                validInput = false;
+            }
+        } while (!validInput);
+    }
+    
+    private void setFoodPrice(){
+        Scanner reader = new Scanner(System.in);
+        Boolean validInput = false;
+        int foodID;
+        double newFoodPrice;
+
+        do {
+            foodID = getInputFoodID(reader);
+            Food foodToBeChanged = getFoodByID(foodID);
+            if(foodToBeChanged != null){
+                System.out.println("New Price: ");
+                newFoodPrice = Double.parseDouble(reader.nextLine());
+                
+                foodToBeChanged.setPrice(newFoodPrice);
+                
+                updateFoodSuccessMessage(foodToBeChanged.getID());
+                validInput = true;
+            }else{
+                System.out.println("================");
+                System.out.println("Invalid food ID");
+                System.out.println("Please try again");
+                System.out.println("================");
+                validInput = false;
+            }
+        } while (!validInput);
+    }
+    
+    private void setFoodPreparationTime(){
+        Scanner reader = new Scanner(System.in);
+        Boolean validInput = false;
+        int foodID;
+        double newPreparationTime;
+
+        do {
+            foodID = getInputFoodID(reader);
+            Food foodToBeChanged = getFoodByID(foodID);
+            if(foodToBeChanged != null){
+                System.out.println("New Preparation time: ");
+                newPreparationTime = Double.parseDouble(reader.nextLine());
+                
+                foodToBeChanged.setPreparationTime(newPreparationTime);
+                
+                updateFoodSuccessMessage(foodToBeChanged.getID());
+                validInput = true;
+            }else{
+                System.out.println("================");
+                System.out.println("Invalid food ID");
+                System.out.println("Please try again");
+                System.out.println("================");
+                validInput = false;
+            }
+        } while (!validInput);
+    }
+
+    private int getInputFoodID(Scanner reader) throws NumberFormatException {
+        System.out.println("Please enter the Food ID to change the status");
+        System.out.print("Food ID: ");
+        return Integer.parseInt(reader.nextLine());
+    }
+    
+    private void updateFoodSuccessMessage(int foodID) {
+        System.out.println("==========================================");
+        System.out.println("Update successfull!");
+        System.out.println("The following food status has been updated");
+        displayFoodDetail(foodID);
+        System.out.println("==========================================");
+    }
+    
     private void displayFoodDetail(int foodID) {
         Food f = getFoodByID(foodID);
+        System.out.println(String.format("%-5s %20s %9s %17s %10s\n",
+                            "ID", "Food Name", "Price", "Preparation time", "Status"));
         System.out.println("ID:               " + f.getID());
         System.out.println("Food Name:        " + f.getName());
         System.out.println("Price:            " + f.getPrice());
