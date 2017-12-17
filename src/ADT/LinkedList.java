@@ -1,6 +1,5 @@
 package ADT;
 
-import fastestdeliveryman.Food;
 import java.util.Iterator;
 
 /**
