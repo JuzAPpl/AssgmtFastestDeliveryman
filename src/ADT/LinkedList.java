@@ -123,6 +123,7 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
     public final void clear() {
         firstNode = null;
         lastNode = null;
+        countEntry = 0;
     }
 
     @Override
@@ -216,7 +217,7 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
 
     @Override
     public boolean isEmpty() {
-        return countEntry == 0;
+        return countEntry == 0 || firstNode == null;
     }
 
     @Override
