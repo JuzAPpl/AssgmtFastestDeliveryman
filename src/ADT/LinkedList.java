@@ -263,6 +263,43 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         return msg;
     }
 
+    public Object getObject(int index) {
+        Object obj = new Object();
+        Node temp = firstNode;
+        int count = 0;
+        if (!isEmpty()) {
+            while (temp != null) {
+                count += 1;
+                if (count == index) {
+                    obj = temp.data;
+                }
+                temp = temp.next;
+            }
+        }
+        return obj;
+    }
+
+    public String toString2() {
+        String msg = "";
+        int count = 0;
+        Node currentNode = firstNode;
+        if (!isEmpty()) {
+            String title = "\n============================================================"
+                    + "\nScheduledOrder"
+                    + "\n============================================================\n";
+            String str = "|| no. || OrderNumber ||          Ordered Food          ||         Location        || Next Delivery Date || Delivery left ||\n";
+            System.out.println(title + str);
+        }
+        while (currentNode != null) {
+            if (currentNode.data != null) {
+                msg += ++count + ". " + (currentNode.data).toString();
+            }
+            //msg += "\n";
+            currentNode = currentNode.next;
+        }
+        return msg;
+    }
+
     @Override
     public void displayMenuItemWithStatusOrder() {
         //this method is only Menu class only
