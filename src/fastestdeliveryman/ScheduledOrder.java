@@ -18,6 +18,7 @@ import java.util.Scanner;
  */
 public class ScheduledOrder extends Order implements ScheduledOrderInterface {
 
+  
     private ScheduledOrderList<ScheduledOrder> linkedScheduledOrder = new ScheduledOrderList<>();
     private int totalDays;
     private Date startDate;
@@ -65,7 +66,7 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
     }
 
     private static final DateFormat dateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
+  
     public String toString() {
         String strDate = startDate.toString() + " " + deliveryTime.toString();
         return String.format("%5d\t%20s\t%20s\t%20s\t5d\n", orderNum, orderedFood, location, strDate, totalDays);
@@ -333,6 +334,18 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
         }
     }
 
+    public String toString() {
+        return "orderNum= " + orderNum
+                + ", orderDay= " + dateF.format(orderDay)
+                + ", orderedFood= " + orderedFood
+                + ", location= " + location
+                + ", affiliateID= " + affiliateID
+                + ", deliveryDate= " + deliveryDate
+                + ", deliveryTime= " + deliveryTime
+                + ", weeks= " + weeks + "\n";
+
+    }
+
     @Override
     public void cancelScheduledOrder() {
         System.out.println("\nScheduled Order Cancelation:");
@@ -397,6 +410,7 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
         }
     }
 
+      
     public void continueCancelation() {
         String continues;
         Scanner scancontinues = new Scanner(System.in);
@@ -433,9 +447,11 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
     }
 
     public static void main(String[] args) {
-
         ScheduledOrderList<ScheduledOrder> so = new ScheduledOrderList<>();
 
     }
 
 }
+
+//yyyy/MM/dd HH:mm:ss
+//public void addtoNode(ScheduledOrderInterface S);
