@@ -3,19 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fastestdeliveryman;
+package ADT;
+
+import java.util.Iterator;
 
 /**
  *
  * @author Leo
  */
-public interface MenuInterface {
-
-    public void addFood();
-
-    public void removeFood();
-
-    public void showMenu();
-
-    public void setFoodDetail();
+public interface ListWithIteratorInterface<T> extends ListInterface<T> {
+    Iterator<T> getIterator();
 }

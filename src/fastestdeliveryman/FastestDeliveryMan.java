@@ -9,7 +9,7 @@ import ADT.*;
  */
 public class FastestDeliveryMan {
 
-    private static final LinkedList<AffiliateInterface> AFFILIATE = new LinkedList<>();
+    private static final ListWithIteratorInterface<AffiliateInterface> AFFILIATE = new LinkedList<>();
     private static Object currentUser;
     public static int countAffiliate = 0;
     private static Scanner reader = new Scanner(System.in);

@@ -6,7 +6,6 @@
 package fastestdeliveryman;
 
 import java.util.Scanner;
-import ADT.*;
 
 /**
  *
@@ -23,7 +22,6 @@ public class Food implements FoodInterface {
     private String name;
     private double price;
     private double preparationTime;
-    private Affiliate foodOwner;
 
     private int status; //0: unavailable, 1: available, 2: promotion
 
@@ -76,12 +74,17 @@ public class Food implements FoodInterface {
     }
 
     @Override
+    public String toString() {
+        return String.format("%-5d %20s %9.2f %17s %10s\n", ID, name, price, (getPreparationTime() + " min"), getStatus());
+    }
+
+    @Override
     public void setStatus(int status) {
         this.status = status;
     }
 
     @Override
-    public String getStatusString() {
+    public String getStatus() {
         String status;
         switch (this.status) {
             case FOOD_UNAVAILABLE:
@@ -100,7 +103,7 @@ public class Food implements FoodInterface {
         return status;
     }
     
-    public int getStatus(){
+    public int getStatus(boolean inInteger){
         return status;
     }
     
@@ -142,14 +145,5 @@ public class Food implements FoodInterface {
                 break;
         }
         return newStatus;
-    }
-
-    @Override
-//    public String toString() {
-//        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
-//    }
-    
-    public String toString(){
-        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
     }
 }

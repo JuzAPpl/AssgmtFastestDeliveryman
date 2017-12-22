@@ -151,7 +151,7 @@ public class Affiliate implements AffiliateInterface {
                     menu.removeFood();
                     break;
                 case 3:
-                    menu.setFoodStatus();
+                    menu.setFoodDetail();
                     break;
                 case 4:
                     System.out.println(menu.toString());
@@ -175,7 +175,7 @@ public class Affiliate implements AffiliateInterface {
         return String.format("%5d %10s %15s %20s %10s\n", ID, ownerName, restaurantName, address, contactNo);
     }
 
-    public static Affiliate login(LinkedList<AffiliateInterface> affiliate) {
+    public static Affiliate login(ListWithIteratorInterface<AffiliateInterface> affiliate) {
         Scanner reader = new Scanner(System.in);
         boolean validLogin = true;
 

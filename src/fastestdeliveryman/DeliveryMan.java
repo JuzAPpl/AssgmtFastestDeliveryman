@@ -6,266 +6,116 @@
 package fastestdeliveryman;
 
 import ADT.LinkedList;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import ADT.LinkedQueue;
+import ADT.ListInterface;
+import ADT.QueueInterface;
 import java.util.Scanner;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
- * @author S3113
+ * @author Chow Swee Tung
  */
-public class DeliveryMan extends Employee {
+public abstract class DeliveryMan extends Employee {
+    Timer timer = new Timer(); // use to do the task in set the time
+    protected int deliverymanStatus;  //status=1 for available, status=2 for onDelivered, status=3 for break
+    protected RoutineRecord currentRoutine = new RoutineRecord();//for clock in & out status
+    protected ListInterface<RoutineRecord> routineHistory = new LinkedList<>();
+    protected QueueInterface<Order> orderDetails = new LinkedQueue<>();
+    protected QueueInterface<Affiliate> restaurantDetails = new LinkedQueue<>();
+    protected Order deliveryOrder; 
+    protected int location; // there may have 6 station and set as number
+    private static int currentActive;
+//  private FoodOrder currentOrder;
+//  private ListInterface<FoodOrder> orderHistory;
 
-    private Calendar cal;
-    private String getTime;
-    private String ClockInTime = "";
-    private String ClockOutTime = new String("");
-    private String orderStatus = "null";
-    LinkedList<OrderedDelivery> orderDetail = new LinkedList<>();
-    OrderedDelivery ordered = new OrderedDelivery("O001", "A001", "F001", "CHEESEBURGER", "C001", "Louis", "2017/12/11 14:55:15", "TAMAN MAD 000");
-    OrderedDelivery ordered2 = new OrderedDelivery("O002", "A002", "F002", "PIZZA", "C002", "CHOUYUFONG", "2017/11/11 00:55:15", "TAMAN MD 010");
-
-    public DeliveryMan(String employeeName, String identityCard, char gender, int age, String contactNo, String Address, String employeeID, String employeePassword, double salary) {
-        super(employeeName, identityCard, gender, age, contactNo, Address, employeeID, employeePassword, salary);
-    }
-
-    public DeliveryMan(String employeeName, String employeeID, String employeePassword, double salary, String contactNo) {
-        super(employeeName, employeeID, employeePassword, salary, contactNo);
-    }
-
+    //Empty constructor for delivery man
     public DeliveryMan() {
-
     }
 
-    public void getTimeNow() {
-        cal = Calendar.getInstance();
-        String pattern = "yyyy/MM//dd__hh:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        getTime = sdf.format(cal.getTime());
-
+    //Parameterized constructor for existing delivery man
+    public DeliveryMan(String empName, String empID, String empIC, char gender, String contactNo, String address, String password, double salary) {
+        super(empName, empID, empIC, gender, contactNo, address, password, salary);
     }
 
-    public void readText() {
-        // The name of the file to open.
-        String fileName = "StatusRecord.txt";
-
-        // This will reference one line at a time
-        String line = null;
-
-        try {
-            // FileReader reads text files in the default encoding.
-            FileReader fileReader
-                    = new FileReader(fileName);
-
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader
-                    = new BufferedReader(fileReader);
-
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            // Always close files.
-            bufferedReader.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println(
-                    "Unable to open file '"
-                    + fileName + "'");
-        } catch (IOException ex) {
-            System.out.println(
-                    "Error reading file '"
-                    + fileName + "'");
-            // Or we could just do this: 
-            // ex.printStackTrace();
-        }
+    //Overloading parameterized constructor for new delivery man
+    public DeliveryMan(String empName, String empID, String empIC, char gender, String contactNo, String address, double salary) {
+        super(empName, empID, empIC, gender, contactNo, address, salary);
     }
 
-    public void clockIn() {
-        getTimeNow();
-        ClockInTime = new String(getTime);
-        System.out.println("Your work start at" + ClockInTime);
-    }
-
-    public boolean checkClockIn() {
-        getTimeNow();
-        if (!ClockInTime.isEmpty()) {
-            System.out.println("You have already clock in.");
-            System.out.println("Please Select another Option.");
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
-    public boolean checkClockOut() {
-        getTimeNow();
-        if (ClockInTime.isEmpty()) {
-            System.out.println("You have already clock out.");
-            System.out.println("Please Select another Option.");
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public void clockOut() {
-        try {
-            getTimeNow();
-            ClockOutTime = new String(getTime);
-            File ClockInFile = new File("StatusRecord.txt");
-            FileWriter fw = new FileWriter(ClockInFile, true);
-            fw.write(employeeID + " , " + employeeName + " , " + ClockInTime + " , " + ClockOutTime);
-            fw.write("\r\n");
-            fw.close();
-
-        } catch (IOException iox) {
-            //do stuff with exception
-            iox.printStackTrace();
-        }
-    }
-
-    public void displayOrder() {
-        
-        int selection = 0;
-        int choice = 0;
-        Scanner reader = new Scanner(System.in);
-
-        do {
-            if (ordered.equals("")) {
-                System.out.println("There are no order consisted!!!");
-            } else {
-                System.out.println(">>>>>>>>>>>>>>>ORDER LIST<<<<<<<<<<<<<<<");
-                System.out.println("0. Return to Main Menu");
-                System.out.print(orderDetail.toString2());
-                System.out.print("Enter the Number you want to Take the order: ");
-                selection = reader.nextInt();
-                if (selection == 1) {
-                    if (orderStatus != "pending") {
-                        System.out.println("Are you confirm to select?");
-                        System.out.println("1. Yes");
-                        System.out.println("2. No");
-                        choice = reader.nextInt();
-                        if (choice == 1) {
-                            System.out.println("You have Successfully select this order");
-                            orderStatus = "pending";
-                        } else if (choice == 2) {
-                            displayOrder();
-                        }
-                    } else {
-                        System.out.println("Sorry,You have already selected one order!!!");
-                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        displayMenu();
-                    }
-                } else if (selection == 2) {
-                    if (orderStatus != "pending") {
-                        System.out.println("Are you confirm to select?");
-                        System.out.println("1. Yes");
-                        System.out.println("2. No");
-                        choice = reader.nextInt();
-                        if (choice == 1) {
-                            System.out.println("You have Successfully select this order");
-                            orderStatus = "pending";
-                        } else if (choice == 2) {
-                            displayOrder();
-                        }
-                    } else {
-                        System.out.println("Sorry,You have already selected one order!!!");
-                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        displayMenu();
-                    }
-                }else if(selection ==0){
-                    
-                }else{
-                    System.out.println("Invalid Input! Please try again!");
-                    displayOrder();
-                }
-
-            }
-
-        } while (selection != 0);
-  
-    }
-
+    //display menu after login
     public void displayMenu() {
+        Scanner scanner = new Scanner(System.in);
 
-        int selection = 0;
-        Scanner reader = new Scanner(System.in);
-        do {
-            System.out.println("------>>>MENU<<<---------");
-            System.out.println("1. Clock In");
-            System.out.println("2. Clock Out");
-            System.out.println("3. Order Selection");
-            System.out.println("0. Logout");
-            System.out.print("Enter the Number you want to Do: ");
-            selection = reader.nextInt();
+        System.out.println("------>>>MENU<<<---------");
+        System.out.println("1. Clock In");
+        System.out.println("2. Logout");
+        System.out.println("0. Exit system");
+        System.out.println("Enter the selection: ");
+        int selection = scanner.nextInt();
 
-            if (selection == 1) {
-                if (checkClockIn()) {
-                    clockIn();
-                    System.out.println("You have success to clockIn");
-                    System.out.println("===========================");
-                }
-            } else if (selection == 2) {
-                if (checkClockOut()) {
-                    clockOut();
-                    System.out.println("You have success to clockOut");
-                    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                    ClockInTime = "";
-                    orderStatus="null";
-                }
-            } else if (selection == 3) {
-                if (ClockInTime == "") {
-                    System.out.println("You haven't clock in yet.");
-                    System.out.println("|||||||||||||||||||||||||");
-                    displayMenu();
-                } else {
-                    displayOrder();
-                }
-            } else if (selection == 0) {
+        switch (selection) {
+            case 1:
+                //make the status of deliveryman available and clock in.
+                deliverymanStatus = 1;
+                currentRoutine.clockIn();
+                System.out.println("You have successfully clock in at." + currentRoutine.getClockInTime());
+                location = setCurrentLocation();
+                displaySelection();
 
-            } else {
-                System.out.println("Please Type Properly. Try Again");
-                System.out.println("===========================");
-            }
-        } while (selection != 0);
-    }
+                break;
+            //back to the login
+            case 2:
 
-    public void loginDelivery() {
-        orderDetail.add(ordered);
-        orderDetail.add(ordered2);
-        Scanner scan = new Scanner(System.in);
-
-        System.out.println("Enter Employee ID: ");
-        String empID = scan.nextLine();
-        System.out.println("Enter Password:");
-        String empPASSWORD = scan.nextLine();
-
-        if (empID.isEmpty() || empPASSWORD.isEmpty()) {
-            System.out.println("Please dont make it blank");
-        } else {
-            if (empID.equals(employeeID) && empPASSWORD.equals(employeePassword)) {
+                break;
+            //exit program
+            case 0:
+                System.out.println("You have successfully exit.");
+                System.exit(0);
+                break;
+            default://check error iput and siplay error message
+                System.out.println("Error Input");
                 displayMenu();
-            } else if (!empID.equals(employeeID) && !empPASSWORD.equals(employeePassword)) {
-                System.out.println("Please Type Again YOur ID & PAssword");
-                loginDelivery();
-            } else if (!empID.equals(employeeID) && empPASSWORD.equals(employeePassword)) {
-                System.out.println("Please Type Again YOur ID");
-                loginDelivery();
-            } else if (empID.equals(employeeID) && !empPASSWORD.equals(employeePassword)) {
-                System.out.println("Please Type Again YOur PAssword");
-                loginDelivery();
-            }
+                break;
         }
+    }//TODO: ADD LOGIN
+
+    public int setCurrentLocation() {//use to set deliveryman's location
+        Random rand = new Random();
+        int n = rand.nextInt(6) + 1;
+        //Station 6 is the maximum and the 1 is our minimum 
+        return n;
 
     }
 
+    public int getLocation() {
+        return location;
+    }
+
+    public void setDeliverymanStatus(int deliverymanStatus) {
+        this.deliverymanStatus = deliverymanStatus;
+    }
+
+    public int getDeliverymanStatus() {
+        return deliverymanStatus;
+    }
+
+    //Private method to increase the active number of delivery men
+    private static void increaseActive() {
+        currentActive++;
+    }
+
+    //Private method to decrease the active number of delivery men
+    private static void decreaseActive() {
+        currentActive--;
+    }
+
+    //Return current active delivery men for management purpose
+    public static int getCurrentActive() {
+        return currentActive;
+    }
+
+    public abstract void displaySelection();
 }

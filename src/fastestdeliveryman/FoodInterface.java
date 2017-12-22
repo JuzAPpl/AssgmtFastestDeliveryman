@@ -17,6 +17,6 @@ public interface FoodInterface {
     public double getPrice();
     public void setPreparationTime(double preparationTime);
     public String getPreparationTime();
-    public String getStatusString();
+    public String getStatus();
     public void setStatus(int status);
 }

@@ -23,9 +23,12 @@ public class TestDeliveryMan {
         // OrderedDelivery(String OrderedID, String affillateID, String foodID, String custID, String custName, Date orderedDate, String address) {       
         //"yyyy/MM/dd HH:mm:ss
       
-        
-        DeliveryMan deliver = new DeliveryMan("Abu", "970101063211", 'M', 21, "011234567", "123, Taman Hijau", "E1001", "a1234", 2000);
-        deliver.loginDelivery();
+        DeliveryMan deliver = new AdHocDeliveryMan();
+        deliver.displayMenu();
+             
+                
+      //  DeliveryMan deliver = new DeliveryMan("Abu", "970101063211", 'M', 21, "011234567", "123, Taman Hijau", "E1001", "a1234", 2000);
+     //   deliver.loginDelivery();
     }
 
 }

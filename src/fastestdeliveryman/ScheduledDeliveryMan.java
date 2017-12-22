@@ -7,15 +7,8 @@ package fastestdeliveryman;
 
 /**
  *
- * @author Leo
+ * @author S3113
  */
-public interface MenuInterface {
-
-    public void addFood();
-
-    public void removeFood();
-
-    public void showMenu();
-
-    public void setFoodDetail();
+public class ScheduledDeliveryMan {
+    
 }
