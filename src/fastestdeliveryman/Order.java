@@ -8,6 +8,7 @@ package fastestdeliveryman;
 import ADT.LinkedList;
 import ADT.ListInterface;
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -16,25 +17,31 @@ import java.util.Date;
  */
 public class Order implements Serializable{
 
-    String orderNum;
-    String affiliateID;
+    public static final int ADHOC_PENDING = 1;
+    public static final int ADHOC_STARTED = 2;
+    public static final int ADHOC_COMPLETE = 3;
+    public static final int SCH_PENDING = 21;
+    public static final int SCH_STARTED_INCOMPLETE = 23;
+    public static final int SCH_STARTED_COMPLETE = 23;
+    public static final int SCH_COMPLETE = 24;
+    
     private static int newNum = 0;
-    ListInterface<Food> orderedFood = new LinkedList<>();
-    Date orderDay;
-    String location;
+    protected String orderNum;
+    protected LinkedList<Food> orderedFood;
+    protected Date orderDay;
+    protected Time arriveTime;
+    protected DeliveryMan delManInCharge; 
+    protected Location destination; //TODO: change to "Location destination;" aftter implementation of Location class
 
     public Order() {
-        newNum = 0;
-        this.orderNum = "S00" + newNum;
+        this.orderNum = "S" + String.format("%06d",newNum);
         newNum++;
-        this.affiliateID = "";
     }
 
-    public Order(Date orderDay, Food[] orderedFood, String location, String affiliateID) {
-        this.orderNum = "S00" + newNum;
+    public Order(Date orderDay, LinkedList<Food> orderedFood, Location destination) {
+        this.orderNum = "S" + String.format("%06d",newNum);
         this.orderDay = orderDay;
-        this.location = location;
-        this.affiliateID = affiliateID;
+        this.destination = destination;
         this.orderedFood = orderedFood;
          newNum++;
     }
@@ -43,13 +50,31 @@ public class Order implements Serializable{
     return new Order();
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public Time getArriveTime() {
+        return arriveTime;
     }
 
-    public String getLocation() {
-        return location;
+    public void setArriveTime(Time arriveTime) {
+        this.arriveTime = arriveTime;
     }
+
+    public DeliveryMan getDelManInCharge() {
+        return delManInCharge;
+    }
+
+    public void setDelManInCharge(DeliveryMan delManInCharge) {
+        this.delManInCharge = delManInCharge;
+    }
+
+    public Location getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Location destination) {
+        this.destination = destination;
+    }
+
+    
 
     public void setOrderNum(String orderNum) {
         this.orderNum = orderNum;
@@ -67,19 +92,11 @@ public class Order implements Serializable{
         return orderDay;
     }
 
-    public void setAffiliateID(String affiliateID) {
-        this.affiliateID = affiliateID;
-    }
-
-    public String getAffiliateID() {
-        return affiliateID;
-    }
-
-    public void setOrderedFood(Food[] orderedFood) {
+    public void setOrderedFood(LinkedList<Food> orderedFood) {
         this.orderedFood = orderedFood;
     }
 
-    public Food[] getOrderedFood() {
+    public LinkedList<Food> getOrderedFood() {
         return orderedFood;
     }
   
@@ -87,7 +104,7 @@ public class Order implements Serializable{
         String orderDetail = "";
         for(int i=0; i < orderedFood.getNumberOfEntries(); i++)
         {
-            orderDetail += ;
+            orderDetail += "";
         }
         
         return orderDetail;
