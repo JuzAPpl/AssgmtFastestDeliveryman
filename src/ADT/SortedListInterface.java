@@ -21,4 +21,5 @@ public interface SortedListInterface<T extends Comparable<? super T>> {
     int getLength();
     boolean isEmpty();
     boolean isFull();
+    T getLastEntry();
 }
