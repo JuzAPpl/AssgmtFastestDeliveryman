@@ -148,7 +148,11 @@ public class Menu implements MenuInterface, Serializable {
             Food newFood;
             if (!foodName.equals("") && price > 0 && preparationTime > 0 && foodStatus >= 0 && foodStatus <= 2) {
                 if (emptyFoodID.isEmpty()) {
-                    newFood = new Food(linkedFood.getLastEntry().getID() + 1, foodName, price, preparationTime, foodStatus);
+                    if (linkedFood.isEmpty()) {
+                        newFood = new Food(1, foodName, price, preparationTime, foodStatus);
+                    } else {
+                        newFood = new Food(linkedFood.getLastEntry().getID() + 1, foodName, price, preparationTime, foodStatus);
+                    }
                     linkedFood.add(newFood);
                 } else {
                     int nextID = emptyFoodID.remove(1);
