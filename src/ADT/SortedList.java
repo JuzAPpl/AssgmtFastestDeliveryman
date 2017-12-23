@@ -5,12 +5,14 @@
  */
 package ADT;
 
+import java.util.Iterator;
+
 /**
  *
- * @author Leo
+ * @author Lim Fang Chun
  * @param <T>
  */
-public class SortedList<T extends Comparable<? super T>> implements SortedListInterface<T> {
+public class SortedList<T extends Comparable<? super T>> implements SortedListInterface<T>, SortedListWithIteratorInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
@@ -228,6 +230,36 @@ public class SortedList<T extends Comparable<? super T>> implements SortedListIn
             currentNode = currentNode.next;
         }
         return msg;
+    }
+
+    @Override
+    public Iterator getIterator() {
+        return new SortedLinkedListIterator();
+    }
+    
+    private class SortedLinkedListIterator implements Iterator<T> {
+
+        private Node currentNode;
+
+        public SortedLinkedListIterator() {
+            currentNode = firstNode;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentNode != null;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext()) {
+                T result = currentNode.data;
+                currentNode = currentNode.next;
+                return result;
+            } else {
+                return null;
+            }
+        }
     }
 
     private class Node {
