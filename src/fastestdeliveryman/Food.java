@@ -5,14 +5,14 @@
  */
 package fastestdeliveryman;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 /**
  *
  * @author Gan Zhen Jie
  */
-
-public class Food implements FoodInterface {
+public class Food implements FoodInterface, Serializable {
 
     public static final int FOOD_UNAVAILABLE = 0;
     public static final int FOOD_AVAILABLE = 1;
@@ -102,11 +102,11 @@ public class Food implements FoodInterface {
         }
         return status;
     }
-    
-    public int getStatus(boolean inInteger){
+
+    public int getStatus(boolean inInteger) {
         return status;
     }
-    
+
     public static int getNewFoodStatus() {
         Scanner reader = new Scanner(System.in);
         int newStatus = Food.FOOD_AVAILABLE;
@@ -146,4 +146,16 @@ public class Food implements FoodInterface {
         }
         return newStatus;
     }
+
+    @Override
+    public int compareTo(FoodInterface t) {
+        if (this.ID == t.getID()) {
+            return 0;
+        } else if (this.ID > t.getID()) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
 }
