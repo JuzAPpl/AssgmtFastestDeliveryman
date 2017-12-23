@@ -237,6 +237,11 @@ public class SortedList<T extends Comparable<? super T>> implements SortedListIn
         return new SortedLinkedListIterator();
     }
     
+    @Override
+    public T getLastEntry(){
+        return lastNode.data;
+    }
+    
     private class SortedLinkedListIterator implements Iterator<T> {
 
         private Node currentNode;
