@@ -21,9 +21,10 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Leo
+ * @author Lim Fang Chun
  */
 public class Affiliate implements AffiliateInterface, Serializable {
+
     public final static String ACC_STATUS_ACTIVE = "Active";
     public final static String ACC_STATUS_DEACTIVATED = "Deactivated";
 
@@ -127,7 +128,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
     public void setContactNo(String contactNo) {
         this.contactNo = contactNo;
     }
-    
+
     public String getAccStatus() {
         return accStatus;
     }
@@ -200,7 +201,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
         return String.format("%5d %10s %15s %20s %10s\n", ID, ownerName, restaurantName, address, contactNo);
     }
 
-    public static Affiliate login(ListWithIteratorInterface<AffiliateInterface> affiliate) {
+    public static Affiliate login(SortedListWithIteratorInterface<AffiliateInterface> affiliate) {
         Scanner reader = new Scanner(System.in);
         boolean validLogin = true;
 
@@ -210,10 +211,14 @@ public class Affiliate implements AffiliateInterface, Serializable {
             System.out.println("Enter password: ");
             String password = reader.nextLine();
 
-            if (affiliate.getEntry(ID).getID() == ID && affiliate.getEntry(ID).getPassword().equals(password)) {
-                System.out.println("Welcome, " + affiliate.getEntry(ID).getOwnerName());
-                System.out.println("============================");
-                return (Affiliate) affiliate.getEntry(ID);
+            Iterator temp = affiliate.getIterator();
+            while (temp.hasNext()) {
+                Affiliate currentAffiliate = (Affiliate) temp.next();
+                if (currentAffiliate.getID() == ID && currentAffiliate.getPassword().equals(password)) {
+                    System.out.println("Welcome, " + affiliate.getEntry(ID).getOwnerName());
+                    System.out.println("============================");
+                    return (Affiliate) affiliate.getEntry(ID);
+                }
             }
 
             System.out.println("======================");
@@ -252,9 +257,9 @@ public class Affiliate implements AffiliateInterface, Serializable {
                 System.out.println("Registration successfull! Please login with the following ID");
                 System.out.println("Your ID: " + newAffiliate.ID);
                 System.out.println("============================================================");
-                
+
                 return newAffiliate;
-                
+
             } else {
                 System.out.println("===============================");
                 System.out.println("Please do not leave blank space");
@@ -264,29 +269,29 @@ public class Affiliate implements AffiliateInterface, Serializable {
         } while (!validRegistration);
         return null;
     }
-    
-    public static void saveAffiliate(ListWithIteratorInterface<AffiliateInterface> newAffiliate) throws IOException{
+
+    public static void saveAffiliate(SortedListWithIteratorInterface<AffiliateInterface> newAffiliate) throws IOException {
         ObjectOutputStream is = null;
         try {
             String fileName = "Affiliate.bin";
             is = new ObjectOutputStream(new FileOutputStream(fileName));
             Iterator temp = newAffiliate.getIterator();
-            while(temp.hasNext()){
+            while (temp.hasNext()) {
                 Affiliate currentAffiliate = (Affiliate) temp.next();
                 is.writeObject(currentAffiliate);
             }
         } catch (FileNotFoundException ex) {
-            
+
         } finally {
             try {
                 is.close();
             } catch (IOException | NullPointerException ex) {
-                
+
             }
         }
     }
-    
-    public static void initializeAffiliate(ListWithIteratorInterface<AffiliateInterface> affiliate) throws IOException{
+
+    public static void initializeAffiliate(SortedListWithIteratorInterface<AffiliateInterface> affiliate) throws IOException {
         ObjectInputStream is = null;
         try {
             //TODO: read from binary file
