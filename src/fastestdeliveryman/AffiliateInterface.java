@@ -9,7 +9,7 @@ package fastestdeliveryman;
  *
  * @author Leo
  */
-public interface AffiliateInterface {
+public interface AffiliateInterface extends Comparable<AffiliateInterface> {
     public int getID();
     public String getOwnerName();
     public void setOwnerName(String ownerName);
