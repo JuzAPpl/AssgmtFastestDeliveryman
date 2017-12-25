@@ -101,13 +101,16 @@ public class Food implements FoodInterface, Serializable {
         }
         return status;
     }
+<<<<<<< HEAD
     
     public int getStatus(){
+=======
 
     public int getStatus(boolean inInteger) {
+>>>>>>> Sprint-3-LimFangChun
         return status;
     }
-    
+
     public static int getNewFoodStatus() {
         Scanner reader = new Scanner(System.in);
         int newStatus = Food.FOOD_AVAILABLE;
@@ -149,6 +152,7 @@ public class Food implements FoodInterface, Serializable {
     }
 
     @Override
+<<<<<<< HEAD
 //    public String toString() {
 //        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
 //    }
@@ -156,6 +160,7 @@ public class Food implements FoodInterface, Serializable {
     public String toString(){
         return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
     }
+=======
     public int compareTo(FoodInterface t) {
         if (this.ID == t.getID()) {
             return 0;
@@ -166,4 +171,5 @@ public class Food implements FoodInterface, Serializable {
         }
     }
 
+>>>>>>> Sprint-3-LimFangChun
 }

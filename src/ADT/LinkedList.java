@@ -284,12 +284,15 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
             Food f = (Food) currentNode.data;
     private class LinkedListIterator implements Iterator<T> {
 
+<<<<<<< HEAD
             if (f.getStatus() == Food.FOOD_PROMOTION) {
                 promotion += f;
             } else if (f.getStatus() == Food.FOOD_AVAILABLE) {
                 available += f;
             }
+=======
         private Node currentNode;
+>>>>>>> Sprint-3-LimFangChun
 
             currentNode = currentNode.next;
         }
