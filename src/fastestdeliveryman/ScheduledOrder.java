@@ -33,8 +33,8 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
         return (firstNode == null);
     }
 
-    public ScheduledOrder(Date orderDay, Food[] orderedFood, String location, String affiliateID, int totalDays, Date startDate, Date deliveryTime) {
-        super(orderDay, orderedFood, location, affiliateID);
+    public ScheduledOrder(Date orderDay, LinkedList<Food>orderedFood, String location, String affiliateID, int totalDays, Date startDate, Date deliveryTime) {
+      //  super(orderDay, orderedFood, location, affiliateID);
         this.totalDays = totalDays;
         this.startDate = startDate;
         this.deliveryTime = deliveryTime;
@@ -69,7 +69,7 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
   
     public String toString() {
         String strDate = startDate.toString() + " " + deliveryTime.toString();
-        return String.format("%5d\t%20s\t%20s\t%20s\t5d\n", orderNum, orderedFood, location, strDate, totalDays);
+        return String.format("%5d\t%20s\t%20s\t%20s\t5d\n", orderNum, orderedFood, destination, strDate, totalDays);
     }
 
     public int getInputDays(int day) {
@@ -267,7 +267,7 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
             System.out.println("Please enter the location:");
             local = scanlocal.nextLine();
             if (!local.isEmpty()) {
-                s.setLocation(local);
+            //    s.setLocation(local);
                 S = s;
                 continueAddScheduledOrder(s);
             } else {
@@ -334,17 +334,6 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
         }
     }
 
-    public String toString() {
-        return "orderNum= " + orderNum
-                + ", orderDay= " + dateF.format(orderDay)
-                + ", orderedFood= " + orderedFood
-                + ", location= " + location
-                + ", affiliateID= " + affiliateID
-                + ", deliveryDate= " + deliveryDate
-                + ", deliveryTime= " + deliveryTime
-                + ", weeks= " + weeks + "\n";
-
-    }
 
     @Override
     public void cancelScheduledOrder() {
@@ -449,6 +438,11 @@ public class ScheduledOrder extends Order implements ScheduledOrderInterface {
     public static void main(String[] args) {
         ScheduledOrderList<ScheduledOrder> so = new ScheduledOrderList<>();
 
+    }
+
+    @Override
+    public void adding(ScheduledOrderInterface S) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
