@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +6,7 @@
  */
 package ADT;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -12,7 +14,8 @@ import java.util.Iterator;
  * @author Lim Fang Chun
  * @param <T>
  */
-public class SortedList<T extends Comparable<? super T>> implements SortedListInterface<T>, SortedListWithIteratorInterface<T> {
+public class SortedList<T extends Comparable<? super T>> implements SortedListInterface<T>, 
+        SortedListWithIteratorInterface<T>, Serializable {
 
     private Node firstNode;
     private Node lastNode;
@@ -290,3 +293,4 @@ public class SortedList<T extends Comparable<? super T>> implements SortedListIn
 
     }
 }
+
