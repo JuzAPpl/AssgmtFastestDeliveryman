@@ -10,8 +10,12 @@ package fastestdeliveryman;
  * @author Leo
  */
 public interface MenuInterface {
+
     public void addFood();
+
     public void removeFood();
+
     public void showMenu();
-    public boolean setFoodStatus();
+
+    public void setFoodDetail();
 }

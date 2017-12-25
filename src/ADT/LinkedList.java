@@ -1,6 +1,7 @@
 package ADT;
 
 import fastestdeliveryman.Food;
+import java.util.Iterator;
 
 /**
  *
@@ -8,6 +9,7 @@ import fastestdeliveryman.Food;
  * @param <T>
  */
 public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T> {
+public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
@@ -123,6 +125,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
     public final void clear() {
         firstNode = null;
         lastNode = null;
+        countEntry = 0;
     }
 
     @Override
@@ -217,6 +220,7 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
     @Override
     public boolean isEmpty() {
         return countEntry == 0;
+        return countEntry == 0 || firstNode == null;
     }
 
     @Override
@@ -308,16 +312,24 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         //unavailable food will not be displayed
         String promotion = "";
         String available = "";
+    public Iterator<T> getIterator() {
+        return new LinkedListIterator();
+    }
 
         Node currentNode = firstNode;
         while (currentNode != null) {
             Food f = (Food) currentNode.data;
+    private class LinkedListIterator implements Iterator<T> {
 
+<<<<<<< HEAD
             if (f.getStatus() == Food.FOOD_PROMOTION) {
                 promotion += f;
             } else if (f.getStatus() == Food.FOOD_AVAILABLE) {
                 available += f;
             }
+=======
+        private Node currentNode;
+>>>>>>> Sprint-3-LimFangChun
 
             currentNode = currentNode.next;
         }
@@ -331,12 +343,17 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
         if (ID == 1) {
             Food f = (Food) firstNode.data;
             return f;
+        public LinkedListIterator() {
+            currentNode = firstNode;
         }
 
         //instantly return last node's data if ID is equals to total entries
         if (ID == countEntry) {
             Food f = (Food) lastNode.data;
             return f;
+        @Override
+        public boolean hasNext() {
+            return currentNode != null;
         }
 
         //start the traverse from beginning of list if ID is less than half of
@@ -348,7 +365,14 @@ public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<
                 if (f.getID() == ID) {
                     return f;
                 }
+        @Override
+        public T next() {
+            if (hasNext()) {
+                T result = currentNode.data;
                 currentNode = currentNode.next;
+                return result;
+            } else {
+                return null;
             }
         }
 
