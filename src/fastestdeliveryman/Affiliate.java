@@ -24,7 +24,6 @@ import java.util.logging.Logger;
  * @author Leo
  * @author Lim Fang Chun
  */
-public class Affiliate implements AffiliateInterface {
 public class Affiliate implements AffiliateInterface, Serializable {
 
     public final static String ACC_STATUS_ACTIVE = "Active";
@@ -204,7 +203,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         return String.format("%5d %10s %15s %20s %10s\n", ID, ownerName, restaurantName, address, contactNo);
     }
 
-    public static Affiliate login(LinkedList<AffiliateInterface> affiliate) {
     public static Affiliate login(SortedListWithIteratorInterface<AffiliateInterface> affiliate) {
         Scanner reader = new Scanner(System.in);
         boolean validLogin = true;
@@ -238,7 +236,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         return null;
     }
 
-    public static Affiliate registerAffiliate() {
     public static Affiliate registerAffiliate() throws IOException {
         //this method is for restaurant onwer to register as an affiliate
         //if the restaurant onwer registered succesfull
