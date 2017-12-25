@@ -80,14 +80,14 @@ public class Affiliate implements AffiliateInterface {
     }
 
     @Override
-//    public String getAddress() {
-//    }
-//
-//    @Override
-//    public void setAddress(String address) {
-//    }
+    public String getAddress() {
+        return new String();
+    }
 
     @Override
+    public void setAddress(String address) {
+    }
+
     public String getRestaurantName() {
         return restaurantName;
     }
