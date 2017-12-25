@@ -219,4 +219,14 @@ public class Customer {
         
         System.out.println("You have ordered: " + cart);
     }
+    
+    private void addFoodToCart(Food food){
+        //Show food details
+        //Prompt user to enter qty(0 to cancel)
+        //Add food to list using a loop,
+    }
+    
+    private void checkOut(){
+        //
+    }
 }
