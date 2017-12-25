@@ -5,6 +5,7 @@
  */
 package fastestdeliveryman;
 
+import java.io.Serializable;
 import java.util.Scanner;
 import ADT.*;
 
@@ -14,6 +15,7 @@ import ADT.*;
  */
 
 public class Food implements FoodInterface {
+public class Food implements FoodInterface, Serializable {
 
     public static final int FOOD_UNAVAILABLE = 0;
     public static final int FOOD_AVAILABLE = 1;
@@ -99,11 +101,16 @@ public class Food implements FoodInterface {
         }
         return status;
     }
+<<<<<<< HEAD
     
     public int getStatus(){
+=======
+
+    public int getStatus(boolean inInteger) {
+>>>>>>> Sprint-3-LimFangChun
         return status;
     }
-    
+
     public static int getNewFoodStatus() {
         Scanner reader = new Scanner(System.in);
         int newStatus = Food.FOOD_AVAILABLE;
@@ -145,6 +152,7 @@ public class Food implements FoodInterface {
     }
 
     @Override
+<<<<<<< HEAD
 //    public String toString() {
 //        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
 //    }
@@ -152,4 +160,16 @@ public class Food implements FoodInterface {
     public String toString(){
         return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
     }
+=======
+    public int compareTo(FoodInterface t) {
+        if (this.ID == t.getID()) {
+            return 0;
+        } else if (this.ID > t.getID()) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+>>>>>>> Sprint-3-LimFangChun
 }

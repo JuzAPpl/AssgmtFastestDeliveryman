@@ -10,6 +10,7 @@ package fastestdeliveryman;
  * @author Leo
  */
 public interface FoodInterface {
+public interface FoodInterface extends Comparable<FoodInterface> {
     public int getID();
     public void setName(String name);
     public String getName();
