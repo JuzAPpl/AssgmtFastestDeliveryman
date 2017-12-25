@@ -8,7 +8,6 @@ import java.util.Iterator;
  * @author Lim Fang Chun
  * @param <T>
  */
-public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T> {
 public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterface<T> {
 
     private Node firstNode;
@@ -290,16 +289,7 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
         while (currentNode != null) {
             Food f = (Food) currentNode.data;
     private class LinkedListIterator implements Iterator<T> {
-
-<<<<<<< HEAD
-            if (f.getStatus() == Food.FOOD_PROMOTION) {
-                promotion += f;
-            } else if (f.getStatus() == Food.FOOD_AVAILABLE) {
-                available += f;
-            }
-=======
         private Node currentNode;
->>>>>>> Sprint-3-LimFangChun
 
             currentNode = currentNode.next;
         }
