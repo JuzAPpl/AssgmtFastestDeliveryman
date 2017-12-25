@@ -9,6 +9,7 @@ package fastestdeliveryman;
  *
  * @author Leo
  */
+public interface FoodInterface {
 public interface FoodInterface extends Comparable<FoodInterface> {
     public int getID();
     public void setName(String name);
@@ -17,6 +18,6 @@ public interface FoodInterface extends Comparable<FoodInterface> {
     public double getPrice();
     public void setPreparationTime(double preparationTime);
     public String getPreparationTime();
-    public String getStatus();
+    public String getStatusString();
     public void setStatus(int status);
 }

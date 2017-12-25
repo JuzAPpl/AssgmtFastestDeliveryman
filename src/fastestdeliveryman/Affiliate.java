@@ -22,8 +22,10 @@ import java.util.logging.Logger;
 
 /**
  *
+ * @author Leo
  * @author Lim Fang Chun
  */
+public class Affiliate implements AffiliateInterface {
 public class Affiliate implements AffiliateInterface, Serializable {
 
     public final static String ACC_STATUS_ACTIVE = "Active";
@@ -178,6 +180,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
                     menu.removeFood();
                     break;
                 case 3:
+                    menu.setFoodStatus();
                     menu.setFoodDetail();
                     break;
                 case 4:
@@ -207,6 +210,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
         return String.format("%5d %10s %15s %20s %10s\n", ID, ownerName, restaurantName, address, contactNo);
     }
 
+    public static Affiliate login(LinkedList<AffiliateInterface> affiliate) {
     public static Affiliate login(SortedListWithIteratorInterface<AffiliateInterface> affiliate) {
         Scanner reader = new Scanner(System.in);
         boolean validLogin = true;
@@ -217,6 +221,10 @@ public class Affiliate implements AffiliateInterface, Serializable {
             System.out.println("Enter password: ");
             String password = reader.nextLine();
 
+            if (affiliate.getEntry(ID).getID() == ID && affiliate.getEntry(ID).getPassword().equals(password)) {
+                System.out.println("Welcome, " + affiliate.getEntry(ID).getOwnerName());
+                System.out.println("============================");
+                return (Affiliate) affiliate.getEntry(ID);
             Iterator temp = affiliate.getIterator();
             while (temp.hasNext()) {
                 Affiliate currentAffiliate = (Affiliate) temp.next();
@@ -236,6 +244,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
         return null;
     }
 
+    public static Affiliate registerAffiliate() {
     public static Affiliate registerAffiliate() throws IOException {
         //this method is for restaurant onwer to register as an affiliate
         //if the restaurant onwer registered succesfull
@@ -265,6 +274,8 @@ public class Affiliate implements AffiliateInterface, Serializable {
                 System.out.println("============================================================");
 
                 return newAffiliate;
+                //continue here
+                //save in to .dat file
 
             } else {
                 System.out.println("===============================");

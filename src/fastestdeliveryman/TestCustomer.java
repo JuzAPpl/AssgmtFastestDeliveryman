@@ -23,15 +23,22 @@ import java.util.logging.Logger;
  *
  * @author ASUS
  */
-public class TestDisplayMenu {
+public class TestCustomer {
 
     /**
      * @param args the command line arguments
      */
+<<<<<<< HEAD:src/fastestdeliveryman/TestCustomer.java
+    public static void main(String[] args) {
+        Customer cust = new Customer();
+        cust.login();
+//        LinkedList<AffiliateInterface> a = new LinkedList<>();
+=======
     public static void main(String[] args) throws IOException {
         //Customer cust = new Customer();
         //cust.login();
 //        SortedList<AffiliateInterface> a = new SortedList<>();
+>>>>>>> Sprint-3-LimFangChun:src/fastestdeliveryman/TestDisplayMenu.java
 //        a.add(new Affiliate("kappa", "123", "333", "222", "111"));
 //        a.add(new Affiliate("keepo", "123", "resName", "address", "contact"));
 //        System.out.println(a);
@@ -40,6 +47,8 @@ public class TestDisplayMenu {
 //        a.add(new Food(1, "Cake", 2, 3, 0));
 //        a.add(new Food(2, "Coke", 3, 1, 1));
 //        System.out.println(a);
+<<<<<<< HEAD:src/fastestdeliveryman/TestCustomer.java
+=======
 
 //            LinkedFoodListInterface<Food> a = new LinkedList<>();
 //            a.add(new Food(1, "Cake", 2, 3, 1));
@@ -122,5 +131,6 @@ public class TestDisplayMenu {
     public void start() {
         
         t.scheduleAtFixedRate(task, 1000, 1000);
+>>>>>>> Sprint-3-LimFangChun:src/fastestdeliveryman/TestDisplayMenu.java
     }
 }

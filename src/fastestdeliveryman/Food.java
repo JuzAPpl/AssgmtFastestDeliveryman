@@ -7,11 +7,14 @@ package fastestdeliveryman;
 
 import java.io.Serializable;
 import java.util.Scanner;
+import ADT.*;
 
 /**
  *
  * @author Gan Zhen Jie
  */
+
+public class Food implements FoodInterface {
 public class Food implements FoodInterface, Serializable {
 
     public static final int FOOD_UNAVAILABLE = 0;
@@ -22,6 +25,7 @@ public class Food implements FoodInterface, Serializable {
     private String name;
     private double price;
     private double preparationTime;
+    private Affiliate foodOwner;
 
     private int status; //0: unavailable, 1: available, 2: promotion
 
@@ -74,17 +78,12 @@ public class Food implements FoodInterface, Serializable {
     }
 
     @Override
-    public String toString() {
-        return String.format("%-5d %20s %9.2f %17s %10s\n", ID, name, price, (getPreparationTime() + " min"), getStatus());
-    }
-
-    @Override
     public void setStatus(int status) {
         this.status = status;
     }
 
     @Override
-    public String getStatus() {
+    public String getStatusString() {
         String status;
         switch (this.status) {
             case FOOD_UNAVAILABLE:
@@ -102,8 +101,13 @@ public class Food implements FoodInterface, Serializable {
         }
         return status;
     }
+<<<<<<< HEAD
+    
+    public int getStatus(){
+=======
 
     public int getStatus(boolean inInteger) {
+>>>>>>> Sprint-3-LimFangChun
         return status;
     }
 
@@ -148,6 +152,15 @@ public class Food implements FoodInterface, Serializable {
     }
 
     @Override
+<<<<<<< HEAD
+//    public String toString() {
+//        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
+//    }
+    
+    public String toString(){
+        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
+    }
+=======
     public int compareTo(FoodInterface t) {
         if (this.ID == t.getID()) {
             return 0;
@@ -158,4 +171,5 @@ public class Food implements FoodInterface, Serializable {
         }
     }
 
+>>>>>>> Sprint-3-LimFangChun
 }

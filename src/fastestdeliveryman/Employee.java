@@ -8,22 +8,34 @@ package fastestdeliveryman;
 
 /**
  *
- * @author S3113
+ * @author ChowST & NgPX
  */
 
 public class Employee {
     protected String employeeName;
+    protected String identityCard;
+    protected char gender;
+    protected int age;
+    protected String contactNo;
+    protected String address;
     protected String employeeID;
     protected String employeePassword;
     protected double salary;
-    protected String contactNo;
+
+    public Employee(String employeeName, String identityCard, char gender, int age, String contactNo, String Address, String employeeID, String employeePassword, double salary) {
+        this.employeeName = employeeName;
+        this.identityCard = identityCard;
+        this.gender = gender;
+        this.age = age;
+        this.contactNo = contactNo;
+        this.address = Address;
+        this.employeeID = employeeID;
+        this.employeePassword = employeePassword;
+        this.salary = salary;
+    }
     
        public Employee(){
-       this.employeeName = "Louis";
-       this.employeeID = "1234";
-       this.employeePassword = "1234321";
-       this.salary = 1000;
-       this.contactNo = "01111111";
+       
    }
        
   public Employee(String employeeName, String employeeID,String employeePassword, double salary, String contactNo){
@@ -64,11 +76,45 @@ public class Employee {
    public void setContactNo(String contactNo){
        this.contactNo=contactNo;
    }
+
+    public String getIdentityCard() {
+        return identityCard;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setIdentityCard(String identityCard) {
+        this.identityCard = identityCard;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setAddress(String Address) {
+        this.address = Address;
+    }
    
    public String toString(){
-        return "Employee Name: " + employeeName +
-                "\nEmployee ID : " + employeeID +
-                "\nEmployee Password : "+ employeePassword+
+       
+        return  "Employee ID : " + employeeID +
+                "\nEmployee Name: " + employeeName +
+                "\nGender: " + gender +
+                "\nAddress: " + address+
                 "\nSalary: " + String.format("%.2f",salary) +
                 "\nContact No : " + contactNo;
     }

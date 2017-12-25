@@ -5,6 +5,8 @@
  */
 package fastestdeliveryman;
 
+import ADT.LinkedList;
+import ADT.ListInterface;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,7 +18,7 @@ public class Order implements Serializable{
 
     String orderNum;
     String affiliateID;
-    Food[] orderedFood;
+    ListInterface<Food> orderedFood = new LinkedList<>();
     private static int newNum;
     Date orderDay;
     String location;
@@ -78,5 +80,15 @@ public class Order implements Serializable{
 
     public Food[] getOrderedFood() {
         return orderedFood;
+    }
+    
+    public String toString(){
+        String orderDetail = "";
+        for(int i=0; i < orderedFood.getNumberOfEntries(); i++)
+        {
+            orderDetail += ;
+        }
+        
+        return orderDetail;
     }
 }
