@@ -10,6 +10,7 @@ package fastestdeliveryman;
  * @author Leo
  */
 public interface AffiliateInterface {
+public interface AffiliateInterface extends Comparable<AffiliateInterface> {
     public int getID();
     public String getOwnerName();
     public void setOwnerName(String ownerName);
@@ -23,4 +24,6 @@ public interface AffiliateInterface {
     public void setContactNo(String contactNo);
     public void setMenu();
     public Menu getMenu();
+    public String getAccStatus();
+    public void setAccStatus(String accStatus);
 }

@@ -5,6 +5,7 @@
  */
 package fastestdeliveryman;
 
+import java.io.Serializable;
 import java.util.Scanner;
 import ADT.*;
 
@@ -14,6 +15,7 @@ import ADT.*;
  */
 
 public class Food implements FoodInterface {
+public class Food implements FoodInterface, Serializable {
 
     public static final int FOOD_UNAVAILABLE = 0;
     public static final int FOOD_AVAILABLE = 1;
@@ -101,6 +103,8 @@ public class Food implements FoodInterface {
     }
     
     public int getStatus(){
+
+    public int getStatus(boolean inInteger) {
         return status;
     }
     
@@ -152,4 +156,14 @@ public class Food implements FoodInterface {
     public String toString(){
         return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
     }
+    public int compareTo(FoodInterface t) {
+        if (this.ID == t.getID()) {
+            return 0;
+        } else if (this.ID > t.getID()) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
 }
