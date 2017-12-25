@@ -25,17 +25,9 @@ import java.util.logging.Logger;
  */
 public class Menu implements MenuInterface, Serializable {
 
-<<<<<<< HEAD
-    private LinkedList<Food> linkedFood = new LinkedList<>();
-    private Food[] food = new Food[100];
-    private int countFood = 0;
-    private int length;
-    private LinkedQueue<Integer> emptyFoodID = new LinkedQueue<>();
-=======
     private SortedListWithIteratorInterface<Food> linkedFood = new SortedList<>();
     private Food[] food = new Food[100];
     private SortedListInterface<Integer> emptyFoodID = new SortedList();
->>>>>>> Sprint-3-LimFangChun
 
     public Menu() {
     }
@@ -53,34 +45,19 @@ public class Menu implements MenuInterface, Serializable {
         //status == promotion will be displayed first
         //followed by status == available
         System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
-<<<<<<< HEAD
-        linkedFood.displayMenuItemWithStatusOrder();
-//        for (int i = 0; i < countFood; ++i) {
-//            if (food[i].getStatusString().equals("Promotion")) {
-//                System.out.println(food[i]);
-//            }
-//        }
-//
-//        for (int i = 0; i < countFood; ++i) {
-//            if (food[i].getStatusString().equals("Available")) {
-//                System.out.println(food[i]);
-//            }
-//        }
-=======
         Iterator temp = linkedFood.getIterator();
         String promotion = "";
         String available = "";
         while (temp.hasNext()) {
             Food currentFood = (Food) temp.next();
-            if (currentFood.getStatus(true) == Food.FOOD_PROMOTION) {
+            if (currentFood.getStatus() == Food.FOOD_PROMOTION) {
                 promotion += currentFood;
             }
-            if (currentFood.getStatus(true) == Food.FOOD_AVAILABLE) {
+            if (currentFood.getStatus() == Food.FOOD_AVAILABLE) {
                 available += currentFood;
             }
         }
         System.out.println(promotion + available);
->>>>>>> Sprint-3-LimFangChun
     }
 
     public void initializeMenu() throws FileNotFoundException, IOException {
@@ -170,12 +147,6 @@ public class Menu implements MenuInterface, Serializable {
             //else proceed to creating new food object
             Food newFood;
             if (!foodName.equals("") && price > 0 && preparationTime > 0 && foodStatus >= 0 && foodStatus <= 2) {
-<<<<<<< HEAD
-                //food[countFood] = new Food(countFood + 1, foodName, price, preparationTime, foodStatus);
-                Food newFood = new Food(linkedFood.getNumberOfEntries() + 1, foodName, price, preparationTime, foodStatus);
-                linkedFood.add(newFood);
-                //++countFood;
-=======
                 if (emptyFoodID.isEmpty()) {
                     if (linkedFood.isEmpty()) {
                         newFood = new Food(1, foodName, price, preparationTime, foodStatus);
@@ -189,21 +160,12 @@ public class Menu implements MenuInterface, Serializable {
                     linkedFood.add(newFood);
                 }
 
->>>>>>> Sprint-3-LimFangChun
                 validInput = true;
                 System.out.println("====================================");
                 System.out.println("The food has been added to your menu");
                 System.out.println("Food Details: ");
                 System.out.println("======================");
-<<<<<<< HEAD
-                System.out.println("Food ID          : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getID());
-                System.out.println("Food Name        : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getName());
-                System.out.println("Price            : RM" + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getPrice());
-                System.out.println("Preparation Time : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getPreparationTime());
-                System.out.println("Status           : " + linkedFood.getEntry(linkedFood.getNumberOfEntries()).getStatusString());
-=======
                 displayFoodDetail(newFood.getID());
->>>>>>> Sprint-3-LimFangChun
                 System.out.println("======================");
             } else {
                 System.out.println("Please do not leave any blank space.");
@@ -213,14 +175,10 @@ public class Menu implements MenuInterface, Serializable {
     }
 
     public void addFood(Food food) {
-<<<<<<< HEAD
         linkedFood.add(food);
-=======
-        //this.food[length++] = food;
->>>>>>> Sprint-3-LimFangChun
     }
 
-    public LinkedList<Food> getMenu() {
+    public SortedListWithIteratorInterface<Food> getMenu() {
         return linkedFood;
     }
 
@@ -256,17 +214,11 @@ public class Menu implements MenuInterface, Serializable {
                     System.out.println("The following food has been deleted");
                     displayFoodDetail(foodID);
                     System.out.println("=====================================");
-<<<<<<< HEAD
-                    linkedFood.replace(foodID, null);
-
-                    System.out.println("Your current menu items: ");
-=======
                     linkedFood.remove(foodToBeRemoved);
 
                     System.out.println("Your current menu items: ");
                     System.out.println(String.format("%-5s %20s %9s %17s %10s\n",
                             "ID", "Food Name", "Price", "Preparation time", "Status"));
->>>>>>> Sprint-3-LimFangChun
                     System.out.println(linkedFood);
                     System.out.println("=====================================");
                 }
@@ -292,11 +244,7 @@ public class Menu implements MenuInterface, Serializable {
     }
 
     public int getLength() {
-<<<<<<< HEAD
-        return linkedFood.getNumberOfEntries();
-=======
         return linkedFood.getLength();
->>>>>>> Sprint-3-LimFangChun
     }
 
     @Override
@@ -346,7 +294,7 @@ public class Menu implements MenuInterface, Serializable {
         } while (!validInput);
     }
 
-    private void setFoodStatus() {
+    public void setFoodStatus() {
         Scanner reader = new Scanner(System.in);
         int foodID;
         int newFoodStatus;
@@ -378,7 +326,7 @@ public class Menu implements MenuInterface, Serializable {
 
     }
 
-    private void setFoodPrice() {
+    public void setFoodPrice() {
         Scanner reader = new Scanner(System.in);
         int foodID;
         double newFoodPrice;
@@ -418,16 +366,6 @@ public class Menu implements MenuInterface, Serializable {
             foodID = Integer.parseInt(reader.nextLine());
             found = linkedFood.contains(getFoodByID(foodID));
 
-<<<<<<< HEAD
-            if (foodID <= linkedFood.getNumberOfEntries() && foodID >= 1) {
-                newFoodStatus = Food.getNewFoodStatus();
-                System.out.println("==========================================");
-                System.out.println("You have selected the following food: ");
-                displayFoodDetail(foodID);
-                System.out.println("==========================================");
-
-                linkedFood.getFoodByID(foodID).setStatus(newFoodStatus);
-=======
             if (!found) {
                 System.out.println("================");
                 System.out.println("Invalid Food ID");
@@ -435,7 +373,6 @@ public class Menu implements MenuInterface, Serializable {
                 System.out.println("================");
             }
         } while (!found);
->>>>>>> Sprint-3-LimFangChun
 
         return foodID;
     }
@@ -449,13 +386,6 @@ public class Menu implements MenuInterface, Serializable {
     }
 
     private void displayFoodDetail(int foodID) {
-<<<<<<< HEAD
-        System.out.println("ID:               " + linkedFood.getFoodByID(foodID).getID());
-        System.out.println("Food Name:        " + linkedFood.getFoodByID(foodID).getName());
-        System.out.println("Price:            " + linkedFood.getFoodByID(foodID).getPrice());
-        System.out.println("Preparation Time: " + linkedFood.getFoodByID(foodID).getPreparationTime());
-        System.out.println("Status:           " + linkedFood.getFoodByID(foodID).getStatusString());
-=======
         Food f = getFoodByID(foodID);
         System.out.println(String.format("%-5s %20s %9s %17s %10s\n",
                 "ID", "Food Name", "Price", "Preparation time", "Status"));
@@ -464,7 +394,6 @@ public class Menu implements MenuInterface, Serializable {
         System.out.println("Price:            " + f.getPrice());
         System.out.println("Preparation Time: " + f.getPreparationTime());
         System.out.println("Status:           " + f.getStatus());
->>>>>>> Sprint-3-LimFangChun
     }
 
     @Override

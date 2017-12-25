@@ -198,7 +198,7 @@ public class Customer {
     private void addFoodToCart(LinkedList<Food> foodList){
         //show list of food
         System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
-        foodList.displayMenuItemWithStatusOrder();
+       //change this: foodList.displayMenuItemWithStatusOrder();
         
         //prompt user to enter selection and add to cart
         Scanner scanner = new Scanner(System.in);

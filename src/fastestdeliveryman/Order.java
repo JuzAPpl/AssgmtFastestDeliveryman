@@ -111,7 +111,7 @@ public class Order implements Comparable<Order>, Serializable{
         return 0;
     }
     
-    public int getDeliveryTime(){
+    public int getDeliveryTimeTaken(){
         return 0;
     }
     

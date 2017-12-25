@@ -10,13 +10,11 @@ import java.io.IOException;
  */
 public class FastestDeliveryMan {
 
-    private static final LinkedList<AffiliateInterface> AFFILIATE = new LinkedList<>();
     private static final SortedListWithIteratorInterface<AffiliateInterface> AFFILIATE = new SortedList();
     private static Object currentUser;
     public static int countAffiliate = 0;
     private static Scanner reader = new Scanner(System.in);
 
-    public static void main(String[] args) {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 
@@ -37,7 +35,6 @@ public class FastestDeliveryMan {
                 break;
             case 2:
                 Affiliate newAffiliate = Affiliate.registerAffiliate();
-                Affiliate newAffiliate = Affiliate.registerAffiliate();           
                 if (newAffiliate != null) {
                     AFFILIATE.add(newAffiliate);
                     currentUser = Affiliate.login(AFFILIATE);

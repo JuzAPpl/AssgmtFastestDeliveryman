@@ -209,10 +209,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
             System.out.println("Enter password: ");
             String password = reader.nextLine();
 
-            if (affiliate.getEntry(ID).getID() == ID && affiliate.getEntry(ID).getPassword().equals(password)) {
-                System.out.println("Welcome, " + affiliate.getEntry(ID).getOwnerName());
-                System.out.println("============================");
-                return (Affiliate) affiliate.getEntry(ID);
             Iterator temp = affiliate.getIterator();
             while (temp.hasNext()) {
                 Affiliate currentAffiliate = (Affiliate) temp.next();
