@@ -9,6 +9,8 @@
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>
+                <root id="test.src.dir"/>
+                <root id="test.fastestdeliveryman.dir"/>
             </test-roots>
         </data>
     </configuration>

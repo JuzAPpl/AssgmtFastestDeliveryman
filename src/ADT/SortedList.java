@@ -5,6 +5,7 @@
  */
 package ADT;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Iterator;
  * @author Lim Fang Chun
  * @param <T>
  */
-public class SortedList<T extends Comparable<? super T>> implements SortedListInterface<T>, SortedListWithIteratorInterface<T> {
+public class SortedList<T extends Comparable<? super T>> implements SortedListInterface<T>, 
+        SortedListWithIteratorInterface<T>, Serializable {
 
     private Node firstNode;
     private Node lastNode;
