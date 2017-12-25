@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -40,7 +41,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
     private static int nextID = 1;
     private String accStatus;
 
-    public Affiliate() {
+    public Affiliate() throws IOException {
         this.ID = nextID;
         this.ownerName = "";
         this.password = "";
@@ -52,7 +53,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
         ++nextID;
     }
 
-    public Affiliate(String ownerName, String password, String restaurantName, String address, String contactNo) {
+    public Affiliate(String ownerName, String password, String restaurantName, String address, String contactNo) throws IOException {
         this.ID = nextID;
         this.ownerName = ownerName;
         this.password = password;
@@ -186,9 +187,14 @@ public class Affiliate implements AffiliateInterface, Serializable {
                     System.out.println(menu.toString());
                     break;
                 case -1:
-                default:
-
-                //go back
+//                default: {
+//                    try {
+//                        Menu.saveMenu(menu.getMenu());
+//                        //go back
+//                    } catch (IOException ex) {
+//                        Logger.getLogger(Affiliate.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                }
             }
 
             System.out.println("====================================================");
@@ -312,12 +318,12 @@ public class Affiliate implements AffiliateInterface, Serializable {
                 Affiliate temp = (Affiliate) is.readObject();
                 affiliate.add(temp);
             }
-        } catch (ClassNotFoundException | EOFException | FileNotFoundException ex) {
+        } catch (ClassNotFoundException | EOFException | FileNotFoundException | InvalidClassException ex) {
 
         } finally {
             try {
                 is.close();
-            } catch (IOException ex) {
+            } catch (IOException | NullPointerException ex) {
                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

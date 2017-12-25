@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -37,7 +38,8 @@ public class Menu implements MenuInterface, Serializable {
     private SortedListInterface<Integer> emptyFoodID = new SortedList();
 >>>>>>> Sprint-3-LimFangChun
 
-    public Menu() {
+    public Menu() throws IOException {
+        initializeMenu();
     }
 
     public Menu(Food[] menu) {
@@ -94,7 +96,7 @@ public class Menu implements MenuInterface, Serializable {
                 Food temp = (Food) is.readObject();
                 linkedFood.add(temp);
             }
-        } catch (ClassNotFoundException | EOFException | FileNotFoundException ex) {
+        } catch (ClassNotFoundException | EOFException | FileNotFoundException | InvalidClassException ex) {
 
         } finally {
             try {
@@ -105,12 +107,12 @@ public class Menu implements MenuInterface, Serializable {
         }
     }
 
-    public void saveMenu() throws IOException {
+    public static void saveMenu(SortedListWithIteratorInterface<Food> foo) throws IOException {
         ObjectOutputStream is = null;
         try {
             String fileName = "Menu.bin";
             is = new ObjectOutputStream(new FileOutputStream(fileName));
-            Iterator temp = linkedFood.getIterator();
+            Iterator temp = foo.getIterator();
             while (temp.hasNext()) {
                 Food f = (Food) temp.next();
 
