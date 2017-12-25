@@ -17,10 +17,11 @@ public class Affiliate implements AffiliateInterface {
     private int ID;
     private String ownerName;
     private String password;
-    private String address;
+    private Location address;
     private String restaurantName;
     private String contactNo;
     private Menu menu;
+    private QueueInterface<Order> orders= new SortedLinkedQueue<>();
     private static int nextID = 1;
 
     public Affiliate() {
@@ -28,7 +29,6 @@ public class Affiliate implements AffiliateInterface {
         this.ownerName = "";
         this.password = "";
         this.restaurantName = "";
-        this.address = "";
         this.contactNo = "";
         this.menu = new Menu();
         ++nextID;
@@ -39,7 +39,6 @@ public class Affiliate implements AffiliateInterface {
         this.ownerName = ownerName;
         this.password = password;
         this.restaurantName = restaurantName;
-        this.address = address;
         this.contactNo = contactNo;
         this.menu = new Menu();
         ++nextID;
@@ -50,7 +49,6 @@ public class Affiliate implements AffiliateInterface {
         this.ownerName = ownerName;
         //this.password = password;
         this.restaurantName = restaurantName;
-        this.address = address;
         this.contactNo = contactNo;
         this.menu = menu;
         ++nextID;
@@ -82,14 +80,12 @@ public class Affiliate implements AffiliateInterface {
     }
 
     @Override
-    public String getAddress() {
-        return address;
-    }
-
-    @Override
-    public void setAddress(String address) {
-        this.address = address;
-    }
+//    public String getAddress() {
+//    }
+//
+//    @Override
+//    public void setAddress(String address) {
+//    }
 
     @Override
     public String getRestaurantName() {
