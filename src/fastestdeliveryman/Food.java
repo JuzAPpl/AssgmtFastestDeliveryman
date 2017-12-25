@@ -14,7 +14,6 @@ import ADT.*;
  * @author Gan Zhen Jie
  */
 
-public class Food implements FoodInterface {
 public class Food implements FoodInterface, Serializable {
 
     public static final int FOOD_UNAVAILABLE = 0;
@@ -101,13 +100,8 @@ public class Food implements FoodInterface, Serializable {
         }
         return status;
     }
-<<<<<<< HEAD
     
     public int getStatus(){
-=======
-
-    public int getStatus(boolean inInteger) {
->>>>>>> Sprint-3-LimFangChun
         return status;
     }
 
@@ -150,17 +144,17 @@ public class Food implements FoodInterface, Serializable {
         }
         return newStatus;
     }
-
-    @Override
-<<<<<<< HEAD
-//    public String toString() {
-//        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
+//
+//    @Override
+//<<<<<<< HEAD
+////    public String toString() {
+////        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
+////    }
+//    
+//    public String toString(){
+//        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
 //    }
-    
-    public String toString(){
-        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
-    }
-=======
+//=======
     public int compareTo(FoodInterface t) {
         if (this.ID == t.getID()) {
             return 0;
@@ -171,5 +165,5 @@ public class Food implements FoodInterface, Serializable {
         }
     }
 
->>>>>>> Sprint-3-LimFangChun
+//>>>>>>> Sprint-3-LimFangChun
 }

@@ -268,4 +268,12 @@ public class DeliveryMan extends Employee {
 
     }
 
+    public void getNearbyRestaurant(){
+        Location nearbyLoc;
+        for(int i=0;i<Location.map.getNumberOfEntries();i++){
+            if(true){
+                //????
+            }
+        }
+    }
 }

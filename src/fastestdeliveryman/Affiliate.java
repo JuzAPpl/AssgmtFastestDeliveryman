@@ -25,7 +25,6 @@ import java.util.logging.Logger;
  * @author Leo
  * @author Lim Fang Chun
  */
-public class Affiliate implements AffiliateInterface {
 public class Affiliate implements AffiliateInterface, Serializable {
 
     public final static String ACC_STATUS_ACTIVE = "Active";
@@ -34,10 +33,11 @@ public class Affiliate implements AffiliateInterface, Serializable {
     private int ID;
     private String ownerName;
     private String password;
-    private String address;
+    private Location address;
     private String restaurantName;
     private String contactNo;
     private Menu menu;
+    private QueueInterface<Order> orders= new SortedLinkedQueue<>();
     private static int nextID = 1;
     private String accStatus;
 
@@ -46,7 +46,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         this.ownerName = "";
         this.password = "";
         this.restaurantName = "";
-        this.address = "";
         this.contactNo = "";
         this.menu = new Menu();
         accStatus = ACC_STATUS_DEACTIVATED;
@@ -58,7 +57,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         this.ownerName = ownerName;
         this.password = password;
         this.restaurantName = restaurantName;
-        this.address = address;
         this.contactNo = contactNo;
         this.menu = new Menu();
         accStatus = ACC_STATUS_ACTIVE;
@@ -70,7 +68,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         this.ownerName = ownerName;
         //this.password = password;
         this.restaurantName = restaurantName;
-        this.address = address;
         this.contactNo = contactNo;
         this.menu = menu;
         accStatus = ACC_STATUS_ACTIVE;
@@ -104,15 +101,13 @@ public class Affiliate implements AffiliateInterface, Serializable {
 
     @Override
     public String getAddress() {
-        return address;
+        return new String();
     }
 
     @Override
     public void setAddress(String address) {
-        this.address = address;
     }
 
-    @Override
     public String getRestaurantName() {
         return restaurantName;
     }
@@ -210,7 +205,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         return String.format("%5d %10s %15s %20s %10s\n", ID, ownerName, restaurantName, address, contactNo);
     }
 
-    public static Affiliate login(LinkedList<AffiliateInterface> affiliate) {
     public static Affiliate login(SortedListWithIteratorInterface<AffiliateInterface> affiliate) {
         Scanner reader = new Scanner(System.in);
         boolean validLogin = true;
@@ -221,10 +215,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
             System.out.println("Enter password: ");
             String password = reader.nextLine();
 
-            if (affiliate.getEntry(ID).getID() == ID && affiliate.getEntry(ID).getPassword().equals(password)) {
-                System.out.println("Welcome, " + affiliate.getEntry(ID).getOwnerName());
-                System.out.println("============================");
-                return (Affiliate) affiliate.getEntry(ID);
             Iterator temp = affiliate.getIterator();
             while (temp.hasNext()) {
                 Affiliate currentAffiliate = (Affiliate) temp.next();
@@ -244,7 +234,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         return null;
     }
 
-    public static Affiliate registerAffiliate() {
     public static Affiliate registerAffiliate() throws IOException {
         //this method is for restaurant onwer to register as an affiliate
         //if the restaurant onwer registered succesfull
