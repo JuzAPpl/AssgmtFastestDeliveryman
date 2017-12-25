@@ -22,7 +22,6 @@ public class Location {
     private ListInterface<Affiliate> restaurants = new LinkedList<>();
 
     public Location(int index, String locationName) {
-
         this.index = index;
         this.locationName = locationName;
     }
@@ -35,28 +34,22 @@ public class Location {
         return index;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
     public String getLocationName() {
         return locationName;
     }
 
-    // ???
+    
 //    public void selectLocation() {
 //        Location local = new Location();
 //
 //        int location;
 //        Scanner scan = new Scanner(System.in);
-//        System.out.println("\nAdding The Scheduled Order");
 //        System.out.println("1. Location 1");
 //        System.out.println("2. Location 2");
 //        System.out.println("3. Location 3");
 //        System.out.println("4. Location 4");
 //        System.out.println("5. Location 5");
 //        System.out.println("6. Location 6");
-//        System.out.println("Please select the day(s) you want to make order: ");
 //        location = scan.nextInt();
 //        switch (location) {
 //            case 1:
@@ -90,5 +83,14 @@ public class Location {
     public static void initializeAffiliates(){
         //TODO: load affiliates from binary file and add them into the map
         
+    }
+    
+    public static void initializeMap(){
+        map.add(new Location(1, "Taman Desa Setapak"));
+        map.add(new Location(2, "Genting Klang"));
+        map.add(new Location(3, "Taman Bunga Raya"));
+        map.add(new Location(4, "PV10"));
+        map.add(new Location(5, "PV13"));
+        map.add(new Location(6, "PV15"));
     }
 }

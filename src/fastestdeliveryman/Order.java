@@ -6,10 +6,10 @@
 package fastestdeliveryman;
 
 import ADT.LinkedList;
-import ADT.ListInterface;
+import ADT.ListWithIteratorInterface;
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  *
@@ -20,6 +20,7 @@ public class Order implements Comparable<Order>, Serializable{
     public static final int ADHOC_PENDING = 1;
     public static final int ADHOC_STARTED = 2;
     public static final int ADHOC_COMPLETE = 3;
+    
     public static final int SCH_PENDING = 21;
     public static final int SCH_STARTED_INCOMPLETE = 23;
     public static final int SCH_STARTED_COMPLETE = 23;
@@ -27,9 +28,10 @@ public class Order implements Comparable<Order>, Serializable{
     
     private static int newNum = 0;
     protected String orderNum;
-    protected LinkedList<Food> orderedFood;
+    protected ListWithIteratorInterface<Food> orderedFood;
     protected Date orderDay;
     protected Location destination; 
+    protected int status;
 
     public Order() {
         this.orderNum = "S" + String.format("%06d",newNum);
@@ -81,7 +83,7 @@ public class Order implements Comparable<Order>, Serializable{
     }
 
     public LinkedList<Food> getOrderedFood() {
-        return orderedFood;
+        return (LinkedList<Food>)orderedFood;
     }
   
     public String toString(){
@@ -105,13 +107,22 @@ public class Order implements Comparable<Order>, Serializable{
         return new Order();
     }
     
-    public int getPreparationTime(){
+    public double getPreparationTime(){
         //return largest preparation time in ordered food collection
-        
-        return 0;
+        Iterator it = orderedFood.getIterator();
+        double largestPreparationTime = -1;
+        while(it.hasNext()){
+            Food currentFood = (Food)it.next();
+            double prepTime = currentFood.getPreparationTime();
+            if(prepTime > largestPreparationTime)
+                largestPreparationTime = prepTime;
+        }
+        return largestPreparationTime;
     }
     
     public int getDeliveryTimeTaken(){
+        //affiliate location vs destination
+        
         return 0;
     }
     

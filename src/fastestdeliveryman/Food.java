@@ -71,8 +71,12 @@ public class Food implements FoodInterface, Serializable {
         this.preparationTime = preparationTime;
     }
 
+    public double getPreparationTime() {
+        return preparationTime;
+    }
+    
     @Override
-    public String getPreparationTime() {
+    public String getPreparationTimeString() {
         return String.format("%.1f", preparationTime);
     }
 
@@ -148,11 +152,11 @@ public class Food implements FoodInterface, Serializable {
 //    @Override
 //<<<<<<< HEAD
 ////    public String toString() {
-////        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTime() + " min"), status);
+////        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTimeString() + " min"), status);
 ////    }
 //    
 //    public String toString(){
-//        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTime()+" minutes"), getStatusString());
+//        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTimeString()+" minutes"), getStatusString());
 //    }
 //=======
     public int compareTo(FoodInterface t) {

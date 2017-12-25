@@ -16,7 +16,7 @@ public interface FoodInterface extends Comparable<FoodInterface> {
     public void setPrice(double price);
     public double getPrice();
     public void setPreparationTime(double preparationTime);
-    public String getPreparationTime();
+    public String getPreparationTimeString();
     public String getStatusString();
     public void setStatus(int status);
 }
