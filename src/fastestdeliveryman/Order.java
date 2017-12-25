@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author User
  */
-public class Order implements Serializable{
+public class Order implements Comparable<Order>, Serializable{
 
     public static final int ADHOC_PENDING = 1;
     public static final int ADHOC_STARTED = 2;
@@ -29,9 +29,7 @@ public class Order implements Serializable{
     protected String orderNum;
     protected LinkedList<Food> orderedFood;
     protected Date orderDay;
-    protected Time arriveTime;
-    protected DeliveryMan delManInCharge; 
-    protected Location destination; //TODO: change to "Location destination;" aftter implementation of Location class
+    protected Location destination; 
 
     public Order() {
         this.orderNum = "S" + String.format("%06d",newNum);
@@ -50,21 +48,7 @@ public class Order implements Serializable{
     return new Order();
     }
 
-    public Time getArriveTime() {
-        return arriveTime;
-    }
-
-    public void setArriveTime(Time arriveTime) {
-        this.arriveTime = arriveTime;
-    }
-
-    public DeliveryMan getDelManInCharge() {
-        return delManInCharge;
-    }
-
-    public void setDelManInCharge(DeliveryMan delManInCharge) {
-        this.delManInCharge = delManInCharge;
-    }
+    
 
     public Location getDestination() {
         return destination;
@@ -109,4 +93,31 @@ public class Order implements Serializable{
         
         return orderDetail;
     }
+    
+    public static Order newOrder(LinkedList<Food> foods){
+        //retrieve addr, time, destination from user input
+        
+        //order date=current time by default
+        
+        
+        //arriveTime =current time+preparatin time+time used to travel from restaurant to destination 
+        
+        return new Order();
+    }
+    
+    public int getPreparationTime(){
+        //return largest preparation time in ordered food collection
+        return 0;
+    }
+    
+    public int getDeliveryTime(){
+        return 0;
+    }
+    
+    @Override
+    public int compareTo(Order anotherOrder){
+        //compare order finish time
+        return 0;
+    } 
+
 }
