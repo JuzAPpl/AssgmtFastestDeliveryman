@@ -30,7 +30,6 @@ public class TestIntegratedFunction {
     public static void main(String[] args) {
         ListInterface deliverymanList = initializeTestDeliverymanList();
         Executive exec = new Executive();
-        exec.viewPendingDelivery(deliverymanList);
         
     }
     
