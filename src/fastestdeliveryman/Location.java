@@ -20,7 +20,7 @@ public class Location {
     private int index;
     private String locationName;
 
-    private ListInterface<Affiliate> restaurants = new LinkedList<>();
+    private ListWithIteratorInterface<Affiliate> restaurants = new LinkedList<>();
 
     public Location(int index, String locationName) {
         this.index = index;
@@ -47,6 +47,19 @@ public class Location {
         //return time used to travel from this location to given location
         return Math.abs(this.index - loc.index) + 1;
     }
+    
+    public ListWithIteratorInterface getRestaurantsAt(int index){
+       Iterator it = map.getIterator();
+       Location temp;
+        while (it.hasNext()) {
+            temp = (Location)it.next();
+            if(temp.index == index){
+                return temp.restaurants;
+            }
+        } 
+        return null;
+    }
+    
 
 //    public void selectLocation() {
 //        Location local = new Location();
