@@ -275,7 +275,7 @@ public class Menu implements MenuInterface, Serializable {
                 System.out.println("================");
             } else {
                 System.out.println("=========================================");
-                System.out.println(String.format("%-5s %20s %-7.2s %-10s", "ID", "Food Name", "Price", "Status"));
+                System.out.println(String.format("%-5s %20s %-9s %-17s %10s", "ID", "Food name", "Price(RM)", "Preparation time", "Status"));
                 System.out.println(linkedFood);
                 System.out.println("=========================================");
                 switch (choice) {
