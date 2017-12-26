@@ -6,6 +6,7 @@
 package fastestdeliveryman;
 
 import ADT.*;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -14,8 +15,8 @@ import java.util.Scanner;
  */
 public class Location {
 
-    public static ListInterface<Location> map;
-    
+    public static ListWithIteratorInterface<Location> map = new LinkedList<>();
+
     private int index;
     private String locationName;
 
@@ -38,7 +39,15 @@ public class Location {
         return locationName;
     }
 
-    
+    public String toString() {
+        return String.format("%-5d\t%-30s", index, locationName);
+    }
+
+    public double getTravelTime(Location loc) {
+        //return time used to travel from this location to given location
+        return Math.abs(this.index - loc.index) + 1;
+    }
+
 //    public void selectLocation() {
 //        Location local = new Location();
 //
@@ -79,13 +88,57 @@ public class Location {
 //            default:
 //        }
 //    }
-    
-    public static void initializeAffiliates(){
-        //TODO: load affiliates from binary file and add them into the map
-        
+    public static void initializeAffiliateLocation(Affiliate aff) {
+        Iterator it = map.getIterator();
+        while (it.hasNext()) {
+            Location loc = (Location) it.next();
+            if (aff.getAddress().getIndex() == loc.getIndex()) {
+                loc.restaurants.add(aff);
+                break;
+            }
+        }
     }
-    
-    public static void initializeMap(){
+
+    public static Location getLocation() {
+        Iterator it = map.getIterator();
+        System.out.println(String.format("%-5s\t%-30s", "No", "Location"));
+        while (it.hasNext()) {
+            //print out list of location
+            System.out.println(it.next());
+
+        }
+
+        Location loc = null;
+        boolean found = false;
+        Scanner in = new Scanner(System.in);
+        do {
+            //user input: index
+            System.out.println("Please enter your selection(0 to cancel): ");
+            int sel = in.nextInt();
+            if (sel == 0) {
+                break;
+            }
+
+            it = map.getIterator();
+
+            while (!found && it.hasNext()) {
+                //loop through the list once more and return the location if index matches
+                loc = (Location) it.next();
+                if (sel == loc.getIndex()) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("Invalid input. Please try again.\n");
+            }
+        } while (!found);
+
+        return loc;
+    }
+
+    public static void initializeMap() {
         map.add(new Location(1, "Taman Desa Setapak"));
         map.add(new Location(2, "Genting Klang"));
         map.add(new Location(3, "Taman Bunga Raya"));
