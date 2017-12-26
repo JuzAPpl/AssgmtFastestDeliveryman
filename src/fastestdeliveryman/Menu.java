@@ -33,11 +33,7 @@ public class Menu implements MenuInterface, Serializable {
         initializeMenu();
     }
 
-    public Menu(Food[] menu) {
-        for (int i = 0; i < menu.length; i++) {
-            addFood(menu[i]);
-        }
-    }
+    
 
     @Override
     public void showMenu() {
@@ -175,9 +171,7 @@ public class Menu implements MenuInterface, Serializable {
         } while (!validInput);
     }
 
-    public void addFood(Food food) {
-        //this.food[length++] = food;
-    }
+    
 
 
     @Override
