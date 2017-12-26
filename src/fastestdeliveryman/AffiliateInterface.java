@@ -15,8 +15,8 @@ public interface AffiliateInterface extends Comparable<AffiliateInterface> {
     public void setOwnerName(String ownerName);
     public String getPassword();
     public void setPassword(String password);
-    public String getAddress();
-    public void setAddress(String address);
+    public Location getAddress();
+    public void setAddress();
     public String getRestaurantName();
     public void setRestaurantName(String restaurantName);
     public String getContactNo();

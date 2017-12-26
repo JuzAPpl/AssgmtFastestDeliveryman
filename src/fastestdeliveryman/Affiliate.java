@@ -37,7 +37,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
     private String restaurantName;
     private String contactNo;
     private Menu menu;
-    private QueueInterface<Order> orders= new SortedLinkedQueue<>();
+    private QueueInterface<Order> adHocOrders= new SortedLinkedQueue<>();
     private static int nextID = 1;
     private String accStatus;
 
@@ -100,12 +100,13 @@ public class Affiliate implements AffiliateInterface, Serializable {
     }
 
     @Override
-    public String getAddress() {
-        return new String();
+    public Location getAddress() {
+        return address;
     }
 
     @Override
-    public void setAddress(String address) {
+    public void setAddress() {
+        this.address = Location.getLocation();
     }
 
     public String getRestaurantName() {
@@ -151,6 +152,14 @@ public class Affiliate implements AffiliateInterface, Serializable {
         choice = reader.nextInt();
 
         return choice;
+    }
+
+    public QueueInterface<Order> getAdHocOrders() {
+        return adHocOrders;
+    }
+
+    public void setAdHocOrders(QueueInterface<Order> adHocOrders) {
+        this.adHocOrders = adHocOrders;
     }
 
     @Override
