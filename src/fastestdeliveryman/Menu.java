@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 public class Menu implements MenuInterface, Serializable {
 
     private SortedListWithIteratorInterface<Food> linkedFood = new SortedList<>();
-    private Food[] food = new Food[100];
     private SortedListInterface<Integer> emptyFoodID = new SortedList();
 
     public Menu() throws IOException {
@@ -180,9 +179,6 @@ public class Menu implements MenuInterface, Serializable {
         //this.food[length++] = food;
     }
 
-    public Food[] getMenu() {
-        return food;
-    }
 
     @Override
     public void removeFood() {
