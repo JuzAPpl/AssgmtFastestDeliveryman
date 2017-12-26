@@ -25,8 +25,11 @@ public class Food implements FoodInterface, Serializable {
     private double price;
     private double preparationTime;
     private Affiliate foodOwner;
-
     private int status; //0: unavailable, 1: available, 2: promotion
+
+    public Affiliate getFoodOwner() {
+        return foodOwner;
+    }
 
     public Food() {
         this(-1, "", -1.0, -1.0, 0);
@@ -77,7 +80,7 @@ public class Food implements FoodInterface, Serializable {
     
     @Override
     public String getPreparationTimeString() {
-        return String.format("%.1f", preparationTime);
+        return String.format("%.1f minutes", preparationTime);
     }
 
     @Override
@@ -152,11 +155,11 @@ public class Food implements FoodInterface, Serializable {
 //    @Override
 //<<<<<<< HEAD
 ////    public String toString() {
-////        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTimeString() + " min"), status);
+////        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTimeString()), status);
 ////    }
 //    
 //    public String toString(){
-//        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTimeString()+" minutes"), getStatusString());
+//        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTimeString()), getStatusString());
 //    }
 //=======
     public int compareTo(FoodInterface t) {
@@ -170,4 +173,8 @@ public class Food implements FoodInterface, Serializable {
     }
 
 //>>>>>>> Sprint-3-LimFangChun
+
+    public static String getFoodHeader() {
+        return String.format("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
+    }
 }
