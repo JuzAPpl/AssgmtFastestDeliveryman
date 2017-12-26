@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Gan Zhen Jie
+ * @author Lim Fang Chun, Gan Zhen Jie
  */
 public class Food implements FoodInterface, Serializable {
 
