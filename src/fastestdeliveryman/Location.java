@@ -20,6 +20,7 @@ public class Location {
     private String locationName;
 
     private ListInterface<Affiliate> restaurants = new LinkedList<>();
+     private QueueInterface<DeliveryOrder> deliveryRequestQueue = new LinkedQueue<>();
 
     public Location(int index, String locationName) {
 
@@ -41,6 +42,9 @@ public class Location {
 
     public String getLocationName() {
         return locationName;
+    }
+      public DeliveryOrder assignDeliveryOrder(){
+        return deliveryRequestQueue.dequeue();
     }
 
     // ???

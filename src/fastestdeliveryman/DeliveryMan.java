@@ -5,275 +5,317 @@
  */
 package fastestdeliveryman;
 
+import ADT.ListInterface;
 import ADT.LinkedList;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Scanner;
 
 /**
  *
- * @author S3113
+ * @author Ng Pei Xiang
  */
-public class DeliveryMan extends Employee {
-
-    private Calendar cal;
-    private String getTime;
-    private String ClockInTime = "";
-    private String ClockOutTime = new String("");
-    private String orderStatus = "null";
-    LinkedList<OrderedDelivery> orderDetail = new LinkedList<>();
-    OrderedDelivery ordered = new OrderedDelivery("O001", "A001", "F001", "CHEESEBURGER", "C001", "Louis", "2017/12/11 14:55:15", "TAMAN MAD 000");
-    OrderedDelivery ordered2 = new OrderedDelivery("O002", "A002", "F002", "PIZZA", "C002", "CHOUYUFONG", "2017/11/11 00:55:15", "TAMAN MD 010");
-
-    public DeliveryMan(String employeeName, String identityCard, char gender, int age, String contactNo, String Address, String employeeID, String employeePassword, double salary) {
-        super(employeeName, identityCard, gender, age, contactNo, Address, employeeID, employeePassword, salary);
-    }
-
-    public DeliveryMan(String employeeName, String employeeID, String employeePassword, double salary, String contactNo) {
-        super(employeeName, employeeID, employeePassword, salary, contactNo);
-    }
-
-    public DeliveryMan() {
-
-    }
-
-    public void getTimeNow() {
-        cal = Calendar.getInstance();
-        String pattern = "yyyy/MM//dd__hh:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        getTime = sdf.format(cal.getTime());
-
-    }
-
-    public void readText() {
-        // The name of the file to open.
-        String fileName = "StatusRecord.txt";
-
-        // This will reference one line at a time
-        String line = null;
-
-        try {
-            // FileReader reads text files in the default encoding.
-            FileReader fileReader
-                    = new FileReader(fileName);
-
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader
-                    = new BufferedReader(fileReader);
-
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            // Always close files.
-            bufferedReader.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println(
-                    "Unable to open file '"
-                    + fileName + "'");
-        } catch (IOException ex) {
-            System.out.println(
-                    "Error reading file '"
-                    + fileName + "'");
-            // Or we could just do this: 
-            // ex.printStackTrace();
-        }
-    }
-
-    public void clockIn() {
-        getTimeNow();
-        ClockInTime = new String(getTime);
-        System.out.println("Your work start at" + ClockInTime);
-    }
-
-    public boolean checkClockIn() {
-        getTimeNow();
-        if (!ClockInTime.isEmpty()) {
-            System.out.println("You have already clock in.");
-            System.out.println("Please Select another Option.");
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
-    public boolean checkClockOut() {
-        getTimeNow();
-        if (ClockInTime.isEmpty()) {
-            System.out.println("You have already clock out.");
-            System.out.println("Please Select another Option.");
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public void clockOut() {
-        try {
-            getTimeNow();
-            ClockOutTime = new String(getTime);
-            File ClockInFile = new File("StatusRecord.txt");
-            FileWriter fw = new FileWriter(ClockInFile, true);
-            fw.write(employeeID + " , " + employeeName + " , " + ClockInTime + " , " + ClockOutTime);
-            fw.write("\r\n");
-            fw.close();
-
-        } catch (IOException iox) {
-            //do stuff with exception
-            iox.printStackTrace();
-        }
-    }
-
-    public void displayOrder() {
-        
-        int selection = 0;
-        int choice = 0;
-        Scanner reader = new Scanner(System.in);
-
-        do {
-            if (ordered.equals("")) {
-                System.out.println("There are no order consisted!!!");
-            } else {
-                System.out.println(">>>>>>>>>>>>>>>ORDER LIST<<<<<<<<<<<<<<<");
-                System.out.println("0. Return to Main Menu");
-                System.out.print(orderDetail.toString2());
-                System.out.print("Enter the Number you want to Take the order: ");
-                selection = reader.nextInt();
-                if (selection == 1) {
-                    if (orderStatus != "pending") {
-                        System.out.println("Are you confirm to select?");
-                        System.out.println("1. Yes");
-                        System.out.println("2. No");
-                        choice = reader.nextInt();
-                        if (choice == 1) {
-                            System.out.println("You have Successfully select this order");
-                            orderStatus = "pending";
-                        } else if (choice == 2) {
-                            displayOrder();
-                        }
-                    } else {
-                        System.out.println("Sorry,You have already selected one order!!!");
-                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        displayMenu();
-                    }
-                } else if (selection == 2) {
-                    if (orderStatus != "pending") {
-                        System.out.println("Are you confirm to select?");
-                        System.out.println("1. Yes");
-                        System.out.println("2. No");
-                        choice = reader.nextInt();
-                        if (choice == 1) {
-                            System.out.println("You have Successfully select this order");
-                            orderStatus = "pending";
-                        } else if (choice == 2) {
-                            displayOrder();
-                        }
-                    } else {
-                        System.out.println("Sorry,You have already selected one order!!!");
-                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        displayMenu();
-                    }
-                }else if(selection ==0){
-                    
-                }else{
-                    System.out.println("Invalid Input! Please try again!");
-                    displayOrder();
-                }
-
-            }
-
-        } while (selection != 0);
+public class DeliveryMan extends Employee{
+    private final static int STATUS_UNAVAILABLE = 0;
+    private final static int STATUS_AVAILABLE = 1;
+    private final static int STATUS_DELIVERY = 2;
+    private final static int STATUS_BREAK = 3;
+    private static int currentActive = 0;
+     private int completeDO = 0;
+    
+    private int status;
+    private RoutineRecord currentRoutine;
+    private ListInterface<RoutineRecord> routineHistory = new LinkedList<>();
+    private DeliveryOrder currentOrder;
+    private ListInterface<DeliveryOrder> deliveryJobHistory = new LinkedList<>();
+    private Location currentLocation;
   
+    
+    //Empty constructor for delivery man
+    public DeliveryMan() {
+    }
+    
+    //Parameterized constructor for existing delivery man
+    public DeliveryMan(String empName, String empID, String empIC, char gender, String contactNo, String address, String password, double salary) {
+        super(empName, empID, empIC, gender, contactNo, address, password, salary);
     }
 
-    public void displayMenu() {
-
-        int selection = 0;
-        Scanner reader = new Scanner(System.in);
-        do {
-            System.out.println("------>>>MENU<<<---------");
-            System.out.println("1. Clock In");
-            System.out.println("2. Clock Out");
-            System.out.println("3. Order Selection");
-            System.out.println("0. Logout");
-            System.out.print("Enter the Number you want to Do: ");
-            selection = reader.nextInt();
-
-            if (selection == 1) {
-                if (checkClockIn()) {
-                    clockIn();
-                    System.out.println("You have success to clockIn");
-                    System.out.println("===========================");
-                }
-            } else if (selection == 2) {
-                if (checkClockOut()) {
-                    clockOut();
-                    System.out.println("You have success to clockOut");
-                    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                    ClockInTime = "";
-                    orderStatus="null";
-                }
-            } else if (selection == 3) {
-                if (ClockInTime == "") {
-                    System.out.println("You haven't clock in yet.");
-                    System.out.println("|||||||||||||||||||||||||");
-                    displayMenu();
-                } else {
-                    displayOrder();
-                }
-            } else if (selection == 0) {
-
-            } else {
-                System.out.println("Please Type Properly. Try Again");
-                System.out.println("===========================");
-            }
-        } while (selection != 0);
+    //Overloading parameterized constructor for new delivery man
+    public DeliveryMan(String empName, String empID, String empIC, char gender, String contactNo, String address, double salary) {
+        super(empName, empID, empIC, gender, contactNo, address, salary);
     }
-
-    public void loginDelivery() {
-        orderDetail.add(ordered);
-        orderDetail.add(ordered2);
-        Scanner scan = new Scanner(System.in);
-
-        System.out.println("Enter Employee ID: ");
-        String empID = scan.nextLine();
-        System.out.println("Enter Password:");
-        String empPASSWORD = scan.nextLine();
-
-        if (empID.isEmpty() || empPASSWORD.isEmpty()) {
-            System.out.println("Please dont make it blank");
-        } else {
-            if (empID.equals(employeeID) && empPASSWORD.equals(employeePassword)) {
-                displayMenu();
-            } else if (!empID.equals(employeeID) && !empPASSWORD.equals(employeePassword)) {
-                System.out.println("Please Type Again YOur ID & PAssword");
-                loginDelivery();
-            } else if (!empID.equals(employeeID) && empPASSWORD.equals(employeePassword)) {
-                System.out.println("Please Type Again YOur ID");
-                loginDelivery();
-            } else if (empID.equals(employeeID) && !empPASSWORD.equals(employeePassword)) {
-                System.out.println("Please Type Again YOur PAssword");
-                loginDelivery();
-            }
+    
+    public void displayMenu(){
+        String title = "";
+        if(gender =='M'){
+            title = "Mr. " + empName;
+        }else if(gender =='F'){
+            title = "Ms. " + empName;
+        } 
+        System.out.println("Welcome, " + title);
+        if(currentRoutine == null){
+            displayMenuBeforeClockIn();
+        }else{
+            displayMenuAfterClockIn();
         }
-
+            
+        
     }
 
-    public void getNearbyRestaurant(){
-        Location nearbyLoc;
-        for(int i=0;i<Location.map.getNumberOfEntries();i++){
-            if(true){
-                //????
+    private void displayMenuAfterClockIn() {
+        Scanner selScanner = new Scanner(System.in);
+        boolean cont = true;
+        do{  
+            promptSelectionAfterClockIn();
+            int sel = selScanner.nextInt();
+            switch(sel){
+                case 1:displayCurrentOrder(); 
+                    break;
+                case 2: startDelivery();
+                    break;
+                case 3: verifyDelivery();
+                    break;
+                case 4: requestForDelivery();
+                case 5: restOrResume();
+                    break;
+                case 6: clockOut();                   
+                    break;
+                case 0: cont = false;
+                    break;
+                default: System.out.println("Invalid selection.");
+                break;
             }
+        }while(cont);
+    }
+
+    private void promptSelectionAfterClockIn() {
+        System.out.println("Please choose an action to continue:");
+        System.out.println("1. View current delivery order");
+        System.out.println("2. Accept and send current delivery");
+        System.out.println("3. Verify and finish current delivery");
+        System.out.println("4. Request for next delivery");
+        System.out.println("5. Have a break/Resume work");
+        System.out.println("6. Clock out");
+        System.out.println("0. Exit");
+        System.out.print("Your selection: ");
+    }
+
+    private void displayMenuBeforeClockIn() {
+        Scanner selScanner = new Scanner(System.in);       
+        boolean cont = true;
+        do{ 
+            promptSelectionBeforeClockIn();
+            int sel = selScanner.nextInt();
+            switch(sel)
+            {
+                case 1: clockIn();                        
+                break;
+                case 2: displayDeliveryHistory();
+                break;
+                case 3: displayRoutineHistory();
+                break;
+                case 4: displayMenuAfterClockIn();
+                case 0: cont = false;
+                    break;
+                default: System.out.println("Invalid selection.\n");
+                    break;
+            }
+        }while(cont);
+    }
+
+    private void promptSelectionBeforeClockIn() {
+        System.out.println("Please choose an action to continue:");
+        System.out.println("1. Clock In");
+        System.out.println("2. View delivery history");
+        System.out.println("3. View routine history");
+        System.out.println("4. Manage my current routine");
+        System.out.println("0. Exit");
+        System.out.print("Your selection: ");
+    }
+
+    /**
+     * A method to allow delivery man to clock in and record their clock in time
+     * Last edited: 25/12/2017
+     * Last edited by: Ng Pei Xiang
+     */
+    public void clockIn(){
+        if(currentRoutine == null){
+            currentRoutine = new RoutineRecord();
+            currentRoutine.logClockInTime();
+            status = STATUS_AVAILABLE;
+            increaseActive();
+            System.out.println("Clocked in successful at " + currentRoutine.getClockInTime()+ "\n");
+        }else{
+            System.out.println("You've already clocked in today!\n");
         }
+        
+    }
+    
+    /**
+     * A method to allow delivery man to clock out and record their clock out time
+     * Last edited: 25/12/2017
+     * Last edited by: Ng Pei Xiang
+     */
+    public void clockOut(){
+        if(currentRoutine != null){
+            currentRoutine.logClockOutTime();
+            status = STATUS_UNAVAILABLE;
+            decreaseActive();
+            routineHistory.add(currentRoutine);            
+            System.out.println("Clocked out successful at " + currentRoutine.getClockOutTime() + "\n");
+            currentRoutine = null;
+        }else{
+            System.out.println("Sorry, you're not clocked in!\n");
+        }
+    }
+    
+    public void restOrResume(){
+        switch(status){
+            case STATUS_AVAILABLE: status = STATUS_BREAK; decreaseActive();
+                System.out.println("Enjoy your resting time!");
+                break;
+            case STATUS_BREAK: status = STATUS_AVAILABLE; increaseActive();
+                System.out.println("Welcome back, " + empName + "\n");
+                break;
+        }
+    }
+    
+    public void displayCurrentOrder(){
+        if (currentOrder != null){
+             System.out.println(currentOrder);
+        } else{
+            System.out.println("You don't have any delivery job yet.\n");
+        }
+    }
+    
+    public String getCurrentOrderDetails(){
+        String orderDetails = "";
+        if(currentOrder!=null){
+            orderDetails = currentOrder.toDetailsString();
+        }else{
+            orderDetails = "No order details detected.\n";
+        }
+        return orderDetails;
+    }
+    
+    public DeliveryOrder getCurrentOrder(){
+        return currentOrder;
+    }
+    public void setCurrentOrder(DeliveryOrder currentOrder){
+        this.currentOrder = currentOrder;
+    }
+    
+    private void startDelivery(){
+        if(status == STATUS_AVAILABLE){
+            currentOrder.startDelivery();
+            status = STATUS_DELIVERY;
+            System.out.println("You just started a delivery order. Please get verification code from the customer when you reached.");
+        }else{
+            System.out.println("You don't have any delivery job now.\n");
+        }
+        
+        
+    }
+    private void verifyDelivery() {
+        Scanner scanner = new Scanner(System.in);
+        boolean valid = false, cont = false;
+        do{
+            System.out.println("\nPlease get the verification code from customer: ");
+            String code = scanner.nextLine();
+            if(currentOrder.verifyDelivery(code)){
+                deliveryJobHistory.add(currentOrder);
+                 completeDO++;
+                status = STATUS_AVAILABLE;
+                System.out.println("\nSuccessful! The delivery order is delivered and verified!\n\n");
+                System.out.println(currentOrder.toString());
+                currentLocation = currentOrder.getDestination();
+                currentOrder = null;
+                
+            }else{
+                char yesNo;
+                do{
+                    System.out.println("Do you want to continue?(Y/N)");
+                    yesNo = scanner.nextLine().charAt(0);
+                    yesNo = Character.toUpperCase(yesNo);
+                    switch (yesNo){
+                        case 'Y': cont = true;
+                        case 'N': cont = false;
+                        default:System.out.println("Invalid selection.\n");
+                    }
+                }while(yesNo!='Y'&&yesNo!='N');
+            }
+
+        }while(!valid && cont);
+        
+    }
+    private void requestForDelivery() {
+        currentOrder = currentLocation.assignDeliveryOrder();
+    }
+      
+    /**
+     *
+     * @return delivery man status in String
+     * A method to track delivery man's status
+     * Last edited: 25/12/2017
+     * Last edited by: Ng Pei Xiang
+     */
+    public String getDeliveryManStatus(){
+        String deliverymanStatus = "Status: ";
+        switch (status){
+            case STATUS_UNAVAILABLE: deliverymanStatus += "Unavailable"; 
+                    break;
+            case STATUS_AVAILABLE: deliverymanStatus += "Available"; 
+                    break;
+            case STATUS_DELIVERY: deliverymanStatus += "On Delivery"; 
+                    break;
+            case STATUS_BREAK: deliverymanStatus += "On Break"; 
+                    break;
+            default: deliverymanStatus += "Error";
+                    break;
+        }
+        return deliverymanStatus;
+    }
+    
+    /**
+     * A method to display history of delivery job
+     * Last edited: 25/12/2017
+     * Last edited by: Ng Pei Xiang
+     */
+    public void displayDeliveryHistory(){
+        System.out.println("\n---------------");
+        System.out.println("Delivery History");
+        System.out.println("---------------");
+        System.out.println(deliveryJobHistory.toString());
+    }
+    
+    public void displayRoutineHistory(){
+        System.out.println("\n---------------");
+        System.out.println("Routine History");
+        System.out.println("---------------\n");
+        System.out.printf("%-20s %-20s %-20s %-20s\n", "Date", "Clock In Time", "Clock Out Time", "Total Working Hour");
+        for(int i =1; i<=routineHistory.getNumberOfEntries(); i++){
+            System.out.println(routineHistory.getEntry(i).toString());
+        }
+        
+    }
+    
+    //Private method to increase the active number of delivery men
+    private static void increaseActive(){
+        currentActive++;
+    }
+    
+    //Private method to decrease the active number of delivery men
+    private static void decreaseActive(){
+        currentActive--;
+    }
+    
+    //Return current active delivery men for management purpose
+    public static int getCurrentActive(){
+        return currentActive;
+    }
+        public void setCompleteDO(int num) {
+        this.completeDO = num;
+    }
+
+    public int getCompleteDO() {
+        return completeDO;
     }
 }
