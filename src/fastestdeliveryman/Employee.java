@@ -5,99 +5,119 @@
  */
 package fastestdeliveryman;
 
-import ADT.ADTLinkedListInterface;
-import java.util.Scanner;
 
 /**
  *
- * @author Ng Pei Xiang, Chow Swee Tung
+ * @author ChowST & NgPX
  */
-public abstract class Employee {
 
-    protected String empName;
-    protected String empID;
-    protected String empIC;
+public class Employee {
+    protected String employeeName;
+    protected String identityCard;
     protected char gender;
+    protected int age;
     protected String contactNo;
     protected String address;
-    protected String password;
+    protected String employeeID;
+    protected String employeePassword;
     protected double salary;
-    private static Integer currentNo = 1;
 
-    //Empty Constructor for Employee Class
-    public Employee() {
-    }
-
-    //Parameterized Constructor for Employee Class
-    //This constructor is for adding new employee
-    public Employee(String empName, String empID, String empIC, char gender, String contactNo, String address, double salary) {
-        this.empName = empName;
-        this.empID = empID;
-        this.empIC = empIC;
+    public Employee(String employeeName, String identityCard, char gender, int age, String contactNo, String Address, String employeeID, String employeePassword, double salary) {
+        this.employeeName = employeeName;
+        this.identityCard = identityCard;
         this.gender = gender;
+        this.age = age;
         this.contactNo = contactNo;
-        this.address = address;
-        password = generateDefaultPassword();
+        this.address = Address;
+        this.employeeID = employeeID;
+        this.employeePassword = employeePassword;
         this.salary = salary;
-        currentNo++;
-    }
-
-    //Parameterized Constructor for Employee class
-    //This parameter is for creating existing employee
-    public Employee(String empName, String empID, String empIC, char gender, String contactNo, String address, String password, double salary) {
-        this.empName = empName;
-        this.empID = empID;
-        this.empIC = empIC;
-        this.gender = gender;
-        this.contactNo = contactNo;
-        this.address = address;
-        this.password = password;
-        this.salary = salary;
-        currentNo++;
-    }
-
-    //Static method to generate ID
-    public static String generateID() {
-        //TODO: Generate and return a new employee id and update 
-        return String.format("S%05d", currentNo);
-    }
-
-    //Internal method to generate default password
-    private String generateDefaultPassword() {
-        //TODO: Generate employee's default password by using their identity card
-        return empIC;
     }
     
-    public static Employee loginAccount(ADTLinkedListInterface<Employee> employeeList) {
-        Scanner scanner = new Scanner(System.in);
-        boolean found = false;
-        Employee target = null;
-        int count = 1;
+       public Employee(){
+       
+   }
+       
+  public Employee(String employeeName, String employeeID,String employeePassword, double salary, String contactNo){
+       this.employeeName=employeeName;
+       this.employeeID=employeeID;
+       this.employeePassword=employeePassword;
+       this.salary=salary;
+       this.contactNo=contactNo;
+   }
+  
+   public String getEmployeeName(){
+       return employeeName;    
+   }
+   public void setEmployeeName(String employeeName){
+       this.employeeName=employeeName;
+   }
+   public String getEmployeeID(){
+       return employeeID;
+   }
+   public void setEmployeeID(String employeeID){
+       this.employeeID=employeeID;
+   }
+    public String getEmployeePassword(){
+       return employeePassword;    
+   }
+   public void setEmployeePassword(String employeePassword){
+       this.employeePassword=employeePassword;
+   }
+    public double getSalary(){
+       return salary;
+   }
+   public void setSalary( double salary){
+       this.salary=salary;
+   }
+    public String getContactNo(){
+       return contactNo;
+   }
+   public void setContactNo(String contactNo){
+       this.contactNo=contactNo;
+   }
 
-        System.out.println("----WELCOME DELIVERY SYSTEM------");
-        System.out.print("LOGIN ID:");
-        String userID = scanner.nextLine();
-        System.out.print("PASSWORD:");
-        String userPassword = scanner.nextLine();
-
-        if (userID.equals("") || userPassword.equals("")) {
-            System.out.println("USERID & PASSWORD CANNOT LEFT EMPTY");
-            loginAccount(employeeList);
-
-        } else {
-            while (!found && employeeList.getEntry(count) != null) {
-                if (userID.equals(employeeList.getEntry(count).empID) && userPassword.equals(employeeList.getEntry(count).password)) {
-                    target = employeeList.getEntry(count);
-                    found = true;
-                } else {
-                    count++;
-                }
-            }
-        }
-        return target;
+    public String getIdentityCard() {
+        return identityCard;
     }
 
-    public String toString() {
-        return empID + "  " + empName + "   " + empIC +"   "+gender+"      "+salary+"     "+contactNo+"   "+address+"\n";
+    public char getGender() {
+        return gender;
     }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setIdentityCard(String identityCard) {
+        this.identityCard = identityCard;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setAddress(String Address) {
+        this.address = Address;
+    }
+   
+   public String toString(){
+       
+        return  "Employee ID : " + employeeID +
+                "\nEmployee Name: " + employeeName +
+                "\nGender: " + gender +
+                "\nAddress: " + address+
+                "\nSalary: " + String.format("%.2f",salary) +
+                "\nContact No : " + contactNo;
+    }
+   
+
 }

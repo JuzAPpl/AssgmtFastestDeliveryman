@@ -37,10 +37,9 @@ public class Affiliate implements AffiliateInterface, Serializable {
     private String restaurantName;
     private String contactNo;
     private Menu menu;
-    private QueueInterface<Order> adHocOrders = new SortedLinkedQueue<>();
+    private QueueInterface<Order> adHocOrders= new SortedLinkedQueue<>();
     private static int nextID = 1;
     private String accStatus;
-    public static SortedListWithIteratorInterface<AffiliateInterface> affiliates = new SortedList<>();
 
     public Affiliate() throws IOException {
         this.ID = nextID;
@@ -63,13 +62,12 @@ public class Affiliate implements AffiliateInterface, Serializable {
         accStatus = ACC_STATUS_ACTIVE;
         ++nextID;
     }
-    
-    public Affiliate(String ownerName, String restaurantName, Location address, String contactNo, Menu menu) {
+
+    public Affiliate(String ownerName, String restaurantName, String address, String contactNo, Menu menu) {
         this.ID = nextID;
         this.ownerName = ownerName;
         //this.password = password;
         this.restaurantName = restaurantName;
-        this.address = address;
         this.contactNo = contactNo;
         this.menu = menu;
         accStatus = ACC_STATUS_ACTIVE;
@@ -213,11 +211,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
 
     @Override
     public String toString() {
-        return String.format("%5d %10s %15s %20s %20s\n", ID, ownerName, restaurantName, address, contactNo);
-    }
-
-    public static String getHeader() {
-        return String.format("%5s %10s %15s %20s %20s\n", "ID", "Owner", "Restaurant Name", "Location", "Contact number");
+        return String.format("%5d %10s %15s %20s %10s\n", ID, ownerName, restaurantName, address, contactNo);
     }
 
     public static Affiliate login(SortedListWithIteratorInterface<AffiliateInterface> affiliate) {
@@ -331,41 +325,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
-
-    public static void initializeAffiliate() { 
-        ListWithIteratorInterface locations = Location.map;
-        //Dummy data: to be replaced after implementation of reading objects from binary files
-        Food food1 = new Food(1, "Delicious Kuey Teow", 4.99, 5, Food.FOOD_UNAVAILABLE);
-        Food food2 = new Food(2, "East DonDong Fried Chicken", 9.99, 7.6, Food.FOOD_AVAILABLE);
-        Food food3 = new Food(3, "Super Mega Jumbo Burger", 8.79, 10, Food.FOOD_PROMOTION);
-
-        Food[] foodArr0 = {food1, food2, food3};
-        Menu menu0 = new Menu(foodArr0);
-
-        Affiliate affiliate0 = new Affiliate("East DonDong", "Mac DonDong's", (Location)locations.getEntry(2), "011-2334567", menu0);
-
-        Food food4 = new Food(1, "Very Delicious Kuey Teow", 4.99, 5, Food.FOOD_UNAVAILABLE);
-        Food food5 = new Food(2, "West DonDong Fried Chicken", 9.99, 7.6, Food.FOOD_AVAILABLE);
-        Food food6 = new Food(3, "Super Mega Giga Jumbo Burger", 8.79, 10, Food.FOOD_PROMOTION);
-
-        Food[] foodArr1 = {food4, food5, food6};
-        Menu menu1 = new Menu(foodArr1);
-
-        Affiliate affiliate1 = new Affiliate("West DonDong", "Mac DinDing's", (Location)locations.getEntry(4), "011-2334567", menu1);
-        
-        food1.setFoodOwner(affiliate0);
-        food2.setFoodOwner(affiliate0);
-        food3.setFoodOwner(affiliate0);
-        food4.setFoodOwner(affiliate1);
-        food5.setFoodOwner(affiliate1);
-        food6.setFoodOwner(affiliate1);
-        //End of dummy data
-        Affiliate.affiliates.add(affiliate0);
-        Affiliate.affiliates.add(affiliate1);
-        
-        Location.initializeAffiliateLocation(affiliate0);
-        Location.initializeAffiliateLocation(affiliate1);
     }
 
     @Override
