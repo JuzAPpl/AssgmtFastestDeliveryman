@@ -40,17 +40,18 @@ public class RoutineRecord {
         return dateFormat.format(new Date());
     }
     
-    public void clockIn()
+    public void logClockInTime()
     {
         clockInTime = convertCurrentTimeToString();
     }
-    public void clockOut()
-    {
+    public void logClockOutTime()
+    {   
         clockOutTime = convertCurrentTimeToString();
+        calWorkingHour();
     }
     
     public String getClockInTime(){
-        return this.clockInTime=clockInTime;
+        return clockInTime;
     }
     
     public String getClockOutTime(){
@@ -71,13 +72,14 @@ public class RoutineRecord {
        
             workHour= diffHours+":"+diffMinutes+":"+diffSeconds;
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
         
     }
     
     @Override
     public String toString(){
-        return String.format("%-20s %-20s %-20s %-20s",routineDateString, clockInTime, clockOutTime, workHour);
+return String.format("%-20s %-20s %-20s %-20s",routineDateString, clockInTime,
+        clockOutTime, workHour);
     }
 }
