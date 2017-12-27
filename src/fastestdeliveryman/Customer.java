@@ -232,6 +232,8 @@ public class Customer {
     private void checkOut() {
         //create new order using cart and store it into affiliate
         if (!cart.isEmpty()) {
+            //ask user if he/she wants to check out in the form of ad-hoc/scheduled order
+            //ad-hoc order
             Affiliate aff = cart.getEntry(1).getFoodOwner();
             Order newOrder = Order.newOrder(cart);
             aff.getAdHocOrders().enqueue(newOrder);
