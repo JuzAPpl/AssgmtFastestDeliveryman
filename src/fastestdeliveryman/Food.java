@@ -151,17 +151,7 @@ public class Food implements FoodInterface, Serializable {
         }
         return newStatus;
     }
-//
-//    @Override
-//<<<<<<< HEAD
-////    public String toString() {
-////        return String.format("%-5d %20s %9.2f %17s %10d\n", ID, name, price, (getPreparationTimeString()), status);
-////    }
-//    
-//    public String toString(){
-//        return String.format("%-5d %-40s\t%-9.2f\t%-20s\t%-20s", ID, name, price, (getPreparationTimeString()), getStatusString());
-//    }
-//=======
+    
     public int compareTo(FoodInterface t) {
         if (this.ID == t.getID()) {
             return 0;
@@ -172,9 +162,22 @@ public class Food implements FoodInterface, Serializable {
         }
     }
 
-//>>>>>>> Sprint-3-LimFangChun
 
     public static String getFoodHeader() {
         return String.format("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
     }
+    
+    public String toString() {
+        return String.format("%-5d %20s %9.2f %17s %10s\n", ID, name, price, (getPreparationTimeString()), getStatusString());
+    }
+    
+    
+    public String toStringWithoutID() { //used in search for food method.
+        return String.format(" %20s %9.2f %17s %10s\n", name, price, (getPreparationTimeString()), getStatusString());
+    }
+
+    public void setFoodOwner(Affiliate foodOwner) {
+        this.foodOwner = foodOwner;
+    }
+    
 }
