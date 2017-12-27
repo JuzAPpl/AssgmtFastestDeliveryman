@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 /**
  *
+ * @author Leo
  * @author Lim Fang Chun
  */
 public class Affiliate implements AffiliateInterface, Serializable {
@@ -32,10 +33,11 @@ public class Affiliate implements AffiliateInterface, Serializable {
     private int ID;
     private String ownerName;
     private String password;
-    private String address;
+    private Location address;
     private String restaurantName;
     private String contactNo;
     private Menu menu;
+    private QueueInterface<Order> orders= new SortedLinkedQueue<>();
     private static int nextID = 1;
     private String accStatus;
 
@@ -44,7 +46,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         this.ownerName = "";
         this.password = "";
         this.restaurantName = "";
-        this.address = "";
         this.contactNo = "";
         this.menu = new Menu();
         accStatus = ACC_STATUS_DEACTIVATED;
@@ -56,7 +57,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         this.ownerName = ownerName;
         this.password = password;
         this.restaurantName = restaurantName;
-        this.address = address;
         this.contactNo = contactNo;
         this.menu = new Menu();
         accStatus = ACC_STATUS_ACTIVE;
@@ -68,7 +68,6 @@ public class Affiliate implements AffiliateInterface, Serializable {
         this.ownerName = ownerName;
         //this.password = password;
         this.restaurantName = restaurantName;
-        this.address = address;
         this.contactNo = contactNo;
         this.menu = menu;
         accStatus = ACC_STATUS_ACTIVE;
@@ -102,15 +101,13 @@ public class Affiliate implements AffiliateInterface, Serializable {
 
     @Override
     public String getAddress() {
-        return address;
+        return new String();
     }
 
     @Override
     public void setAddress(String address) {
-        this.address = address;
     }
 
-    @Override
     public String getRestaurantName() {
         return restaurantName;
     }
@@ -178,6 +175,7 @@ public class Affiliate implements AffiliateInterface, Serializable {
                     menu.removeFood();
                     break;
                 case 3:
+                    menu.setFoodStatus();
                     menu.setFoodDetail();
                     break;
                 case 4:
@@ -266,6 +264,8 @@ public class Affiliate implements AffiliateInterface, Serializable {
                 System.out.println("============================================================");
 
                 return newAffiliate;
+                //continue here
+                //save in to .dat file
 
             } else {
                 System.out.println("===============================");

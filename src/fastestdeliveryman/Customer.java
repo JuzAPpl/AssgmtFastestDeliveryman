@@ -5,6 +5,7 @@
  */
 package fastestdeliveryman;
 
+import ADT.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -12,6 +13,15 @@ import java.util.Scanner;
  * @author ASUS
  */
 public class Customer {
+    LinkedList<Food> cart = new LinkedList<>();
+
+    public LinkedList<Food> getCart() {
+        return cart;
+    }
+
+    public void setCart(LinkedList<Food> cart) {
+        this.cart = cart;
+    }
 
     public Customer() {
 
@@ -113,7 +123,8 @@ public class Customer {
         
     }
 
-    public void searchFood() {
+    private void searchFood() {
+        //TODO: redirect to affiliate if customer wants to order more food (business rule: one affiliate per order)
         Scanner in = new Scanner(System.in);
         System.out.print("Enter the food name(or part of the food name) you want to search: ");
         String keyword = in.nextLine();
@@ -143,18 +154,16 @@ public class Customer {
         Affiliate[] affiliates = {affiliate0, affiliate1};
         //End of dummy data
         System.out.println(menu0.getLength());
-        Food[] results = new Food[100];
+        LinkedList<Food> results = new LinkedList<>();
         
-        int matchCount = 0;
         for (int i = 0; i < affiliates.length; i++) {
             Menu currentMenu = affiliates[i].getMenu();
             
             for (int j=0;j<currentMenu.getLength();j++){
-                Food currentFood = currentMenu.getMenu()[j];
-            
+                Food currentFood = currentMenu.getMenu().getEntry(j+1);
                 for (int k = 0; k < currentFood.getName().length() - (keyword.length() - 1); k++) {
                     if (currentFood.getName().substring(k, k + keyword.length()).equalsIgnoreCase(keyword)) {
-                        results[matchCount++] = currentFood;
+                        results.add(currentFood);
                         break;
                         //break is required to prevent repeated records when there are 2 matches in a single name
                     }
@@ -163,24 +172,61 @@ public class Customer {
         }
         
         //Show list of matches found
-        if (matchCount != 0) {
-            for (int i = 0; i < matchCount; i++) {
-                    System.out.println((i + 1) + ": " + (results[i]));
+        if (results.getNumberOfEntries() != 0) {
+            for (int i = 0; i < results.getNumberOfEntries(); i++) {
+                    System.out.println((i + 1) + ": " + results.getEntry(i+1));
             }
             //System.out.print("Please enter the number of the food to order(0 to cancel): ");
             System.out.println("---Food ordering service under construction---");
-            int a = in.nextInt();
-            if (a == 0) {
-                //return to previous menu
-            }else if(a>0 && a<=matchCount){
-                //TODO: add selected food into cart
-                
-            }else{
-                //error message for invalid input
-                //System.out.println("Invalid input!");
-            }
+            //uncomment after implementation of food ordering service
+//            int a = in.nextInt();
+//            if (a == 0) {
+//                //return to previous menu
+//            }else if(a>0 && a<=matchCount){
+//                //TODO: add selected food into cart
+//                
+//            }else{
+//                //error message for invalid input
+//                //System.out.println("Invalid input!");
+//            }
         } else {
             System.out.println("No matching results.");
         }
+        
+    }
+    
+    private void addFoodToCart(LinkedList<Food> foodList){
+        //show list of food
+        System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
+       //change this: foodList.displayMenuItemWithStatusOrder();
+        
+        //prompt user to enter selection and add to cart
+        Scanner scanner = new Scanner(System.in);
+        int sel;
+        
+        do{        
+            System.out.println("Please enter your selection(0 to exit): ");
+            sel = Integer.parseInt(scanner.nextLine());
+
+            if(sel<0 || sel > foodList.getNumberOfEntries()){
+                System.out.println("Invalid Input!");
+            }
+            else if(sel>0){
+                cart.add(foodList.getEntry(sel));
+            }
+        }while(sel!=0);
+        //return to browse the restaurant containing the food if user choose to
+        
+        System.out.println("You have ordered: " + cart);
+    }
+    
+    private void addFoodToCart(Food food){
+        //Show food details
+        //Prompt user to enter qty(0 to cancel)
+        //Add food to list using a loop,
+    }
+    
+    private void checkOut(){
+        //
     }
 }

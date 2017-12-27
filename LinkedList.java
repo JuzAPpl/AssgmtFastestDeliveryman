@@ -1,14 +1,13 @@
 package ADT;
 
 import fastestdeliveryman.Food;
-import java.util.Iterator;
 
 /**
  *
  * @author Lim Fang Chun
  * @param <T>
  */
-public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterface<T> {
+public class LinkedList<T> implements ListInterface<T>, LinkedFoodListInterface<T> {
 
     private Node firstNode;
     private Node lastNode;
@@ -57,12 +56,12 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
 
                 if (newPosition <= countEntry / 2) {
                     nodeBefore = firstNode;
-                    for (int i = 1; i <= newPosition - 1; ++i) {
+                    for (int i = 1; i < newPosition - 1; ++i) {
                         nodeBefore = nodeBefore.next;
                     }
                 } else {
                     nodeBefore = lastNode;
-                    for (int i = countEntry; i >= countEntry - newPosition + 1; --i) {
+                    for (int i = 1; i <= countEntry - newPosition + 1; ++i) {
                         nodeBefore = nodeBefore.previous;
                     }
                 }
@@ -90,7 +89,9 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
             if (givenPosition == 1) {
                 result = firstNode.data;
                 firstNode = firstNode.next;
-                firstNode.previous = null;
+                if (firstNode != null) {
+                    firstNode.previous = null;
+                }
             } else if (givenPosition == countEntry) {
                 result = lastNode.data;
                 lastNode = lastNode.previous;
@@ -124,7 +125,6 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
     public final void clear() {
         firstNode = null;
         lastNode = null;
-        countEntry = 0;
     }
 
     @Override
@@ -145,12 +145,12 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
                 //the loop will iterate for 10 times only
                 if (givenPosition <= countEntry / 2) {
                     currentNode = firstNode;
-                    for (int i = 1; i <= givenPosition; ++i) {
+                    for (int i = 1; i < givenPosition; ++i) {
                         currentNode = currentNode.next;
                     }
                 } else {
                     currentNode = lastNode;
-                    for (int i = countEntry; i >= countEntry - givenPosition; --i) {
+                    for (int i = 1; i <= countEntry - givenPosition; ++i) {
                         currentNode = currentNode.previous;
                     }
                 }
@@ -218,7 +218,7 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
 
     @Override
     public boolean isEmpty() {
-        return countEntry == 0 || firstNode == null;
+        return countEntry == 0;
     }
 
     @Override
@@ -235,32 +235,10 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
         return msg;
     }
 
-    public Object getObject(int index) {
-        Object obj = new Object();
-        Node temp = firstNode;
-        int count = 0;
-        if (!isEmpty()) {
-            while (temp != null) {
-                count += 1;
-                if (count == index) {
-                    obj = temp.data;
-                }
-                temp = temp.next;
-            }
-        }
-        return obj;
-    }
     public String toString2() {
         String msg = "";
         int count = 0;
         Node currentNode = firstNode;
-        if (!isEmpty()) {
-            String title = "\n============================================================"
-                    + "\nScheduledOrder"
-                    + "\n============================================================\n";
-            String str = "|| no. || OrderNumber ||          Ordered Food          ||         Location        || Next Delivery Date || Delivery left ||\n";
-            System.out.println(title + str);
-        }
         while (currentNode != null) {
             if (currentNode.data != null) {
                 msg += ++count + ". " + (currentNode.data).toString();
@@ -271,35 +249,69 @@ public class LinkedList<T> implements ListInterface<T>, ListWithIteratorInterfac
         return msg;
     }
 
-    public Iterator<T> getIterator() {
-        return new LinkedListIterator();
+    @Override
+    public void displayMenuItemWithStatusOrder() {
+        //this method is only Menu class only
+        //this method will display food status that is on promotion on top
+        // follow by available and not on promotion food
+        //unavailable food will not be displayed
+        String promotion = "";
+        String available = "";
+
+        Node currentNode = firstNode;
+        while (currentNode != null) {
+            Food f = (Food) currentNode.data;
+
+            if (f.getStatus(true) == Food.FOOD_PROMOTION) {
+                promotion += f;
+            } else if (f.getStatus(true) == Food.FOOD_AVAILABLE) {
+                available += f;
+            }
+
+            currentNode = currentNode.next;
+        }
+
+        System.out.println(promotion + available);
     }
 
-    private class LinkedListIterator implements Iterator<T> {
-
-        private Node currentNode;
-
-        public LinkedListIterator() {
-            currentNode = firstNode;
+    @Override
+    public Food getFoodByID(int ID) {
+        //instantly return first node's data if ID is 1
+        if (ID == 1) {
+            Food f = (Food) firstNode.data;
+            return f;
         }
 
         //instantly return last node's data if ID is equals to total entries
-        @Override
-        public boolean hasNext() {
-            return currentNode != null;
+        if (ID == countEntry) {
+            Food f = (Food) lastNode.data;
+            return f;
         }
 
-        @Override
-        public T next() {
-            if (hasNext()) {
-                T result = currentNode.data;
+        //start the traverse from beginning of list if ID is less than half of
+        //total entries
+        if (ID <= countEntry / 2) {
+            Node currentNode = firstNode;
+            while (currentNode != null) {
+                Food f = (Food) currentNode.data;
+                if (f.getID() == ID) {
+                    return f;
+                }
                 currentNode = currentNode.next;
-                return result;
-            } else {
-                return null;
             }
         }
 
+        //otherwise start traverse from end of list
+        Node currentNode = lastNode;
+        while (lastNode != null) {
+            Food f = (Food) currentNode.data;
+            if (f.getID() == ID) {
+                return f;
+            }
+            currentNode = currentNode.previous;
+        }
+
+        return null;
     }
 
     private class Node {

@@ -47,10 +47,10 @@ public class Menu implements MenuInterface, Serializable {
         String available = "";
         while (temp.hasNext()) {
             Food currentFood = (Food) temp.next();
-            if (currentFood.getStatus(true) == Food.FOOD_PROMOTION) {
+            if (currentFood.getStatus() == Food.FOOD_PROMOTION) {
                 promotion += currentFood;
             }
-            if (currentFood.getStatus(true) == Food.FOOD_AVAILABLE) {
+            if (currentFood.getStatus() == Food.FOOD_AVAILABLE) {
                 available += currentFood;
             }
         }
@@ -112,7 +112,7 @@ public class Menu implements MenuInterface, Serializable {
         Boolean validInput;
 
         do {
-            //request affiliate to enter details for new food
+            //ask affiliate to enter details for new food
             System.out.println("====================");
             System.out.println("Enter food name: ");
             foodName = reader.nextLine();
@@ -171,7 +171,13 @@ public class Menu implements MenuInterface, Serializable {
         } while (!validInput);
     }
 
-    
+    public void addFood(Food food) {
+        linkedFood.add(food);
+    }
+
+    public SortedListWithIteratorInterface<Food> getMenu() {
+        return linkedFood;
+    }
 
 
     @Override
@@ -286,7 +292,7 @@ public class Menu implements MenuInterface, Serializable {
         } while (!validInput);
     }
 
-    private void setFoodStatus() {
+    public void setFoodStatus() {
         Scanner reader = new Scanner(System.in);
         int foodID;
         int newFoodStatus;
@@ -318,7 +324,7 @@ public class Menu implements MenuInterface, Serializable {
 
     }
 
-    private void setFoodPrice() {
+    public void setFoodPrice() {
         Scanner reader = new Scanner(System.in);
         int foodID;
         double newFoodPrice;

@@ -19,4 +19,5 @@ public interface ListInterface<T> {
     public boolean contains(T entry);
     public int getNumberOfEntries();
     public boolean isEmpty();
+    public Object getObject(int index);
 }

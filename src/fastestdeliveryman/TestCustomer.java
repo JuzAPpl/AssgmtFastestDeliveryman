@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author ASUS
  */
-public class TestDisplayMenu {
+public class TestCustomer {
 
     /**
      * @param args the command line arguments

@@ -14,4 +14,5 @@ public interface ScheduledOrderInterface {
     public void editScheduledOrder(ScheduledOrderInterface S);
     public void cancelScheduledOrder();
     public void checkScheduledOrder();
+    public void adding(ScheduledOrderInterface S);
 }
