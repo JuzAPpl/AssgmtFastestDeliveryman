@@ -27,10 +27,13 @@ public class Order implements Comparable<Order>, Serializable {
     public static final int SCH_COMPLETE = 24;
 
     private static int newNum = 0;
+    
     protected String orderNum;
     protected ListWithIteratorInterface<Food> orderedFood;
     protected Date orderDay;
     protected Location destination;
+    protected String customerName;
+    protected String customerPhoneNo;
     protected int status;
 
     public Order() {
@@ -43,6 +46,17 @@ public class Order implements Comparable<Order>, Serializable {
         this.orderDay = orderDay;
         this.destination = destination;
         this.orderedFood = orderedFood;
+        this.status = status;
+        newNum++;
+    }
+    
+    public Order(Date orderDay, ListWithIteratorInterface<Food> orderedFood, Location destination, String customerName, String customerPhoneNo, int status) {
+        this.orderNum = "S" + String.format("%06d", newNum);
+        this.orderDay = orderDay;
+        this.destination = destination;
+        this.orderedFood = orderedFood;
+        this.customerName = customerName;
+        this.customerPhoneNo = customerPhoneNo;
         this.status = status;
         newNum++;
     }
@@ -105,6 +119,26 @@ public class Order implements Comparable<Order>, Serializable {
         orderDay = new Date();
         //status = pending by default(ad-hoc order)
         status = ADHOC_PENDING;
+        
+        
+        return new Order(orderDay, orderedFood, destination, status);
+    }
+    
+    public static Order newOrderWithCustomerInfo(ListWithIteratorInterface<Food> foods) {
+        ListWithIteratorInterface<Food> orderedFood;
+        Date orderDay;
+        Location destination;
+        int status;
+        //orderedFood = list provided in parameter
+        orderedFood = foods;
+        //retrieve destination from user input(+address & time for scheduled order)
+        destination = Location.getLocation();
+        //order date=current time by default
+        orderDay = new Date();
+        //status = pending by default(ad-hoc order)
+        status = ADHOC_PENDING;
+        
+        
         return new Order(orderDay, orderedFood, destination, status);
     }
 

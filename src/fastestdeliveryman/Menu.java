@@ -34,6 +34,7 @@ public class Menu implements MenuInterface, Serializable {
         initializeMenu();
     }
 
+    //constructor for dummy data
     public Menu(Food[] menu) {
         for (int i = 0; i < menu.length; i++) {
             addFood(menu[i]);
