@@ -179,7 +179,8 @@ public class Affiliate implements AffiliateInterface, Serializable {
                     menu.setFoodDetail();
                     break;
                 case 4:
-                    System.out.println(menu.toString());
+                    System.out.printf("%-5s %20s %-9s %-17s %10s\n", "ID", "Food name", "Price(RM)", "Preparation time", "Status");
+                    System.out.println(menu);
                     break;
                 case -1:
 //                default: {

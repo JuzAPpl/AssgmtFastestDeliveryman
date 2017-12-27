@@ -27,18 +27,13 @@ import java.util.logging.Logger;
 public class Menu implements MenuInterface, Serializable {
 
     private SortedListWithIteratorInterface<Food> linkedFood = new SortedList<>();
-    private Food[] food = new Food[100];
     private SortedListInterface<Integer> emptyFoodID = new SortedList();
 
     public Menu() throws IOException {
         initializeMenu();
     }
 
-    public Menu(Food[] menu) {
-        for (int i = 0; i < menu.length; i++) {
-            addFood(menu[i]);
-        }
-    }
+    
 
     @Override
     public void showMenu() {
@@ -184,6 +179,7 @@ public class Menu implements MenuInterface, Serializable {
         return linkedFood;
     }
 
+
     @Override
     public void removeFood() {
         int foodID;
@@ -275,7 +271,7 @@ public class Menu implements MenuInterface, Serializable {
                 System.out.println("================");
             } else {
                 System.out.println("=========================================");
-                System.out.println(String.format("%-5s %20s %-7.2s %-10s", "ID", "Food Name", "Price", "Status"));
+                System.out.println(String.format("%-5s %20s %-9s %-17s %10s", "ID", "Food name", "Price(RM)", "Preparation time", "Status"));
                 System.out.println(linkedFood);
                 System.out.println("=========================================");
                 switch (choice) {

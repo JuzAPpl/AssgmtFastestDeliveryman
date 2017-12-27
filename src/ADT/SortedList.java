@@ -14,7 +14,7 @@ import java.util.Iterator;
  * @author Lim Fang Chun
  * @param <T>
  */
-public class SortedList<T extends Comparable<? super T>> implements SortedListInterface<T>, 
+public class SortedList<T extends Comparable<? super T>> implements SortedListInterface<T>,
         SortedListWithIteratorInterface<T>, Serializable {
 
     private Node firstNode;
@@ -157,7 +157,10 @@ public class SortedList<T extends Comparable<? super T>> implements SortedListIn
     public T remove(int givenPosition) {
         Node currentNode;
         T result = null;
-        if (givenPosition == 1) {
+        if (getLength() == 1) {
+            result = firstNode.data;
+            firstNode = firstNode.next;
+        } else if (givenPosition == 1) {
             //case 1:
             //givenPosition is at first
             result = firstNode.data;
@@ -193,10 +196,10 @@ public class SortedList<T extends Comparable<? super T>> implements SortedListIn
             currentNode.previous.next = currentNode.next;
             currentNode.next.previous = currentNode.previous;
         }
-        if(result != null){
+        if (result != null) {
             --countEntry;
         }
-        
+
         return result;
     }
 
@@ -239,12 +242,12 @@ public class SortedList<T extends Comparable<? super T>> implements SortedListIn
     public Iterator getIterator() {
         return new SortedLinkedListIterator();
     }
-    
+
     @Override
-    public T getLastEntry(){
+    public T getLastEntry() {
         return lastNode.data;
     }
-    
+
     private class SortedLinkedListIterator implements Iterator<T> {
 
         private Node currentNode;
