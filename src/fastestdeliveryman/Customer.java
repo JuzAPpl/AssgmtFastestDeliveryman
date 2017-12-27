@@ -304,8 +304,6 @@ public class Customer {
                 System.out.println("Invalid input!");
             }
         } while (sel != 0);
-        //return to browse the restaurant containing the food if user choose to
-
     }
 
     private void clearCart() {
